@@ -7,9 +7,11 @@
 [![GitHub license](https://img.shields.io/github/license/Kiril95/EntertainmentHub?color=brightgreen)](https://github.com/Kiril95/EntertainmentHub/blob/main/LICENSE)
 
 ## 🧰 Project Template:
+
 * [Niki Kostov's Template](https://github.com/NikolayIT/ASP.NET-Core-Template)
 
 ## 🛠 Currently in development
+
 # ...
 
 ## 👦 Author
