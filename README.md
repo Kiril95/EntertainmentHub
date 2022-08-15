@@ -14,7 +14,7 @@
 
 ## 👦 Author
 
-Facebook - [Kiril Tolev](https://www.facebook.com/kiril.tolev)
+* Facebook - [Kiril Tolev](https://www.facebook.com/kiril.tolev)
 
 ## 📜 License
 
