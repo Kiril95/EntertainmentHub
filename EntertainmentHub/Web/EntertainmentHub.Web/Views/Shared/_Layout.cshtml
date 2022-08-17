@@ -1,55 +1,229 @@
 ﻿@using EntertainmentHub.Common
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>                      
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>
-    
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @this.RenderBody()
-        </main>
-    </div>
-    
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
-    @await this.RenderSectionAsync("Scripts", required: false)
-</body>
+@{
+    string CurrentURL = this.Context.Request.Path;
+}
+
+<!--
+author: W3layouts
+author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
+
+		<!-- for-mobile-apps -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="Movies Pro Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+		Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+				function hideURLbar(){ window.scrollTo(0,1); } 
+		</script>
+
+		<!-- //for-mobile-apps -->
+		<link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		<!-- pop-up -->
+		<link href="~/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
+		<!-- //pop-up -->
+		<link href="~/css/easy-responsive-tabs.css" rel='stylesheet' type='text/css'/>
+		<link rel="stylesheet" type="text/css" href="~/css/zoomslider.css" />
+		<link rel="stylesheet" type="text/css" href="~/css/style.css" />
+		<link href="~/css/font-awesome.css" rel="stylesheet">
+	<script type="text/javascript" src="~/js/modernizr-2.6.2.min.js"></script>
+		<!--/web-fonts-->
+		<link href='//fonts.googleapis.com/css?family=Tangerine:400,700' rel='stylesheet' type='text/css'>
+		<link href="//fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900" rel="stylesheet">
+		<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+		<!--//web-fonts-->
+	</head>
+
+		@if (CurrentURL.Contains("ErrorView"))
+		{
+			<main role="main" class="pb-3">
+				@this.RenderBody()
+			</main>
+		}
+		else
+		{
+			<body>
+				@if (this.Context.Request.Path == "/")
+				{
+					<partial name="_MotionEffectPartial" />
+				}
+				else
+				{
+					<partial name="_StaticBannerPartial" />
+				}
+
+				<!--/banner-bottom-->
+				<div class="w3_agilits_banner_bootm">
+					<div class="w3_agilits_inner_bottom">
+						<div class="col-md-6 wthree_agile_login">
+							<ul>
+								<li><i class="fa fa-phone" aria-hidden="true"></i> (+000) 009 455 4088</li>
+								<li><a href="#" class="login" data-toggle="modal" data-target="#myModal4">Login</a></li>
+								<li><a href="#" class="login reg" data-toggle="modal" data-target="#myModal5">Register</a></li>
+
+								<partial name="_LoginPartial" />
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<partial name="_CookieConsentPartial" />
+
+				<main role="main" class="pb-3">
+					@this.RenderBody()
+				</main>
+
+				<partial name="_FooterPartial.cshtml" />
+
+
+				<script src="~/js/jquery-1.11.1.min.js" asp-append-version="true"></script>
+				<!-- Dropdown-Menu-JavaScript -->
+				<script>
+					$(document).ready(function () {
+						$(".dropdown").hover(
+							function () {
+								$('.dropdown-menu', this).stop(true, true).slideDown("fast");
+								$(this).toggleClass('open');
+							},
+							function () {
+								$('.dropdown-menu', this).stop(true, true).slideUp("fast");
+								$(this).toggleClass('open');
+							}
+						);
+					});
+				</script>
+				<!-- //Dropdown-Menu-JavaScript -->
+
+
+				<script type="text/javascript" src="~/js/jquery.zoomslider.min.js" asp-append-version="true"></script>
+				<!-- search-jQuery -->
+				<script src="~/js/main.js" asp-append-version="true"></script>
+				<script src="~/js/simplePlayer.js" asp-append-version="true"></script>
+				<script>
+					$("document").ready(function () {
+						$("#video").simplePlayer();
+					});
+				</script>
+				<script>
+					$("document").ready(function () {
+						$("#video1").simplePlayer();
+					});
+				</script>
+				<script>
+					$("document").ready(function () {
+						$("#video2").simplePlayer();
+					});
+				</script>
+				<script>
+					$("document").ready(function () {
+						$("#video3").simplePlayer();
+					});
+				</script>
+
+				<!-- pop-up-box -->
+				<script src="~/js/jquery.magnific-popup.js" asp-append-version="true" type="text/javascript"></script>
+				<!--//pop-up-box -->
+
+				<script>
+					$(document).ready(function () {
+						$('.w3_play_icon,.w3_play_icon1,.w3_play_icon2').magnificPopup({
+							type: 'inline',
+							fixedContentPos: false,
+							fixedBgPos: true,
+							overflowY: 'auto',
+							closeBtnInside: true,
+							preloader: false,
+							midClick: true,
+							removalDelay: 300,
+							mainClass: 'my-mfp-zoom-in'
+						});
+
+					});
+				</script>
+
+				<script src="~/js/easy-responsive-tabs.js" asp-append-version="true"></script>
+
+				<script>
+					$(document).ready(function () {
+						$('#horizontalTab').easyResponsiveTabs({
+							type: 'default', //Types: default, vertical, accordion
+							width: 'auto', //auto or any width like 600px
+							fit: true,   // 100% fit in a container
+							closed: 'accordion', // Start closed if in accordion view
+							activate: function (event) { // Callback function if tab is switched
+								var $tab = $(this);
+								var $info = $('#tabInfo');
+								var $name = $('span', $info);
+								$name.text($tab.text());
+								$info.show();
+							}
+						});
+						$('#verticalTab').easyResponsiveTabs({
+							type: 'vertical',
+							width: 'auto',
+							fit: true
+						});
+					});
+				</script>
+
+				<link href="~/css/owl.carousel.css" asp-append-version="true" rel="stylesheet" type="text/css" media="all">
+				<script src="~/js/owl.carousel.js" asp-append-version="true"></script>
+
+				<script>
+					$(document).ready(function () {
+						$("#owl-demo").owlCarousel({
+
+							autoPlay: 3000, //Set AutoPlay to 3 seconds
+							autoPlay: true,
+							navigation: true,
+
+							items: 5,
+							itemsDesktop: [640, 4],
+							itemsDesktopSmall: [414, 3]
+
+						});
+					});
+				</script>
+
+				<!--/script-->
+				<script type="text/javascript" src="~/js/move-top.js" asp-append-version="true"></script>
+				<script type="text/javascript" src="~/js/easing.js" asp-append-version="true"></script>
+
+				<script type="text/javascript">
+					jQuery(document).ready(function ($) {
+						$(".scroll").click(function (event) {
+							event.preventDefault();
+							$('html,body').animate({ scrollTop: $(this.hash).offset().top }, 900);
+						});
+					});
+				</script>
+				<script type="text/javascript">
+					$(document).ready(function () {
+						/*
+						var defaults = {
+								containerID: 'toTop', // fading element id
+							containerHoverID: 'toTopHover', // fading element hover id
+							scrollSpeed: 1200,
+							easingType: 'linear'
+						  };
+						*/
+						$().UItoTop({ easingType: 'easeOutQuart' });
+
+					});
+				</script>
+
+				<!--end-smooth-scrolling-->
+				<script src="~/js/bootstrap.js" asp-append-version="true"></script>
+				<script src="~/js/site.min.js" asp-append-version="true"></script>
+				@await this.RenderSectionAsync("Scripts", required: false)
+			</body>
+		}
 </html>
