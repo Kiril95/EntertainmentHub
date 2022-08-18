@@ -1,6 +1,7 @@
 ﻿namespace EntertainmentHub.Data
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Threading;
@@ -24,6 +25,32 @@
         {
         }
 
+        public DbSet<Actor> Actors { get; set; }
+
+        public DbSet<ContactForm> ContactForms { get; set; }
+
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<Genre> Genres { get; set; }
+
+        public DbSet<Movie> Movies { get; set; }
+
+        public DbSet<MovieActor> MoviesActors { get; set; }
+
+        public DbSet<MovieSlide> Slideshow { get; set; }
+
+        public DbSet<MovieComment> MovieComments { get; set; }
+
+        public DbSet<MovieCountry> MoviesCountries { get; set; }
+
+        public DbSet<MovieGenre> MoviesGenres { get; set; }
+
+        public DbSet<MovieReview> MoviesReviews { get; set; }
+
+        public DbSet<Rating> Ratings { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -45,6 +72,21 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<MovieActor>()
+                 .HasKey(x => new { x.MovieId, x.ActorId });
+
+            builder.Entity<MovieCountry>()
+                 .HasKey(x => new { x.MovieId, x.CountryId });
+
+            builder.Entity<MovieGenre>()
+                 .HasKey(x => new { x.MovieId, x.GenreId });
+
+            builder.Entity<MovieReview>()
+                .HasKey(x => new { x.MovieId, x.ReviewId });
+
+            builder.Entity<Rating>()
+               .HasKey(x => new { x.MovieId, x.UserId });
+
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 
