@@ -1,0 +1,99 @@
+﻿@using EntertainmentHub.Web.ViewModels.Contact
+@model ContactFormInputModel
+
+@{
+    this.ViewData["Title"] = "Contact";
+}
+
+<div class="w3_breadcrumb">
+    <div class="breadcrumb-inner">
+        <ul>
+            <li><a asp-controller="Home" asp-action="Index">Home</a><i>//</i></li>
+            <li>@this.ViewData["Title"]</li>
+        </ul>
+    </div>
+</div>
+
+<div class="w3_content_agilleinfo_inner">
+    <div class="agile_featured_movies">
+
+        <div class="inner-agile-w3l-part-head">
+            <h3 class="w3l-inner-h-title">Contact us</h3>
+            <p class="w3ls_head_para">For all enquiries, please email us using the form below.</p>
+        </div>
+        <div class="w3_mail_grids">
+            <form asp-action="Index" method="post">
+                <div class="col-md-6 w3_agile_mail_grid">
+                     <span class="input input--ichiro">
+                        <input asp-for="@Model.Name" class="input__field input__field--ichiro" id="input-25">
+                        <label class="input__label input__label--ichiro" for="input-25">
+                            <span class="input__label-content input__label-content--ichiro">
+                                Name  
+                                <br />
+                                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                            </span>
+                        </label>
+                     </span>
+                                    
+                    <span class="input input--ichiro">
+                        <input asp-for="@Model.Email" class="input__field input__field--ichiro" id="input-26">
+                        <label class="input__label input__label--ichiro" for="input-26">
+                            <span class="input__label-content input__label-content--ichiro">
+                                Email
+                                <br />
+                                <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                            </span>
+                        </label>
+                    </span>
+                    <span class="input input--ichiro">
+                        <input asp-for="@Model.Subject" class="input__field input__field--ichiro" id="input-27">
+                        <label class="input__label input__label--ichiro" for="input-27">
+                            <span class="input__label-content input__label-content--ichiro">
+                                Subject
+                                <br />
+                                <span asp-validation-for="@Model.Subject" class="text-danger"></span>
+                            </span>
+                        </label>
+                    </span>
+                </div>
+                <div class="col-md-6 w3_agile_mail_grid two">
+                    <textarea asp-for="@Model.Message" placeholder="Message"></textarea>
+                    <span asp-validation-for="@Model.Message" class="text-danger"></span>
+                    <input type="submit" value="Submit">
+                </div>
+                <div class="clearfix"> </div>
+            </form>
+            <div class="agileits-get-us">
+                <ul>
+                    <li><i class="fa fa-map-marker" aria-hidden="true"></i>Bulgaria, Sofia, 1000</li>
+                    <li><i class="fa fa-phone" aria-hidden="true"></i>  +359 876 093 863</li>
+                    <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:info@tolevkiril@gmail.com">tolevkiril@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12947831.742778081!2d-95.665!3d37.599999999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54eab584e432360b%3A0x1c3bb99243deb742!2sUnited+States!5e0!3m2!1sen!2sin!4v1422444552833"></iframe>
+    </div>
+</div>
+
+@section Scripts{
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+        <script type="text/javascript">
+            google.maps.event.addDomListener(window, 'load', init);
+            function init() {
+                var mapOptions = {
+                    zoom: 11,
+                    center: new google.maps.LatLng(42.698334, 23.319941),
+                    styles: [{ "featureType": "all", "elementType": "labels.text.fill", "stylers": [{ "saturation": 36 }, { "color": "#000000" }, { "lightness": 40 }] }, { "featureType": "all", "elementType": "labels.text.stroke", "stylers": [{ "visibility": "on" }, { "color": "#000000" }, { "lightness": 16 }] }, { "featureType": "all", "elementType": "labels.icon", "stylers": [{ "visibility": "off" }] }, { "featureType": "administrative", "elementType": "geometry.fill", "stylers": [{ "color": "#000000" }, { "lightness": 20 }] }, { "featureType": "administrative", "elementType": "geometry.stroke", "stylers": [{ "color": "#000000" }, { "lightness": 17 }, { "weight": 1.2 }] }, { "featureType": "landscape", "elementType": "geometry", "stylers": [{ "color": "#000000" }, { "lightness": 20 }] }, { "featureType": "poi", "elementType": "geometry", "stylers": [{ "color": "#000000" }, { "lightness": 21 }] }, { "featureType": "road.highway", "elementType": "geometry.fill", "stylers": [{ "color": "#000000" }, { "lightness": 17 }] }, { "featureType": "road.highway", "elementType": "geometry.stroke", "stylers": [{ "color": "#000000" }, { "lightness": 29 }, { "weight": 0.2 }] }, { "featureType": "road.arterial", "elementType": "geometry", "stylers": [{ "color": "#000000" }, { "lightness": 18 }] }, { "featureType": "road.local", "elementType": "geometry", "stylers": [{ "color": "#000000" }, { "lightness": 16 }] }, { "featureType": "transit", "elementType": "geometry", "stylers": [{ "color": "#000000" }, { "lightness": 19 }] }, { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#000000" }, { "lightness": 17 }] }]
+                };
+                var mapElement = document.getElementById('map');
+                var map = new google.maps.Map(mapElement, mapOptions);
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(42.698334, 23.319941),
+                    map: map,
+                });
+            }
+        </script>
+}

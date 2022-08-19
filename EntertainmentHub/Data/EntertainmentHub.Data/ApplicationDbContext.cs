@@ -87,6 +87,9 @@
             builder.Entity<Rating>()
                .HasKey(x => new { x.MovieId, x.UserId });
 
+            builder.Entity<MovieComment>()
+                .HasKey(x => new { x.MovieId, x.UserId });
+
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 

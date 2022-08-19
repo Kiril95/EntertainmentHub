@@ -619,7 +619,7 @@ a.w3_play_icon1 {
 
 .w3_agilits_inner_bottom {
     margin: 0 auto;
-    padding: 0 4em;
+    padding: 0 11em;
 }
 
 .wthree_share_agile {
@@ -645,9 +645,6 @@ a.login {
         color: #02a388;
     }
 
-    a.login.reg {
-        margin-left: 0em;
-    }
 
 .wthree_agile_login ul li {
     letter-spacing: 1px;
@@ -3237,6 +3234,10 @@ ul.bottom-links-agile {
     .w3_agilits_banner_bootm {
         padding: 0.7em 0 0.5em 0;
         background: #fe423f;
+    }
+
+    .space-between-elements {
+        margin-left: 10px;
     }
 
     ul.nav.navbar-nav {

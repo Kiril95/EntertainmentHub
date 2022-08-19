@@ -1,5 +1,9 @@
-﻿namespace EntertainmentHub.Web
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using EntertainmentHub.Data;
+namespace EntertainmentHub.Web
 {
+    using System;
     using System.Reflection;
 
     using EntertainmentHub.Data;
@@ -8,6 +12,8 @@
     using EntertainmentHub.Data.Models;
     using EntertainmentHub.Data.Repositories;
     using EntertainmentHub.Data.Seeding;
+    using EntertainmentHub.Services.Data;
+    using EntertainmentHub.Services.Data.Contracts;
     using EntertainmentHub.Services.Mapping;
     using EntertainmentHub.Services.Messaging;
     using EntertainmentHub.Web.ViewModels;
@@ -25,9 +31,18 @@
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString));
+
+            // builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            // .AddEntityFrameworkStores<ApplicationDbContext>();
             ConfigureServices(builder.Services, builder.Configuration);
             var app = builder.Build();
             Configure(app);
+            app.UseAuthentication();
             app.Run();
         }
 
@@ -64,6 +79,7 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IContactService, ContactService>();
         }
 
         private static void Configure(WebApplication app)

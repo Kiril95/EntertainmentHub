@@ -4,12 +4,6 @@
     string CurrentURL = this.Context.Request.Path;
 }
 
-<!--
-author: W3layouts
-author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -59,21 +53,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				{
 					<partial name="_StaticBannerPartial" />
 				}
-
-				<!--/banner-bottom-->
-				<div class="w3_agilits_banner_bootm">
-					<div class="w3_agilits_inner_bottom">
-						<div class="col-md-6 wthree_agile_login">
-							<ul>
-								<li><i class="fa fa-phone" aria-hidden="true"></i> (+000) 009 455 4088</li>
-								<li><a href="#" class="login" data-toggle="modal" data-target="#myModal4">Login</a></li>
-								<li><a href="#" class="login reg" data-toggle="modal" data-target="#myModal5">Register</a></li>
-
-								<partial name="_LoginPartial" />
-							</ul>
-						</div>
-					</div>
-				</div>
+		
+				<partial name="_LoginPartial" />
 
 				<partial name="_CookieConsentPartial" />
 

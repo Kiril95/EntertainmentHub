@@ -3,7 +3,7 @@
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
 	<ul class="nav navbar-nav">
-		<li class="active"><a asp-controller="Home" asp-action="Index">Home</a></li>
+		<li class="active"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
 		
 		<li>
 			<a href="list.html">Movies</a>
@@ -90,7 +90,7 @@
 		</li>
 
 		<li class="active">
-			<a href="contact.html">Contact</a>
+			<a asp-area="" asp-controller="Contact" asp-action="Index">Contact</a>
 		</li>
 	</ul>
 
