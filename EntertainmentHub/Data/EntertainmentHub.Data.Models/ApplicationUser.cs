@@ -3,7 +3,7 @@ namespace EntertainmentHub.Data.Models
 {
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations;
     using EntertainmentHub.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -16,7 +16,13 @@ namespace EntertainmentHub.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+
+            this.Ratings = new HashSet<Rating>();
+            this.MovieComments = new HashSet<MovieComment>();
         }
+
+        [Required]
+        public string City { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }
@@ -33,5 +39,9 @@ namespace EntertainmentHub.Data.Models
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+
+        public virtual ICollection<Rating> Ratings { get; set; }
+
+        public virtual ICollection<MovieComment> MovieComments { get; set; }
     }
 }

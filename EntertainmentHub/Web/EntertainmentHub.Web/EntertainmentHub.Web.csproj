@@ -18,6 +18,41 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Include="wwwroot\.sass-cache\21880c0ffe15753a53f8402e9f64e1077e071510\style.scssc" />
+		<None Include="wwwroot\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\extend.scssc" />
+		<None Include="wwwroot\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\fonts.scssc" />
+		<None Include="wwwroot\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\global.scssc" />
+		<None Include="wwwroot\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\minxi.scssc" />
+		<None Include="wwwroot\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\variables.scssc" />
+		<None Include="wwwroot\.sass-cache\3948936f84e1a30385e73a9be140b58b48c82e15\style.scssc" />
+		<None Include="wwwroot\.sass-cache\41c45612afe01e9f2496d846f6e06c0f4eae7672\extend.scssc" />
+		<None Include="wwwroot\.sass-cache\41c45612afe01e9f2496d846f6e06c0f4eae7672\fonts.scssc" />
+		<None Include="wwwroot\.sass-cache\41c45612afe01e9f2496d846f6e06c0f4eae7672\global.scssc" />
+		<None Include="wwwroot\.sass-cache\41c45612afe01e9f2496d846f6e06c0f4eae7672\minxi.scssc" />
+		<None Include="wwwroot\.sass-cache\41c45612afe01e9f2496d846f6e06c0f4eae7672\variables.scssc" />
+		<None Include="wwwroot\.sass-cache\643489b018602f15119d8f44aeb7fc79468873a9\main.scssc" />
+		<None Include="wwwroot\.sass-cache\643489b018602f15119d8f44aeb7fc79468873a9\responsive.scssc" />
+		<None Include="wwwroot\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\extend.scssc" />
+		<None Include="wwwroot\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\fonts.scssc" />
+		<None Include="wwwroot\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\global.scssc" />
+		<None Include="wwwroot\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\minxi.scssc" />
+		<None Include="wwwroot\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\variables.scssc" />
+		<None Include="wwwroot\.sass-cache\82ffc783cd596580cf9adcef3bc24b981935f37f\style.scssc" />
+		<None Include="wwwroot\.sass-cache\9dc767a56f3dc2f8a933300255cd2265f13191d4\main.scssc" />
+		<None Include="wwwroot\.sass-cache\9dc767a56f3dc2f8a933300255cd2265f13191d4\responsive.scssc" />
+		<None Include="wwwroot\.sass-cache\c790b871e732c41046d2d09671dc101cd76728e2\main.scssc" />
+		<None Include="wwwroot\.sass-cache\c790b871e732c41046d2d09671dc101cd76728e2\responsive.scssc" />
+		<None Include="wwwroot\.sass-cache\d686493398f83d759b5ae7b15feb395ac4a1f85e\extend.scssc" />
+		<None Include="wwwroot\.sass-cache\d686493398f83d759b5ae7b15feb395ac4a1f85e\fonts.scssc" />
+		<None Include="wwwroot\.sass-cache\d686493398f83d759b5ae7b15feb395ac4a1f85e\global.scssc" />
+		<None Include="wwwroot\.sass-cache\d686493398f83d759b5ae7b15feb395ac4a1f85e\minxi.scssc" />
+		<None Include="wwwroot\.sass-cache\d686493398f83d759b5ae7b15feb395ac4a1f85e\variables.scssc" />
+		<None Include="wwwroot\.sass-cache\dd2deb9c5f01209b6937898f47e048cde30208ce\style.scssc" />
+		<None Include="wwwroot\.sass-cache\f8f0098c6d87e34d84a0704fb71588a6cc87b962\main.scssc" />
+		<None Include="wwwroot\.sass-cache\f8f0098c6d87e34d84a0704fb71588a6cc87b962\responsive.scssc" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8">
@@ -52,4 +87,5 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
+
 </Project>

@@ -20,15 +20,15 @@ DRIBBBLE: https://dribbble.com/shots/4330167-404-Page-Lost-In-Space
              </div>
              <div class="navbar-links">
                  <ul>
-                 <li class="btn-request"><a asp-controller="Home" asp-action="Index" target="_blank">Home</a></li>
-                 <li class="btn-request"><a asp-controller="Home" asp-action="Contact" target="_blank">Contact</a></li>
-                 <li class="btn-request"><a asp-controller="Home" asp-action="Privacy" target="_blank">Privacy</a></li>
+                    <li class="btn-request"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="btn-request"><a asp-area="" asp-controller="Contact" asp-action="Index">Contact</a></li>
+                    <li class="btn-request"><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
                  </ul>
              </div>
          </div>
          <div class="central-body">
              <img class="image-404" src="http://salehriaz.com/404Page/img/404.svg" width="300px">
-             <a asp-controller="Home" asp-action="Index" class="btn-go-home" target="_blank">GO BACK HOME</a>
+            <a asp-controller="Home" asp-area="" asp-action="Index" class="btn-go-home">GO BACK HOME</a>
          </div>
          <div class="objects">
              <img class="object_rocket" src="http://salehriaz.com/404Page/img/rocket.svg" width="40px">

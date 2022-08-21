@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntertainmentHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220818154126_InitialCreate")]
+    [Migration("20220821121355_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -130,6 +130,10 @@ namespace EntertainmentHub.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -761,7 +765,7 @@ namespace EntertainmentHub.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("EntertainmentHub.Data.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("MovieComments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -850,7 +854,7 @@ namespace EntertainmentHub.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("EntertainmentHub.Data.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Ratings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -921,6 +925,10 @@ namespace EntertainmentHub.Data.Migrations
                     b.Navigation("Claims");
 
                     b.Navigation("Logins");
+
+                    b.Navigation("MovieComments");
+
+                    b.Navigation("Ratings");
 
                     b.Navigation("Roles");
                 });

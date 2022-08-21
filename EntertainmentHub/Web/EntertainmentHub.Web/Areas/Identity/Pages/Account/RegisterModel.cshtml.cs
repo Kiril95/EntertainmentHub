@@ -6,7 +6,7 @@
     using System.Text;
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
-
+    using EntertainmentHub.Common;
     using EntertainmentHub.Data.Models;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
@@ -47,6 +47,14 @@
         public class InputModel
         {
             [Required]
+            [RegularExpression(@"[A-Z]{1}[\w]+", ErrorMessage = "Username must start with a capital letter.")]
+            public string Username { get; set; }
+
+            [Required]
+            [RegularExpression(@"[A-Z]{1}[A-Za-z]+", ErrorMessage = "City must start with a capital letter.")]
+            public string City { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -76,11 +84,12 @@
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (this.ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
+                var user = new ApplicationUser { UserName = this.Input.Username, Email = this.Input.Email, City = this.Input.City };
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
                 if (result.Succeeded)
                 {
                     this.logger.LogInformation("User created a new account with password.");
+                    await this.userManager.AddToRoleAsync(user, GlobalConstants.BasicUserRoleName);
 
                     var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
