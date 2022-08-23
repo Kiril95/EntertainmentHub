@@ -2,7 +2,7 @@
 
 @{
 	string CurrentURL = this.Context.Request.Path;
-	string[] paths = new string[5] { "ErrorView", "Register", "Login", "ForgotPassword", "ResendEmailConfirmation" };
+	string[] paths = new string[5] { "ErrorView/404", "Register", "Login", "ForgotPassword", "ResendEmailConfirmation" };
 }
 
 <!DOCTYPE html>
@@ -37,10 +37,12 @@
 		<!--//web-fonts-->
 	</head>
 
-		@if (paths.Any(x => CurrentURL.EndsWith(x)))
+		@if (paths.Any(x => CurrentURL.EndsWith(x)) || CurrentURL.Contains("Manage"))
 		{
 			<main role="main" class="pb-3">
 				@this.RenderBody()
+
+				@await this.RenderSectionAsync("Scripts", required: false)
 			</main>
 		}
 		else
@@ -64,7 +66,6 @@
 				</main>
 
 				<partial name="_FooterPartial.cshtml" />
-
 
 				<script src="~/js/jquery-1.11.1.min.js" asp-append-version="true"></script>
 				<!-- Dropdown-Menu-JavaScript -->

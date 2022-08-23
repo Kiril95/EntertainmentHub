@@ -18,7 +18,9 @@
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post" id="signup-form" class="signup-form">
             <h2>@ViewData["Title"]</h2>
             <p class="desc"><span>Sign up to our platform so you can enjoy life :]</span></p>
-    
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
             <div class="form-group">
                 <input asp-for="Input.Username" type="text" class="form-input" placeholder="Username..." />
                 <span asp-validation-for="Input.Username" class="text-danger"></span>

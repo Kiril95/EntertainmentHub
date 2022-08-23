@@ -161,7 +161,7 @@ input[type="submit"] {
 
     button[disabled],
     html input[disabled] {
-        cursor: default;
+        cursor: not-allowed;
     }
 
     button::-moz-focus-inner,
@@ -4096,8 +4096,8 @@ select[multiple].form-group-lg .form-control {
 
 .btn-link {
     font-weight: normal;
-    color: #337ab7;
     border-radius: 0;
+    color: darkblue;
 }
 
     .btn-link,

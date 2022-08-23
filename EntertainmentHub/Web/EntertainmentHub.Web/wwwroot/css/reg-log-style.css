@@ -271,7 +271,7 @@ body {
     overflow: hidden;
 }
 
-.container-forgot-pass {
+.container-operations {
     margin-top: 0px;
     margin-bottom: 70px;
     width: 1300px;
@@ -288,8 +288,24 @@ body {
     overflow: hidden;
 }
 
+.container-manage {
+    margin-top: 60px;
+    width: 1300px;
+    padding-top: 210px;
+    padding-bottom: 210px;
+    background-image: url("../images/container-bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-position: center center;
+    overflow: hidden;
+}
+
 .signup-content {
-    width: 562px;
+    width: 602px;
     margin-right: 0px;
     background: rgba(177, 135, 77, 0.75);
     float: right;
@@ -308,7 +324,7 @@ input {
     box-sizing: border-box;
     border-bottom: 1px solid #ebebeb;
     background: transparent;
-    width: 100%;
+    /*width: 100%;*/
     display: block;
     color: #fff;
     font-weight: bold;
@@ -343,7 +359,7 @@ input {
 
 .field-icon {
     float: right;
-    margin-right: 0px;
+    margin-right: 115px;
     margin-top: -22px;
     position: relative;
     z-index: 2;
@@ -425,7 +441,7 @@ input[type=checkbox]:not(old) {
     }
 
 .submit {
-    width: 130px;
+    width: 132px;
     border-radius: 25px;
     -moz-border-radius: 25px;
     -webkit-border-radius: 25px;
@@ -476,6 +492,10 @@ input[type=checkbox]:not(old) {
     .signup-form {
         padding: 54px 30px 36px 30px;
     }
+}
+
+.cursor-dis {
+    cursor: not-allowed;
 }
 
 /*# sourceMappingURL=style.css.map */
