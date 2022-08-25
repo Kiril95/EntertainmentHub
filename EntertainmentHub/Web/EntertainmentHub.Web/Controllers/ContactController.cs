@@ -28,7 +28,7 @@
                 return this.View(inputModel);
             }
 
-            await this.contactsService.GetUserSubmitionAsync(inputModel);
+            await this.contactsService.GetUserSubmissionAsync(inputModel);
 
             return this.RedirectToAction(nameof(this.AcceptedSubmission));
         }

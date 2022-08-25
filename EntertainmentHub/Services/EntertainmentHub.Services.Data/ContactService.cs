@@ -1,11 +1,14 @@
 ﻿namespace EntertainmentHub.Services.Data
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using EntertainmentHub.Data.Common.Repositories;
     using EntertainmentHub.Data.Models;
     using EntertainmentHub.Services.Data.Contracts;
+    using EntertainmentHub.Services.Mapping;
     using EntertainmentHub.Services.Messaging;
     using EntertainmentHub.Web.ViewModels.Contact;
     using Microsoft.EntityFrameworkCore;
@@ -20,7 +23,7 @@
             this.contactsRepository = userContactsRepository;
         }
 
-        public async Task GetUserSubmitionAsync(ContactFormInputModel inputModel)
+        public async Task GetUserSubmissionAsync(ContactFormInputModel inputModel)
         {
             var query = new ContactForm
             {
@@ -31,19 +34,30 @@
             };
 
             await this.contactsRepository.AddAsync(query);
+
             await this.contactsRepository.SaveChangesAsync();
         }
 
-        public async Task DeleteUserSubmitionAsync(int id)
+        public IQueryable<T> GetSubmissionsAsQueryable<T>()
         {
-            var enquiry = await this.contactsRepository.AllAsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            return this.contactsRepository.AllAsNoTracking().To<T>();
+        }
 
-            if (enquiry == null)
-            {
-                throw new NullReferenceException($"Enquiry with id {id} does not exists.");
-            }
+        public async Task<T> GetSubmissionByIdAsync<T>(int id)
+        {
+            return await this.contactsRepository
+                 .AllAsNoTracking()
+                 .Where(x => x.Id == id)
+                 .To<T>()
+                 .FirstOrDefaultAsync();
+        }
 
-            this.contactsRepository.Delete(enquiry);
+        public async Task DeleteSubmissionAsync(int id)
+        {
+            var submission = await this.contactsRepository.AllAsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+
+            this.contactsRepository.Delete(submission);
+
             await this.contactsRepository.SaveChangesAsync();
         }
     }

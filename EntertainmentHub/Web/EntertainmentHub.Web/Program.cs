@@ -80,6 +80,7 @@ namespace EntertainmentHub.Web
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IContactService, ContactService>();
+            services.AddTransient<IMoviesService, MoviesService>();
         }
 
         private static void Configure(WebApplication app)

@@ -1,0 +1,79 @@
+﻿@using EntertainmentHub.Web.ViewModels.Administration.Movies
+@model CreateMovieInputModel
+
+@{
+    ViewData["Title"] = "Create Movie";    
+}
+
+<div class="admin-forms container">
+    <hr />
+    <h2 class="admin-forms">@ViewData["Title"]</h2>
+
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create" method="post">
+                <div class="form-group">
+                    <label asp-for="@Model.Title"></label>
+                    <input asp-for="@Model.Title" class="form-control" />
+                    <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Poster"></label>
+                    <input asp-for="@Model.Poster" class="form-control" />
+                    <span asp-validation-for="@Model.Poster" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Trailer"></label>
+                    <input asp-for="@Model.Trailer" class="form-control" />
+                    <span asp-validation-for="@Model.Trailer" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.IMDBLink"></label>
+                    <input asp-for="@Model.IMDBLink" class="form-control" />
+                    <span asp-validation-for="@Model.IMDBLink" class="text-danger"></span>
+                </div>            
+                <div class="form-group">
+                    <label asp-for="@Model.Director"></label>
+                    <input asp-for="@Model.Director" class="form-control" />
+                    <span asp-validation-for="@Model.Director" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.ReleaseDate"></label>
+                    <input asp-for="@Model.ReleaseDate" class="form-control" />
+                    <span asp-validation-for="@Model.ReleaseDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Length"></label>
+                    <input asp-for="@Model.Length" class="form-control" />
+                    <span asp-validation-for="@Model.Length" class="text-danger"></span>
+                </div>            
+                <div class="form-group">
+                    <label asp-for="@Model.Budget"></label>
+                    <input asp-for="@Model.Budget" class="form-control" />
+                    <span asp-validation-for="@Model.Budget" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Language"></label>
+                    <input asp-for="@Model.Language" class="form-control" />
+                    <span asp-validation-for="@Model.Language" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Description"></label>
+                    <textarea asp-for="@Model.Description" class="form-control"></textarea>
+                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Movie</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        $(function () {
+            $('.multiple-select').multipleSelect()
+        })
+    </script>
+}

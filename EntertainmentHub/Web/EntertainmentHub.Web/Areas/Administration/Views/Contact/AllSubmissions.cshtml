@@ -1,0 +1,54 @@
+﻿@using EntertainmentHub.Web.ViewModels.Contact
+@model IEnumerable<ContactViewModel>
+
+@{
+    this.ViewData["Title"] = "All Submissions";
+    int counter = 1;
+}
+
+<div class="container">
+    <h3 class="w3l-inner-h-title">@this.ViewData["Title"]</h3>
+    <hr />
+    <div class="w3ls-news-result">
+        <h3>Submissions Count: @this.Model.Count()</h3>
+    </div>
+
+    <div id="myTabContent" class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
+            <div class="agile-news-table">
+                <table class="table table-hover" style="font-weight: 800">
+                    <thead>
+                        <tr class="agileits-get-us">
+                            <th>No.</th>
+                            <th>From</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Question</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                        @foreach (var form in Model)
+                        {
+                            <tr>
+                                <td>@counter</td>
+                                <td>@form.Name</td>
+                                <td>@form.Email</td>
+                                <td>@form.Subject</td>
+                                <td>@form.Message</td>
+                                <td>
+                                    <form asp-action="Details" asp-route-id="@form.Id" method="get">
+                                        <button type="submit" class="btn-primary">Details</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

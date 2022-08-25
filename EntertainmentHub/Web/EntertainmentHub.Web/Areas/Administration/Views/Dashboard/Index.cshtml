@@ -2,12 +2,24 @@
     this.ViewData["Title"] = "Admin panel";
 }
 
-<div class="container">
-    <h1 class="display-4"><span>This is Entertainment Hub's Admin panel!</span></h1>
+<div class="container" style="text-align: center">
+    <div class="form-group">
+        <h1 class="display-4"><span>This is Entertainment Hub's Admin panel!</span></h1>
+        <br />
+        <p class="lead">Here you can do all kinds of stuff... but be careful what you're doing, because Captain Jack is watching you :]</p>
+        <br />
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" asp-area="" asp-controller="Home" asp-action="Index" role="button">Go to Home Page</a>
+        </p>
+        <hr />
+    </div>
+    
+    <div class="container">
+        <ul class="nav">
+            <li class="btn btn-primary btn-lg"><a asp-area="Administration" asp-controller="Movies" asp-action="Create">Create Movie</a></li>
+            <li class="btn btn-primary btn-lg"><a asp-area="Administration" asp-controller="Contact" asp-action="AllSubmissions">Submissions</a></li>
+            <li class="btn btn-primary btn-lg"><a asp-area="Administration" asp-controller="Collector" asp-action="CollectData">Collect Data</a></li>
+        </ul>
+    </div>
     <br />
-    <p class="lead">Here you can do all kinds of stuff.</p>
-    <br />
-    <p class="lead">
-        <a class="btn btn-primary btn-lg"asp-area="" asp-controller="Home" asp-action="Index" role="button">Go to Home Page</a>
-    </p>
 </div>

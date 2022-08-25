@@ -1,0 +1,54 @@
+﻿@model EntertainmentHub.Web.ViewModels.Contact.ContactViewModel
+
+@{
+    this.ViewData["Title"] = "Details";
+}
+
+<div class="admin-forms container">
+    <h2 class="admin-forms">Submission From - <b>@Model.Name</b></h2>
+    <hr />
+
+    <div class="col-md-6">
+        <form>
+            <div class="form-group">
+                <label>From</label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Subject"></label>
+                <input asp-for="Subject" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Message"></label>
+                <input asp-for="Message" class="form-control" />
+            </div>
+            <button asp-action="" asp-route-id="@Model.Id" class="btn btn-success">Reply</button>
+            <button asp-action="AllSubmissions" class="btn btn-primary">Back</button>
+        </form>
+        <br />
+        <form 
+            asp-action="Delete" asp-route-id="@Model.Id" method="post" id="deleteForm">
+        </form>
+
+        <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">Delete</button>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="modalDelete">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <b class="text-danger">Are you sure you want to delete this enquiry?</b>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" onclick="deleteForm.submit()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,13 +1,19 @@
 ﻿namespace EntertainmentHub.Services.Data.Contracts
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using EntertainmentHub.Data.Models;
     using EntertainmentHub.Web.ViewModels.Contact;
 
     public interface IContactService
     {
-        Task GetUserSubmitionAsync(ContactFormInputModel inputModel);
+        Task GetUserSubmissionAsync(ContactFormInputModel inputModel);
 
-        Task DeleteUserSubmitionAsync(int id);
+        Task DeleteSubmissionAsync(int id);
+
+        IQueryable<T> GetSubmissionsAsQueryable<T>();
+
+        Task<T> GetSubmissionByIdAsync<T>(int id);
     }
 }
