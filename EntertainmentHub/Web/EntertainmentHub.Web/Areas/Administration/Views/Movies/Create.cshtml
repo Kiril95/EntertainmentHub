@@ -63,17 +63,9 @@
                     <textarea asp-for="@Model.Description" class="form-control"></textarea>
                     <span asp-validation-for="@Model.Description" class="text-danger"></span>
                 </div>
+
                 <button type="submit" class="btn btn-primary">Create Movie</button>
             </form>
         </div>
     </div>
 </div>
-
-
-@section Scripts{
-    <script>
-        $(function () {
-            $('.multiple-select').multipleSelect()
-        })
-    </script>
-}

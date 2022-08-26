@@ -34,18 +34,22 @@
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            public string City { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await this.userManager.GetUserNameAsync(user);
             var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
+            var city = user.City;
 
             this.Username = userName;
 
             this.Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
+                City = city
             };
         }
 
@@ -84,6 +88,13 @@
                     this.StatusMessage = "Unexpected error when trying to set phone number.";
                     return this.RedirectToPage();
                 }
+            }
+
+            var city = user.City;
+            if (this.Input.City != city)
+            {
+                user.City = city;
+                await this.userManager.UpdateAsync(user);
             }
 
             await this.signInManager.RefreshSignInAsync(user);

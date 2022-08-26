@@ -1,5 +1,6 @@
 ﻿namespace EntertainmentHub.Web.Areas.Administration.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using EntertainmentHub.Web.ViewModels.Administration.Collector;
@@ -15,7 +16,16 @@
         [HttpPost]
         public async Task<IActionResult> CollectData(GetDataInputModel inputModel)
         {
-            // TODO
+            if (inputModel.StartIndex > inputModel.EndIndex)
+            {
+                this.ModelState.AddModelError(string.Empty, "End index cannot be less than Start index !");
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
             if (this.User.IsInRole("BasicUser"))
             {
                 await Task.FromResult(0);

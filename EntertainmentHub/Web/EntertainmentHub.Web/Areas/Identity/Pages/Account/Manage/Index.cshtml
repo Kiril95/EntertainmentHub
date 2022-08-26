@@ -23,6 +23,11 @@
         <input asp-for="Input.PhoneNumber" class="form-input" placeholder="Phone..."/>
         <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
     </div>
+    <div class="form-group">
+        <label asp-for="Input.City"></label>
+        <input asp-for="Input.City" class="form-input" placeholder="Phone..." />
+        <span asp-validation-for="Input.City" class="text-danger"></span>
+    </div>
     <br />
 
     <button id="update-profile-button" type="submit" class="form-submit submit">Save</button>

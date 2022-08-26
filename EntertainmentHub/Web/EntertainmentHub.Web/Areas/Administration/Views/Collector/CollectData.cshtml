@@ -1,20 +1,20 @@
 ﻿@model EntertainmentHub.Web.ViewModels.Administration.Collector.GetDataInputModel
 
 @{
-    ViewData["Title"] = "Get Data";
+    ViewData["Title"] = "Collect Data";
 }
 
 <div class="admin-forms container">
     <br />
-    <h2 class="admin-forms">Collect Data From <b>TMDB.org</b></h2>
+    <h2 >Collect Data From <a href="https://www.themoviedb.org/" target="_blank">TMDb.org</a></h2>
     <hr />
 
-    <br /><i>therefore the Start Index will be automaticaly gathered for your convenience.</i>
-    <br /><i>You can still change it but be aware that you risk duplicating or skipping certain movies from the site!</i>
-    <hr />
     <div class="row">
         <div class="col-md-6">
             <form asp-action="CollectData" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <hr />
+
                 <div class="form-group">
                     <label asp-for="StartIndex"></label>
                     <input asp-for="StartIndex" class="form-control" />
