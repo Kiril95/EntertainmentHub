@@ -28,7 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="DataAPI\" />
+	  <Folder Include="DataAPI\DataModels\" />
 	</ItemGroup>
 
 </Project>

@@ -36,7 +36,7 @@
         [StringLength(300, MinimumLength = 20)]
         public string Photo { get; set; }
 
-        public decimal? NetWorth { get; set; }
+        public double Popularity { get; set; }
 
         public virtual ICollection<MovieActor> Movies { get; set; }
     }

@@ -38,9 +38,9 @@
         [StringLength(20, MinimumLength = 4)]
         public string Language { get; set; }
 
-        public int Length { get; set; }
+        public int Runtime { get; set; }
 
-        public decimal Budget { get; set; }
+        public double Budget { get; set; }
 
         public virtual ICollection<MovieGenre> MovieGenres { get; set; }
 

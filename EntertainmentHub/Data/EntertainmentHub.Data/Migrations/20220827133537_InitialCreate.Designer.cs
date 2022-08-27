@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntertainmentHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220821121355_InitialCreate")]
+    [Migration("20220827133537_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,13 +67,13 @@ namespace EntertainmentHub.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal?>("NetWorth")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("Photo")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
+
+                    b.Property<double>("Popularity")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -348,8 +348,11 @@ namespace EntertainmentHub.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<decimal>("Budget")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("AverageVote")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Budget")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -378,11 +381,11 @@ namespace EntertainmentHub.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("Length")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("Popularity")
+                        .HasColumnType("float");
 
                     b.Property<string>("Poster")
                         .IsRequired()
@@ -392,10 +395,26 @@ namespace EntertainmentHub.Data.Migrations
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("Revenue")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Runtime")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tagline")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
+
+                    b.Property<int>("TotalVotes")
+                        .HasColumnType("int");
 
                     b.Property<string>("Trailer")
                         .IsRequired()

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+
     using EntertainmentHub.Data.Common.Repositories;
     using EntertainmentHub.Data.Models;
     using EntertainmentHub.Services.Data.Contracts;
@@ -17,7 +18,6 @@
         {
             this.moviesRepository = moviesRepository;
         }
-
 
         public async Task CreateAsync(CreateMovieInputModel inputModel)
         {
@@ -37,7 +37,7 @@
                 Description = inputModel.Description,
                 Director = inputModel.Director,
                 Language = inputModel.Language,
-                Length = inputModel.Length,
+                Runtime = inputModel.Runtime,
                 Budget = inputModel.Budget,
                 Poster = inputModel.Poster,
                 Trailer = inputModel.Trailer,

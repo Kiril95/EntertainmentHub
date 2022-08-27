@@ -47,9 +47,22 @@
         [StringLength(20, MinimumLength = 4)]
         public string Language { get; set; }
 
-        public int Length { get; set; }
+        public int Runtime { get; set; }
 
-        public decimal Budget { get; set; }
+        public double Budget { get; set; }
+
+        public double Revenue { get; set; }
+
+        public double Popularity { get; set; }
+
+        public string Status { get; set; }
+
+        [Required]
+        public string Tagline { get; set; }
+
+        public double AverageVote { get; set; }
+
+        public int TotalVotes { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }
 
