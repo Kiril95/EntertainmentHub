@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntertainmentHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220827133537_InitialCreate")]
+    [Migration("20220829202752_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,14 +37,13 @@ namespace EntertainmentHub.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Birthplace")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DateOfDeath")
@@ -68,7 +67,6 @@ namespace EntertainmentHub.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Photo")
-                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
@@ -340,6 +338,38 @@ namespace EntertainmentHub.Data.Migrations
                     b.ToTable("Genres");
                 });
 
+            modelBuilder.Entity("EntertainmentHub.Data.Models.Language", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Languages");
+                });
+
             modelBuilder.Entity("EntertainmentHub.Data.Models.Movie", b =>
                 {
                     b.Property<int>("Id")
@@ -376,11 +406,6 @@ namespace EntertainmentHub.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Language")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -404,8 +429,10 @@ namespace EntertainmentHub.Data.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TMDBId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Tagline")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -417,9 +444,8 @@ namespace EntertainmentHub.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Trailer")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
@@ -530,12 +556,12 @@ namespace EntertainmentHub.Data.Migrations
                     b.ToTable("MoviesGenres");
                 });
 
-            modelBuilder.Entity("EntertainmentHub.Data.Models.MovieReview", b =>
+            modelBuilder.Entity("EntertainmentHub.Data.Models.MovieLanguage", b =>
                 {
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ReviewId")
+                    b.Property<int>("LanguageId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DeletedOn")
@@ -544,9 +570,30 @@ namespace EntertainmentHub.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.HasKey("MovieId", "ReviewId");
+                    b.HasKey("MovieId", "LanguageId");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("LanguageId");
+
+                    b.ToTable("MoviesLanguages");
+                });
+
+            modelBuilder.Entity("EntertainmentHub.Data.Models.MovieReview", b =>
+                {
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReviewId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("MovieId", "ReviewId");
 
                     b.HasIndex("ReviewId");
 
@@ -622,24 +669,26 @@ namespace EntertainmentHub.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AuthorName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AuthorUsername")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AvatarPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -834,6 +883,25 @@ namespace EntertainmentHub.Data.Migrations
                     b.Navigation("Movie");
                 });
 
+            modelBuilder.Entity("EntertainmentHub.Data.Models.MovieLanguage", b =>
+                {
+                    b.HasOne("EntertainmentHub.Data.Models.Language", "Language")
+                        .WithMany("Movies")
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EntertainmentHub.Data.Models.Movie", "Movie")
+                        .WithMany("Languages")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Language");
+
+                    b.Navigation("Movie");
+                });
+
             modelBuilder.Entity("EntertainmentHub.Data.Models.MovieReview", b =>
                 {
                     b.HasOne("EntertainmentHub.Data.Models.Movie", "Movie")
@@ -967,8 +1035,15 @@ namespace EntertainmentHub.Data.Migrations
                     b.Navigation("Movies");
                 });
 
+            modelBuilder.Entity("EntertainmentHub.Data.Models.Language", b =>
+                {
+                    b.Navigation("Movies");
+                });
+
             modelBuilder.Entity("EntertainmentHub.Data.Models.Movie", b =>
                 {
+                    b.Navigation("Languages");
+
                     b.Navigation("MovieActors");
 
                     b.Navigation("MovieComments");

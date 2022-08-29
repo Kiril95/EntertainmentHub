@@ -1,6 +1,5 @@
 ﻿namespace EntertainmentHub.Data.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -14,14 +13,15 @@
         }
 
         [Required]
-        [StringLength(30, MinimumLength = 2)]
-        public string Title { get; set; }
+        public string AuthorName { get; set; }
 
         [Required]
-        [StringLength(300, MinimumLength = 2)]
-        public string Description { get; set; }
+        public string AuthorUsername { get; set; }
 
-        public DateTime Date { get; set; }
+        public string AvatarPath { get; set; }
+
+        [Required]
+        public string Content { get; set; }
 
         public virtual ICollection<MovieReview> MovieReviews { get; set; }
     }

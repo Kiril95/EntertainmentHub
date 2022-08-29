@@ -18,22 +18,19 @@
         [StringLength(50, MinimumLength = 2)]
         public string Name { get; set; }
 
-        [Required]
         public Gender Gender { get; set; }
 
-        [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [MaxLength(50)]
         public string Birthplace { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         public DateTime? DateOfDeath { get; set; }
 
         [Required]
         public string Biography { get; set; }
 
-        [Required]
-        [StringLength(300, MinimumLength = 20)]
+        [MaxLength(300)]
         public string Photo { get; set; }
 
         public double Popularity { get; set; }

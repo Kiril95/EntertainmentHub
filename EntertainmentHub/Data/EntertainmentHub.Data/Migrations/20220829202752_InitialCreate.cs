@@ -17,11 +17,11 @@ namespace EntertainmentHub.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
-                    Birthplace = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Birthplace = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DateOfDeath = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Biography = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Photo = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    Photo = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
                     Popularity = table.Column<double>(type: "float", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -151,6 +151,23 @@ namespace EntertainmentHub.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Languages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Languages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Movies",
                 columns: table => new
                 {
@@ -161,15 +178,15 @@ namespace EntertainmentHub.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Director = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Poster = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Trailer = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Trailer = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     IMDBLink = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    Language = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    TMDBId = table.Column<int>(type: "int", nullable: false),
                     Runtime = table.Column<int>(type: "int", nullable: false),
                     Budget = table.Column<double>(type: "float", nullable: false),
                     Revenue = table.Column<double>(type: "float", nullable: false),
                     Popularity = table.Column<double>(type: "float", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Tagline = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Tagline = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AverageVote = table.Column<double>(type: "float", nullable: false),
                     TotalVotes = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -188,9 +205,10 @@ namespace EntertainmentHub.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AuthorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AuthorUsername = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AvatarPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -417,6 +435,32 @@ namespace EntertainmentHub.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MoviesLanguages",
+                columns: table => new
+                {
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    LanguageId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MoviesLanguages", x => new { x.MovieId, x.LanguageId });
+                    table.ForeignKey(
+                        name: "FK_MoviesLanguages_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalTable: "Languages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MoviesLanguages_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Ratings",
                 columns: table => new
                 {
@@ -473,8 +517,8 @@ namespace EntertainmentHub.Data.Migrations
                 {
                     MovieId = table.Column<int>(type: "int", nullable: false),
                     ReviewId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -563,6 +607,11 @@ namespace EntertainmentHub.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Languages_IsDeleted",
+                table: "Languages",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MovieComments_CommentId",
                 table: "MovieComments",
                 column: "CommentId");
@@ -613,9 +662,14 @@ namespace EntertainmentHub.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MoviesReviews_IsDeleted",
-                table: "MoviesReviews",
+                name: "IX_MoviesLanguages_IsDeleted",
+                table: "MoviesLanguages",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MoviesLanguages_LanguageId",
+                table: "MoviesLanguages",
+                column: "LanguageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MoviesReviews_ReviewId",
@@ -671,6 +725,9 @@ namespace EntertainmentHub.Data.Migrations
                 name: "MoviesGenres");
 
             migrationBuilder.DropTable(
+                name: "MoviesLanguages");
+
+            migrationBuilder.DropTable(
                 name: "MoviesReviews");
 
             migrationBuilder.DropTable(
@@ -693,6 +750,9 @@ namespace EntertainmentHub.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Genres");
+
+            migrationBuilder.DropTable(
+                name: "Languages");
 
             migrationBuilder.DropTable(
                 name: "Reviews");

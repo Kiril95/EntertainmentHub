@@ -4,7 +4,7 @@
 
     using EntertainmentHub.Data.Common.Models;
 
-    public class MovieReview : IDeletableEntity
+    public class MovieReview : IAuditInfo
     {
         public int MovieId { get; set; }
 
@@ -14,8 +14,8 @@
 
         public virtual Review Review { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public DateTime CreatedOn { get; set; }
 
-        public DateTime? DeletedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
     }
 }

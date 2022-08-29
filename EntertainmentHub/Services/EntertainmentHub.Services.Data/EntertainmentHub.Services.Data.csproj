@@ -13,6 +13,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435" PrivateAssets="all">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
@@ -25,10 +26,6 @@
 		<ProjectReference Include="..\..\Web\EntertainmentHub.Web.ViewModels\EntertainmentHub.Web.ViewModels.csproj" />
 		<ProjectReference Include="..\EntertainmentHub.Services.Mapping\EntertainmentHub.Services.Mapping.csproj" />
 		<ProjectReference Include="..\EntertainmentHub.Services.Messaging\EntertainmentHub.Services.Messaging.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="DataAPI\DataModels\" />
 	</ItemGroup>
 
 </Project>

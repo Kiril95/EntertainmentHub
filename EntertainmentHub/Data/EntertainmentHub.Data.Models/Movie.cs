@@ -14,6 +14,7 @@
             this.MovieCountries = new HashSet<MovieCountry>();
             this.MovieActors = new HashSet<MovieActor>();
             this.MovieComments = new HashSet<MovieComment>();
+            this.Languages = new HashSet<MovieLanguage>();
             this.Ratings = new HashSet<Rating>();
             this.Slideshow = new HashSet<MovieSlide>();
             this.MovieGenres = new HashSet<MovieGenre>();
@@ -36,16 +37,13 @@
         [StringLength(150, MinimumLength = 20)]
         public string Poster { get; set; }
 
-        [Required]
-        [StringLength(150, MinimumLength = 20)]
+        [MaxLength(200)]
         public string Trailer { get; set; }
 
         [StringLength(150, MinimumLength = 20)]
         public string IMDBLink { get; set; }
 
-        [Required]
-        [StringLength(20, MinimumLength = 4)]
-        public string Language { get; set; }
+        public int TMDBId { get; set; }
 
         public int Runtime { get; set; }
 
@@ -57,7 +55,6 @@
 
         public string Status { get; set; }
 
-        [Required]
         public string Tagline { get; set; }
 
         public double AverageVote { get; set; }
@@ -69,6 +66,8 @@
         public virtual ICollection<MovieComment> MovieComments { get; set; }
 
         public virtual ICollection<MovieGenre> MovieGenres { get; set; }
+
+        public virtual ICollection<MovieLanguage> Languages { get; set; }
 
         public virtual ICollection<MovieReview> MovieReviews { get; set; }
 

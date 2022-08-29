@@ -36,7 +36,6 @@
                 ReleaseDate = inputModel.ReleaseDate,
                 Description = inputModel.Description,
                 Director = inputModel.Director,
-                Language = inputModel.Language,
                 Runtime = inputModel.Runtime,
                 Budget = inputModel.Budget,
                 Poster = inputModel.Poster,

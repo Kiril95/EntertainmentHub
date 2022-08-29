@@ -33,6 +33,8 @@
 
         public DbSet<Genre> Genres { get; set; }
 
+        public DbSet<Language> Languages { get; set; }
+
         public DbSet<Movie> Movies { get; set; }
 
         public DbSet<MovieActor> MoviesActors { get; set; }
@@ -44,6 +46,8 @@
         public DbSet<MovieCountry> MoviesCountries { get; set; }
 
         public DbSet<MovieGenre> MoviesGenres { get; set; }
+
+        public DbSet<MovieLanguage> MoviesLanguages { get; set; }
 
         public DbSet<MovieReview> MoviesReviews { get; set; }
 
@@ -80,6 +84,9 @@
 
             builder.Entity<MovieGenre>()
                  .HasKey(x => new { x.MovieId, x.GenreId });
+
+            builder.Entity<MovieLanguage>()
+                 .HasKey(x => new { x.MovieId, x.LanguageId });
 
             builder.Entity<MovieReview>()
                 .HasKey(x => new { x.MovieId, x.ReviewId });

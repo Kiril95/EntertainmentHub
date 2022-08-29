@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using EntertainmentHub.Data;
 namespace EntertainmentHub.Web
 {
     using System;
@@ -14,6 +11,7 @@ namespace EntertainmentHub.Web
     using EntertainmentHub.Data.Seeding;
     using EntertainmentHub.Services.Data;
     using EntertainmentHub.Services.Data.Contracts;
+    using EntertainmentHub.Services.Data.DataAPI;
     using EntertainmentHub.Services.Mapping;
     using EntertainmentHub.Services.Messaging;
     using EntertainmentHub.Web.ViewModels;
@@ -71,6 +69,7 @@ namespace EntertainmentHub.Web
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSingleton(configuration);
+            services.AddHttpClient();
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
@@ -79,6 +78,8 @@ namespace EntertainmentHub.Web
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IDataService, DataService>();
+            services.AddTransient<ICollectService, CollectService>();
             services.AddTransient<IContactService, ContactService>();
             services.AddTransient<IMoviesService, MoviesService>();
         }

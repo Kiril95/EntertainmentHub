@@ -1,13 +1,20 @@
 ﻿namespace EntertainmentHub.Web.Areas.Administration.Controllers
 {
-    using System;
     using System.Threading.Tasks;
 
+    using EntertainmentHub.Services.Data.DataAPI;
     using EntertainmentHub.Web.ViewModels.Administration.Collector;
     using Microsoft.AspNetCore.Mvc;
 
     public class CollectorController : AdministrationController
     {
+        private readonly ICollectService collectService;
+
+        public CollectorController(ICollectService collectService)
+        {
+            this.collectService = collectService;
+        }
+
         public IActionResult CollectData()
         {
             return this.View();
@@ -26,10 +33,7 @@
                 return this.View(inputModel);
             }
 
-            if (this.User.IsInRole("BasicUser"))
-            {
-                await Task.FromResult(0);
-            }
+            await this.collectService.AddMoviesToDatabaseAsync(inputModel.StartIndex, inputModel.EndIndex);
 
             return this.RedirectToAction(nameof(this.Success));
         }
