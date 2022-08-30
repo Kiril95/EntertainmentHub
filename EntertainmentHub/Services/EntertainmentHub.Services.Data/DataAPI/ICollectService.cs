@@ -4,7 +4,7 @@
 
     public interface ICollectService
     {
-        Task AddMoviesToDatabaseAsync(int startIndex, int endIndex);
+        Task<int> AddMoviesToDatabaseAsync(int startIndex, int endIndex);
 
         Task AddTVShowsToDatabaseAsync(int startIndex, int endIndex);
     }

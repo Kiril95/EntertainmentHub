@@ -43,8 +43,10 @@
             this.reviewsRepository = reviewsRepository;
         }
 
-        public async Task AddMoviesToDatabaseAsync(int startIndex, int endIndex)
+        public async Task<int> AddMoviesToDatabaseAsync(int startIndex, int endIndex)
         {
+            int moviesAdded = 0;
+
             for (int i = startIndex; i <= endIndex; i++)
             {
                 var movieData = await this.dataService.GetMovieDataAsync(i);
@@ -62,7 +64,7 @@
                     var backdrops = await this.dataService.GetMoviePhotoSlidesAsync(movieData.Id);
                     var filteredBackdrops = backdrops.Backdrops
                         .Where(x => x.ISO is null)
-                        .Take(4);
+                        .Take(4) ?? Enumerable.Empty<SlideDTO>();
 
                     var castAndCrew = await this.dataService.GetCastAndCrewAsync(movieData.Id);
                     var director = castAndCrew.Crew.FirstOrDefault(x => x.Job == "Director").Name;
@@ -134,12 +136,9 @@
                         movie.MovieCountries.Add(new MovieCountry { CountryId = targetCountry.Id });
                     }
 
-                    if (filteredBackdrops.Count() == 4)
+                    foreach (var slide in filteredBackdrops)
                     {
-                        foreach (var slide in filteredBackdrops)
-                        {
-                            movie.Slideshow.Add(new MovieSlide { Path = $"{OriginalImageSizePath}{slide.FilePath}" });
-                        }
+                        movie.Slideshow.Add(new MovieSlide { Path = $"{OriginalImageSizePath}{slide.FilePath}" });
                     }
 
                     foreach (var cast in castAndCrew.Cast.Take(10))
@@ -150,12 +149,16 @@
 
                         if (targetActor is null)
                         {
+                            string birthplace = currentActor.Birthplace is not null &&
+                                currentActor.Birthplace.Length > 50 ?
+                                currentActor.Birthplace.Substring(0, 50) : currentActor.Birthplace;
+
                             targetActor = new Actor
                             {
                                 Name = currentActor.Name,
                                 Biography = currentActor.Biography,
                                 Gender = (Gender)currentActor.Gender,
-                                Birthplace = currentActor.Birthplace,
+                                Birthplace = birthplace,
                                 DateOfBirth = currentActor.Birthday is not null ? DateTime.ParseExact(currentActor.Birthday, "yyyy-MM-dd", CultureInfo.InvariantCulture) : null,
                                 DateOfDeath = currentActor.Deathday is not null ? DateTime.ParseExact(currentActor.Deathday, "yyyy-MM-dd", CultureInfo.InvariantCulture) : null,
                                 Photo = $"{FixedImageSizePath}{currentActor.Photo}",
@@ -200,8 +203,11 @@
 
                     await this.moviesRepository.AddAsync(movie);
                     await this.moviesRepository.SaveChangesAsync();
+                    moviesAdded++;
                 }
             }
+
+            return moviesAdded;
         }
 
         public Task AddTVShowsToDatabaseAsync(int startIndex, int endIndex)

@@ -6,9 +6,12 @@
 <div class="jumbotron text-center">
     <h1 class="display-3">Success!</h1>
     <hr />
-    <p class="lead"><strong>You successfully collected data from TMDB.org!</strong></p>
+    <p class="lead"><strong>You successfully collected (@this.ViewData["count"]) Movies from
+            <a style="text-decoration: underline" href="https://www.themoviedb.org/" target="_blank">TMDb.org</a>
+    </strong></p>
     <hr>
     <p class="lead">
-        <a class="btn btn-lg btn-primary" asp-area="" asp-controller="Home" asp-action="Index" role="button">Continue to homepage.</a>
+        <a class="btn btn-lg btn-primary" asp-area="" asp-controller="Home" asp-action="Index" role="button">Continue to homepage</a>
+        <a class="btn btn-lg btn-primary" asp-area="Administration" asp-action="CollectData" role="button">Back</a>
     </p>
 </div>
