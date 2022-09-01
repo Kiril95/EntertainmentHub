@@ -58,7 +58,6 @@
                     DateTime.ParseExact(movieData.ReleaseDate, "yyyy-MM-dd", CultureInfo.InvariantCulture).Year > 1990)
                 {
                     var trailers = await this.dataService.GetMovieTrailersAsync(movieData.Id);
-                    var officialTrailer = trailers.Trailers.Select(x => x.Path)?.FirstOrDefault();
 
                     // Filter the ISO because we want only English 'Title' names on the photos or without any at all
                     var backdrops = await this.dataService.GetMoviePhotoSlidesAsync(movieData.Id);
@@ -79,7 +78,6 @@
                         ReleaseDate = DateTime.ParseExact(movieData.ReleaseDate, "yyyy-MM-dd", CultureInfo.InvariantCulture),
                         Poster = $"{FixedImageSizePath}{movieData.Poster}",
                         IMDBLink = $"{IMDBMoviePath}{movieData.IMDBPathId}",
-                        Trailer = officialTrailer,
                         Budget = movieData.Budget,
                         Revenue = movieData.Revenue,
                         Runtime = movieData.Runtime,
@@ -90,6 +88,19 @@
                         TotalVotes = movieData.TotalVotes,
                         AverageVote = movieData.AverageVote,
                     };
+
+                    foreach (var trailer in trailers.Trailers)
+                    {
+                        if (trailer.Official is true && trailer.Type == "Trailer")
+                        {
+                            if (trailer.Name.Contains("Official", StringComparison.OrdinalIgnoreCase) ||
+                                trailer.Name.Contains("Main", StringComparison.OrdinalIgnoreCase) ||
+                                trailer.Name.Contains("Final", StringComparison.OrdinalIgnoreCase))
+                            {
+                                movie.Trailer = trailer.Path;
+                            }
+                        }
+                    }
 
                     foreach (var genre in movieData.Genres)
                     {

@@ -30,6 +30,9 @@ p {
     width: 50%;
 }
 
+.dis-field {
+    cursor: not-allowed;
+}
 
 h1,
 h2,

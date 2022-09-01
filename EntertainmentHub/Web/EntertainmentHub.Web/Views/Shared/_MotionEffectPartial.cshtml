@@ -1,18 +1,17 @@
-﻿
+﻿@inject EntertainmentHub.Services.Data.Contracts.IMoviesService MoviesService
+@using EntertainmentHub.Web.ViewModels.Movies
 
-<div id="demo-1" data-zs-src='["images/2.jpg", "images/1.jpg", "images/3.jpg","images/4.jpg"]' data-zs-overlay="dots">
+@{
+	var bannerMovie = await MoviesService.GetRandomMovieForBannerAsync<BannerMovieViewModel>();
+}
+
+<div id="demo-1" data-zs-src='[@bannerMovie.Slideshow]' data-zs-overlay="dots">
 	<div class="demo-inner-content">
 		<!--/header-w3l-->
 		<div class="header-w3-agileits" id="home">
 			<div class="inner-header-agile">
 				<nav class="navbar navbar-default">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
+					<div class="navbar-header">					
 						<h1><a asp-area="" asp-controller="Home" asp-action="Index"><span>Enter</span>tainment <span>H</span>ub</a></h1>
 					</div>
 					<!-- navbar-header -->
@@ -34,12 +33,11 @@
 			</div>
 		</div>
 
-		<!--//header-w3l-->
 		<!--/banner-info-->
 		<div class="baner-info">
-			<h3>Latest <span>On</span>Line <span>Mo</span>vies</h3>
-			<h4>In space no one can hear you scream.</h4>
-			<a class="w3_play_icon1" href="#small-dialog2">Watch Trailer</a>
+			<h3>@bannerMovie.Title</h3>
+			<h4>@bannerMovie.Tagline</h4>
+			<a class="w3_play_icon1" href="#small-dialog1">Watch Trailer</a>
 		</div>
 		<!--/banner-ingo-->
 	</div>

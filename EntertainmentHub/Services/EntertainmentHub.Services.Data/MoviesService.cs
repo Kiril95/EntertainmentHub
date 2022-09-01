@@ -1,12 +1,15 @@
 ﻿namespace EntertainmentHub.Services.Data
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using EntertainmentHub.Data.Common.Repositories;
     using EntertainmentHub.Data.Models;
     using EntertainmentHub.Services.Data.Contracts;
+    using EntertainmentHub.Services.Mapping;
     using EntertainmentHub.Web.ViewModels.Administration.Movies;
+    using EntertainmentHub.Web.ViewModels.Movies;
     using Microsoft.EntityFrameworkCore;
 
     public class MoviesService : IMoviesService
@@ -61,6 +64,25 @@
 
             this.moviesRepository.Update(movie);
             await this.moviesRepository.SaveChangesAsync();
+        }
+
+        public IQueryable<T> GetAllMoviesAsQueryable<T>()
+        {
+            return this.moviesRepository.AllAsNoTracking().To<T>();
+        }
+
+        public async Task<T> GetRandomMovieForBannerAsync<T>()
+        {
+            var movies = this.GetAllMoviesAsQueryable<MovieViewModel>();
+
+            Random random = new Random();
+            int id = random.Next(1, movies.Count() + 1);
+
+            return await this.moviesRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
         }
     }
 }
