@@ -1,0 +1,59 @@
+﻿@using EntertainmentHub.Web.ViewModels.Movies
+@model IEnumerable<MovieSimpleViewModel>
+
+@{
+    this.ViewData["Title"] = "Genres";
+    string genreName = this.Context.Request.Query["name"];
+}
+
+<div class="w3_breadcrumb">
+    <div class="breadcrumb-inner">
+        <ul>
+            <li><a asp-controller="Home" asp-action="Index">Home</a> <i class="fa fa-forward"></i> </li>
+            <li class="active">@this.ViewData["Title"] <i class="fa fa-forward"></i> @genreName</li>
+        </ul>
+    </div>
+</div>
+
+<hr />
+<h3 class="agile_w3_title hor-t">@genreName<span>Movies</span> </h3>
+
+<div class="wthree_agile-requested-movies tv-movies">
+    <div class="wthree_agile-requested-movies">
+        @foreach (var movie in Model)
+        {
+            <div class="col-md-2 w3l-movie-gride-agile requested-movies" style="width: 15% !important">
+                <a asp-area="" asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="hvr-sweep-to-bottom">
+                    <img src="@movie.Poster" title="@movie.Title" class="img-responsive" alt=" ">
+                </a>
+                <div class="mid-1 agileits_w3layouts_mid_1_home">
+                    <div class="w3l-movie-text" style="height:45px">
+                        <h6><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h6>
+                    </div>
+                    <div class="mid-2 agile_mid_2_home">
+                        <p>@movie.ReleaseDate.Year</p>
+                        <div class="block-stars">
+                            @*<div class="rating"></div>*@
+
+                            <ul class="w3l-ratings rating-disabled">
+                                <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                @if (movie.ReleaseDate.Year == DateTime.UtcNow.Year)
+                {
+                    <div class="ribben one">
+                        <p>NEW</p>
+                    </div>
+                }
+            </div>
+        }
+        <div class="clearfix"></div>
+    </div>
+</div>

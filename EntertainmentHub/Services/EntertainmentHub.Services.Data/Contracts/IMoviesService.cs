@@ -1,11 +1,9 @@
 ﻿namespace EntertainmentHub.Services.Data.Contracts
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using EntertainmentHub.Web.ViewModels.Administration.Movies;
-    using EntertainmentHub.Web.ViewModels.Movies;
 
     public interface IMoviesService
     {
@@ -16,5 +14,7 @@
         IQueryable<T> GetAllMoviesAsQueryable<T>();
 
         Task<T> GetRandomMovieForBannerAsync<T>();
+
+        IQueryable<T> GetMoviesByGenreAsQueryable<T>(string name);
     }
 }

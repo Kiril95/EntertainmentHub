@@ -18,6 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Include="..\..\.editorconfig" Link=".editorconfig" />
 		<None Include="wwwroot\.sass-cache\21880c0ffe15753a53f8402e9f64e1077e071510\style.scssc" />
 		<None Include="wwwroot\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\extend.scssc" />
 		<None Include="wwwroot\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\fonts.scssc" />

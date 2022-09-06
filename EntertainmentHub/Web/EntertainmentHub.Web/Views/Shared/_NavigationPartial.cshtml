@@ -1,4 +1,9 @@
-﻿
+﻿@inject EntertainmentHub.Services.Data.Contracts.IGenresService GenresService
+@using EntertainmentHub.Web.ViewModels.Genres
+
+@{
+	var genres = GenresService.GetAllGenresAsQueryable<GenreViewModel>();
+}
 
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
@@ -16,22 +21,16 @@
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Genre <b class="caret"></b></a>
 			<ul class="dropdown-menu multi-column columns-3">
 				<li>
-					<div class="col-sm-4">
-						<ul class="multi-column-dropdown">
-							<li><a href="genre.html">Action</a></li>
-						</ul>
-					</div>
-					<div class="col-sm-4">
-						<ul class="multi-column-dropdown">
-							<li><a href="genre.html">Adventure</a></li>
-						</ul>
-					</div>
-					<div class="col-sm-4">
-						<ul class="multi-column-dropdown">
-							<li><a href="genre.html">Animation</a></li>
-							<li><a href="genre.html">Costume</a></li>
-						</ul>
-					</div>
+					@foreach (var genre in genres)
+					{
+						<div class="col-sm-6">
+							<ul class="multi-column-dropdown">
+								<li>
+									<a asp-area="" asp-controller="Genres" asp-action="Type" asp-route-name="@genre.Name">@genre.Name</a>
+								</li>
+							</ul>
+						</div>
+					}
 					<div class="clearfix"></div>
 				</li>
 			</ul>

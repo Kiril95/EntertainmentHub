@@ -3,11 +3,11 @@
 
 @{
 	var bannerMovie = await MoviesService.GetRandomMovieForBannerAsync<BannerMovieViewModel>();
+	string trailerUrl = $"https://www.youtube.com/embed/{bannerMovie.Trailer}";
 }
 
 <div id="demo-1" data-zs-src='[@bannerMovie.Slideshow]' data-zs-overlay="dots">
 	<div class="demo-inner-content">
-		<!--/header-w3l-->
 		<div class="header-w3-agileits" id="home">
 			<div class="inner-header-agile">
 				<nav class="navbar navbar-default">
@@ -33,19 +33,14 @@
 			</div>
 		</div>
 
-		<!--/banner-info-->
 		<div class="baner-info">
 			<h3>@bannerMovie.Title</h3>
 			<h4>@bannerMovie.Tagline</h4>
-			<a class="w3_play_icon1" href="#small-dialog1">Watch Trailer</a>
+			<a class="w3_play_icon1" href="#small-dialog">Watch Trailer</a>
 		</div>
-		<!--/banner-ingo-->
 	</div>
 
-	<div id="small-dialog1" class="mfp-hide">
-		<iframe src="https://player.vimeo.com/video/165197924?color=ffffff&title=0&byline=0&portrait=0"></iframe>
-	</div>
-	<div id="small-dialog2" class="mfp-hide">
-		<iframe src="https://player.vimeo.com/video/165197924?color=ffffff&title=0&byline=0&portrait=0"></iframe>
+	<div id="small-dialog" class="mfp-hide">
+		<iframe src="@trailerUrl"></iframe>
 	</div>
 </div>

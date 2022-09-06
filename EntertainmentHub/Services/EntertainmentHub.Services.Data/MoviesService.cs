@@ -84,5 +84,14 @@
                 .To<T>()
                 .FirstOrDefaultAsync();
         }
+
+        public IQueryable<T> GetMoviesByGenreAsQueryable<T>(string name)
+        {
+            return this.moviesRepository
+            .AllAsNoTracking()
+            .Where(x => x.MovieGenres.Any(x => x.Genre.Name == name))
+            .OrderByDescending(x => x.ReleaseDate.Year)
+            .To<T>();
+        }
     }
 }
