@@ -1,17 +1,19 @@
 ﻿@inject EntertainmentHub.Services.Data.Contracts.IGenresService GenresService
+@inject EntertainmentHub.Services.Data.Contracts.ICountriesService CountriesService
 @using EntertainmentHub.Web.ViewModels.Genres
+@using EntertainmentHub.Web.ViewModels.Countries
 
 @{
 	var genres = GenresService.GetAllGenresAsQueryable<GenreViewModel>();
+	var countries = CountriesService.GetAllCountriesAsQueryable<CountryViewModel>();
 }
 
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
 	<ul class="nav navbar-nav">
-		<li class="active"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-		
+		<li class="active">
+			<a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 		<li>
-			<a href="list.html">Movies</a>
+			<a asp-area="" asp-controller="Movies" asp-action="Collection">Movies</a>
 		</li>
 		<li class="dis-field">
 			<a>TV - Series</a>
@@ -40,17 +42,16 @@
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Country <b class="caret"></b></a>
 			<ul class="dropdown-menu multi-column columns-3">
 				<li>
-					<div class="col-sm-4">
-						<ul class="multi-column-dropdown">
-							<li><a href="genre.html">Asia</a></li>
-							<li><a href="genre.html">France</a></li>
-						</ul>
-					</div>
-					<div class="col-sm-4">
-						<ul class="multi-column-dropdown">
-							<li><a href="genre.html">China</a></li>
-						</ul>
-					</div>
+					@foreach (var country in countries)
+					{
+						<div class="col-sm-6">
+							<ul class="multi-column-dropdown">
+								<li>
+									<a asp-area="" asp-controller="Countries" asp-action="Type" asp-route-name="@country.Name">@country.Name</a>
+								</li>
+							</ul>
+						</div>
+					}
 					<div class="clearfix"></div>
 				</li>
 			</ul>

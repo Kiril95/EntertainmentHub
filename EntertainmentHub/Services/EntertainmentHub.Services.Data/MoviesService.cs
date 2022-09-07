@@ -88,10 +88,28 @@
         public IQueryable<T> GetMoviesByGenreAsQueryable<T>(string name)
         {
             return this.moviesRepository
-            .AllAsNoTracking()
-            .Where(x => x.MovieGenres.Any(x => x.Genre.Name == name))
-            .OrderByDescending(x => x.ReleaseDate.Year)
-            .To<T>();
+                .AllAsNoTracking()
+                .Where(x => x.MovieGenres.Any(x => x.Genre.Name == name))
+                .OrderByDescending(x => x.ReleaseDate.Year)
+                .To<T>();
+        }
+
+        public IQueryable<T> GetMoviesByCountryAsQueryable<T>(string name)
+        {
+            return this.moviesRepository
+                .AllAsNoTracking()
+                .Where(x => x.MovieCountries.Any(x => x.Country.Name == name))
+                .OrderByDescending(x => x.ReleaseDate.Year)
+                .To<T>();
+        }
+
+        public async Task<T> GetMovieByIdAsync<T>(int id)
+        {
+            return await this.moviesRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
         }
     }
 }

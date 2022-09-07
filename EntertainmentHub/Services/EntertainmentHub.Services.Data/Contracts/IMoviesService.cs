@@ -16,5 +16,9 @@
         Task<T> GetRandomMovieForBannerAsync<T>();
 
         IQueryable<T> GetMoviesByGenreAsQueryable<T>(string name);
+
+        IQueryable<T> GetMoviesByCountryAsQueryable<T>(string name);
+
+        Task<T> GetMovieByIdAsync<T>(int id);
     }
 }

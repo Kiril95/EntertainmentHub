@@ -5,6 +5,7 @@
 
     using EntertainmentHub.Data.Models;
     using EntertainmentHub.Services.Mapping;
+    using EntertainmentHub.Web.ViewModels.Comments;
 
     public class MovieViewModel : IMapFrom<Movie>
     {
@@ -45,5 +46,7 @@
         public ICollection<MovieCastViewModel> Cast { get; set; }
 
         public ICollection<MovieReviewViewModel> Reviews { get; set; }
+
+        public ICollection<MovieCommentViewModel> Comments { get; set; }
     }
 }

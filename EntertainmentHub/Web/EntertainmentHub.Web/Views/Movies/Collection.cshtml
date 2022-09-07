@@ -1,0 +1,92 @@
+﻿@using EntertainmentHub.Web.ViewModels.Movies
+@model IEnumerable<MovieListViewModel>
+
+@{
+    this.ViewData["Title"] = "Movies";
+    int counter = 1;
+}
+
+<link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" />
+<link rel="stylesheet" type="text/css" href="~/css/style.css" />
+
+<div class="w3_breadcrumb">
+    <div class="breadcrumb-inner">
+        <ul>
+            <li><a asp-controller="Home" asp-action="Index">Home</a> <i class="fa fa-forward"></i> </li>
+            <li class="active">Movies</li>
+        </ul>
+    </div>
+</div>
+
+<div class="w3_content_agilleinfo_inner">
+    <div class="agile_featured_movies">
+
+        <div class="inner-agile-w3l-part-head">
+            <h3 class="w3l-inner-h-title">Movies List</h3>
+        </div>
+
+        <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+            <h4 class="side-t-w3l-agile">Search By <span>Title</span></h4>
+
+            <div class="side-bar-form">
+                <form asp-action="Collection" method="get">
+                    <input type="search" name="SearchWord" placeholder="Search..." value="@ViewData["CurrentSearchWord"]">
+                    <input type="submit" value=" "/>
+                </form>
+            </div>
+            <hr />
+            <div class="w3ls-news-result">
+                <h4>Movies Count: <span>@Model.Count()</span></h4>
+            </div>
+
+            <div id="myTabContent" class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
+                    <div class="agile-news-table">
+                        <table id="table-breakpoint" class="movie-tab">
+                            <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>Title</th>
+                                    <th>Director</th>
+                                    <th>Genre</th>
+                                    <th>Year</th>
+                                    <th>Language</th>
+                                    <th>Length</th>
+                                    <th>Country</th>
+                                    <th>Budget</th>
+                                    <th>Revenue</th>
+                                    <th>Popularity</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myTable">
+                                @foreach (var movie in Model)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td class="w3-list-img">
+                                            <a asp-action="Details" asp-route-id="@movie.Id">
+                                                <span>@movie.Title</span>
+                                                <img src="@movie.Poster" />
+                                            </a>
+                                        </td>
+                                        <td>@movie.Director</td>
+                                        <td>@movie.Genres</td>
+                                        <td>@movie.ReleaseDate.Year</td>
+                                        <td>@movie.Languages</td>
+                                        <td>@movie.Runtime min</td>
+                                        <td>@movie.Countries</td>
+                                        <td>$@movie.Budget</td>
+                                        <td>$@movie.Revenue</td>
+                                        <td>@movie.Popularity.ToString("f2")</td>
+                                    </tr>
+
+                                    counter++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
