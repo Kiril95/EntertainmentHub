@@ -1,0 +1,202 @@
+﻿@using EntertainmentHub.Data.Models
+@using Microsoft.AspNetCore.Identity
+@using EntertainmentHub.Web.ViewModels.Movies
+@inject UserManager<ApplicationUser> UserManager
+@model MovieViewModel
+
+@{
+    this.ViewData["Title"] = "Movies";
+    var user = await this.UserManager.GetUserAsync(this.User);
+}
+
+<link rel="stylesheet" type="text/css" href="~/css/style.css" />
+
+<div class="w3_breadcrumb">
+    <div class="breadcrumb-inner">
+        <ul>
+            <li><a asp-controller="Home" asp-action="Index">Home</a><i class="fa fa-forward"></i></li>
+            <li><a asp-action="Collection">@this.ViewData["Title"]</a><i class="fa fa-forward"></i></li>
+            <li class="active">@Model.Title</li>
+        </ul>
+    </div>
+</div>
+
+<div class="w3_content_agilleinfo_inner">
+    <div class="agile_featured_movies">
+        <div class="inner-agile-w3l-part-head">
+            <h3 class="w3l-inner-h-title">@Model.Title</h3>
+            <br />
+            <p class="w3ls_head_para"><strong>@Model.Tagline</strong></p>
+            <hr />
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                <div onclick="RateMovie" class="rating-enabled"></div><span id="averageRating">@Model.Rating.ToString("f2")</span><span> / 5.00</span>
+            }
+            else
+            {
+                <div class="rating-disabled"></div><span id="averageRating">@Model.Rating.ToString("f2")</span><span> / 5.00</span>
+            }
+        </div>
+
+        <div class="latest-news-agile-info">
+            <div class="col-md-8 latest-news-agile-left-content">
+                <div class="single video_agile_player">
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <div data-video="@Model.Trailer" id="video"> <img src="@Model.Poster" class="img-responsive" /></div>
+                        </div>
+                        <div class="active" style="">
+                            <p class="text-left movie-tab"><strong class="str-col">Year: </strong>@Model.ReleaseDate.Year</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Status: </strong>@Model.Status</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Length: </strong> @Model.Runtime min </p>
+                            <p class="text-left movie-tab"><strong class="str-col">Director: </strong>@Model.Director</p>                  
+                            <p class="text-left movie-tab"><strong class="str-col">IMDB: </strong><a href="@Model.IMDBLink" target="_blank">Link to IMDB</a> </p>
+                            <p class="text-left movie-tab"><strong class="str-col">Genre: </strong>@Model.Genres</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Language: </strong>@Model.Languages</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Country: </strong>@Model.Countries</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Budget: </strong>$@Model.Budget.ToString("N0")</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Revenue: </strong>$@Model.Revenue.ToString("N0")</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Popularity: </strong>@Model.Popularity.ToString("f2")</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Description: </strong> @Model.Description</p>
+                        </div>
+                    </div>
+                    <br />
+                    <hr />
+                </div>
+
+                <h4 class="side-t-w3l-agile">Main <span>Actors</span></h4>
+                <div class="w3_agile_latest_movies">
+                    <div id="owl-demo" class="owl-carousel owl-theme">
+                        @foreach (var actor in Model.MovieActors)
+                        {
+                            if (actor.ActorPhoto.Contains("png") || actor.ActorPhoto.Contains("jpg") || actor.ActorPhoto.Contains("jpeg"))
+                            {
+                                <di class="item">
+                                    <div class="w3l-movie-gride-agile w3l-movie-gride-slider ">
+                                        <a asp-controller="Actors" asp-action="Details" asp-route-id="@actor.ActorId" class="hvr-sweep-to-bottom">
+                                            <img src="@actor.ActorPhoto" title="@actor.ActorName" class="img-responsive" alt=" " />
+                                        </a>
+                                        <div class="mid-1 agileits_w3layouts_mid_1_home">
+                                            <div class="w3l-movie-text">
+                                                <h6><a style="font-weight:bold;" asp-controller="Actors" asp-action="Details" asp-route-id="@actor.ActorId">@actor.ActorName</a></h6>
+                                                <br>
+                                                <h6><a>@actor.CharacterPlayed</a></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </di>
+                            }     
+                        }
+                    </div>
+                </div>
+
+                <div class="response">                 
+                    <h4>Comments</h4>
+                    @if (!Model.MovieComments.Any())
+                    {
+                        <h5 style="font-weight: 600">No comments for this movie yet.</h5>
+                    }
+                    else
+                    {
+                        @foreach (var comment in Model.MovieComments)
+                        {
+                            <div class="admin-text">
+                                <h5>COMMENT BY @comment.UserUsername</h5>
+                                <div class="admin-text-left">
+                                    <a>
+                                        @if (comment.UserUsername == "Admin")
+                                        {
+                                            <img class="media-object" src="/images/admin-avatar.png" alt="">
+                                        }
+                                        else
+                                        {
+                                            <img class="media-object" src="/images/no-avatar.png" alt="">
+                                        }
+                                    </a>
+                                </div>
+
+                                <p class="content-st">@comment.CommentContent</p>
+
+                                <div class="admin-text-right">
+                                    <ul style="list-style: none">
+                                        <li>
+                                            <p>@comment.CommentCreatedOn.ToString("MM/dd/yyyy h:mm tt")</p>
+                                        </li>
+                                        @if (this.User.Identity.IsAuthenticated)
+                                        {
+                                            <li>
+                                                <a style="cursor: not-allowed"><i class="fa fa-reply" aria-hidden="true"></i> Reply</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="clearfix"> </div>
+                            </div>
+                        }
+                    }
+                    <br />
+
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        <div class="all-comments-info">
+                            <h5>LEAVE A COMMENT</h5>
+
+                            <div class="agile-info-wthree-box">
+                                <form asp-controller="Comments" asp-action="CreateComment" method="post">
+                                    <div class="col-md-6 form-info">
+                                        <textarea name="Content" placeholder="Message" required=""></textarea>
+                                        <input type="submit" value="SEND">
+                                    </div>
+                                    <div class="col-md-6 form-info">
+                                        <input type="hidden" name="MovieId" value="@Model.Id">                                   
+                                        <input type="hidden" name="UserId" value="@await this.UserManager.GetUserIdAsync(user)">                                    
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <hr />
+                        <div class="px-4 pt-3">
+                            <a class="login" asp-area="Identity" asp-page="/Account/Login">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                Sign in so you can write a comment !
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-4 latest-news-agile-right-content">
+                <h4 class="side-t-w3l-agile">Search By <span>Title</span></h4>
+                <div class="side-bar-form">
+                    <form asp-controller="Search" asp-action="MoviesSearch" method="get">
+                        <input type="search" name="Title" placeholder="Search here...." required="required">
+                        <input type="submit" value=" ">
+                    </form>
+                </div>
+
+                <div class="clearfix"> </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function RateMovie() {
+            const stars = document.getElementsByClassName('jq-star');
+
+            for (const star of stars) {
+                star.setAttribute('data-toggle', 'modal');
+                star.setAttribute('data-target', '#myModal4');
+            }
+        }
+
+        RateMovie();
+    </script>
+}

@@ -9,16 +9,16 @@
     {
         public int MovieId { get; set; }
 
-        public string MovieName { get; set; }
+        public string MovieTitle { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public string UserUsername { get; set; }
 
         public int? CommentId { get; set; }
 
-        public string Content { get; set; }
+        public string CommentContent { get; set; }
 
-        public DateTime CreatedOn { get; set; }
+        public DateTime CommentCreatedOn { get; set; }
     }
 }

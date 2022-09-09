@@ -7,8 +7,6 @@
     {
         public int MovieId { get; set; }
 
-        public int ReviewId { get; set; }
-
         public string AuthorName { get; set; }
 
         public string AuthorUsername { get; set; }

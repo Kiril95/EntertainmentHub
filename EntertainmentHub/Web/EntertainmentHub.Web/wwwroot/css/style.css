@@ -34,6 +34,10 @@ p {
     cursor: not-allowed;
 }
 
+.str-col {
+    color: midnightblue;
+}
+
 h1,
 h2,
 h3,
@@ -2599,10 +2603,10 @@ ul.bottom-links-agile {
 /*-- single --*/
 
 .admin-text {
-    border: 1px solid #fff;
-    padding: 2em;
+    border: 5px solid #fff;
+    padding: 1em;
     margin-top: 2em;
-    background: #fe423f;
+    background: #92acc2;
 }
 
     .admin-text h5 {
@@ -2624,9 +2628,16 @@ ul.bottom-links-agile {
     width: 11%;
 }
 
+.content-st {
+    font-family: cursive;
+    padding-inline-start: 150px;
+    font-size: initial;
+}
+
 .admin-text-right {
     float: right;
-    width: 86%;
+    /*width: 86%;*/
+    padding-top: 32px;
 }
 
 .admin-text-left img {

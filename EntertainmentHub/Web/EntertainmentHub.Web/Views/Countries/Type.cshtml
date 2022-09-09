@@ -3,20 +3,20 @@
 
 @{
     this.ViewData["Title"] = "Countries";
-    string genreName = this.Context.Request.Query["name"];
+    string countryName = this.Context.Request.Query["name"];
 }
 
 <div class="w3_breadcrumb">
     <div class="breadcrumb-inner">
         <ul>
             <li><a asp-controller="Home" asp-action="Index">Home</a> <i class="fa fa-forward"></i> </li>
-            <li class="active">@this.ViewData["Title"] <i class="fa fa-forward"></i> @genreName</li>
+            <li class="active">@this.ViewData["Title"] <i class="fa fa-forward"></i> @countryName</li>
         </ul>
     </div>
 </div>
 
 <hr />
-<h3 class="agile_w3_title hor-t">Movies filmed in<span>@genreName</span> </h3>
+<h3 class="agile_w3_title hor-t">Movies filmed in<span>@countryName</span> </h3>
 
 <div class="wthree_agile-requested-movies tv-movies">
     <div class="wthree_agile-requested-movies">

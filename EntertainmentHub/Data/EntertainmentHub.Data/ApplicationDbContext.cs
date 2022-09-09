@@ -88,9 +88,6 @@
             builder.Entity<MovieLanguage>()
                  .HasKey(x => new { x.MovieId, x.LanguageId });
 
-            builder.Entity<MovieReview>()
-                .HasKey(x => new { x.MovieId, x.ReviewId });
-
             builder.Entity<Rating>()
                .HasKey(x => new { x.MovieId, x.UserId });
 

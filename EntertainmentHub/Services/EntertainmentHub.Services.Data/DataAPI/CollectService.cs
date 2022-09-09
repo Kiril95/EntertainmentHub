@@ -23,7 +23,7 @@
         private readonly IDeletableEntityRepository<Genre> genresRepository;
         private readonly IDeletableEntityRepository<Language> languagesRepository;
         private readonly IDeletableEntityRepository<Country> countriesRepository;
-        private readonly IRepository<Review> reviewsRepository;
+        private readonly IRepository<MovieReview> reviewsRepository;
 
         public CollectService(
             IDataService dataService,
@@ -32,7 +32,7 @@
             IDeletableEntityRepository<Genre> genresRepository,
             IDeletableEntityRepository<Language> languagesRepository,
             IDeletableEntityRepository<Country> countriesRepository,
-            IRepository<Review> reviewsRepository)
+            IRepository<MovieReview> reviewsRepository)
         {
             this.dataService = dataService;
             this.moviesRepository = moviesRepository;
@@ -189,27 +189,13 @@
 
                     foreach (var reviewDTO in reviews.Reviews)
                     {
-                        var targetReview = await this.reviewsRepository.AllAsNoTracking()
-                            .FirstOrDefaultAsync(x => x.AuthorUsername == reviewDTO.AuthorDetails.Username);
-
-                        if (targetReview is null)
+                        movie.MovieReviews.Add(new MovieReview
                         {
-                            targetReview = new Review
-                            {
-                                AuthorName = reviewDTO.AuthorReviewName,
-                                AuthorUsername = reviewDTO.AuthorDetails.Username,
-                                AvatarPath = string.IsNullOrWhiteSpace(reviewDTO.AuthorDetails.Avatar) ? null : reviewDTO.AuthorDetails.Avatar.Substring(1),
-                                Content = reviewDTO.Content,
-                            };
-
-                            await this.reviewsRepository.AddAsync(targetReview);
-                            await this.reviewsRepository.SaveChangesAsync();
-                        }
-
-                        if (!movie.MovieReviews.Any(x => x.ReviewId == targetReview.Id))
-                        {
-                            movie.MovieReviews.Add(new MovieReview { ReviewId = targetReview.Id });
-                        }
+                            AuthorName = reviewDTO.AuthorReviewName,
+                            AuthorUsername = reviewDTO.AuthorDetails.Username,
+                            AvatarPath = string.IsNullOrWhiteSpace(reviewDTO.AuthorDetails.Avatar) ? null : reviewDTO.AuthorDetails.Avatar.Substring(1),
+                            Content = reviewDTO.Content,
+                        });
                     }
 
                     await this.moviesRepository.AddAsync(movie);

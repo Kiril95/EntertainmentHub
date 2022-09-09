@@ -3,6 +3,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using EntertainmentHub.Data.Common.Repositories;
+    using EntertainmentHub.Data.Models;
     using EntertainmentHub.Services.Data.Contracts;
     using EntertainmentHub.Web.ViewModels.Movies;
     using Microsoft.AspNetCore.Mvc;

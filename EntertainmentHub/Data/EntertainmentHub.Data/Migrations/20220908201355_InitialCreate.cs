@@ -515,14 +515,20 @@ namespace EntertainmentHub.Data.Migrations
                 name: "MoviesReviews",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     MovieId = table.Column<int>(type: "int", nullable: false),
-                    ReviewId = table.Column<int>(type: "int", nullable: false),
+                    AuthorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AuthorUsername = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AvatarPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReviewId = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MoviesReviews", x => new { x.MovieId, x.ReviewId });
+                    table.PrimaryKey("PK_MoviesReviews", x => x.Id);
                     table.ForeignKey(
                         name: "FK_MoviesReviews_Movies_MovieId",
                         column: x => x.MovieId,
@@ -533,8 +539,7 @@ namespace EntertainmentHub.Data.Migrations
                         name: "FK_MoviesReviews_Reviews_ReviewId",
                         column: x => x.ReviewId,
                         principalTable: "Reviews",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -670,6 +675,11 @@ namespace EntertainmentHub.Data.Migrations
                 name: "IX_MoviesLanguages_LanguageId",
                 table: "MoviesLanguages",
                 column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MoviesReviews_MovieId",
+                table: "MoviesReviews",
+                column: "MovieId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MoviesReviews_ReviewId",

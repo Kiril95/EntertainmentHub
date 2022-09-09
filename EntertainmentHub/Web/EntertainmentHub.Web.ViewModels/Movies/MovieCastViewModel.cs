@@ -9,7 +9,7 @@
 
         public string ActorName { get; set; }
 
-        public string CharacterName { get; set; }
+        public string CharacterPlayed { get; set; }
 
         public string ActorPhoto { get; set; }
     }
