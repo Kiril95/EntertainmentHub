@@ -1,0 +1,34 @@
+﻿.rev-img {
+    display: flex;
+    position: relative;
+    width: 150px;
+    height: 200px;
+    float: left;
+    margin-right: 30px;
+}
+
+.text-st {
+    margin-right: 150px;
+}
+
+.text-div {
+    font-family: cursive;
+    padding-left: 350px
+}
+
+.back-st {
+    font-family: cursive;
+    padding-top: 93px;
+    padding-left: 160px;
+}
+
+.inner-div {
+    padding-top: 12px;
+    font-size: x-large;
+}
+
+.review-box {
+    margin: 351px;
+    margin-top: 0px;
+    margin-bottom: 40px;
+}

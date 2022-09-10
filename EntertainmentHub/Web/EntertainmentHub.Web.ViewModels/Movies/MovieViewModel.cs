@@ -8,6 +8,7 @@
     using EntertainmentHub.Data.Models;
     using EntertainmentHub.Services.Mapping;
     using EntertainmentHub.Web.ViewModels.Comments;
+    using EntertainmentHub.Web.ViewModels.Reviews;
 
     public class MovieViewModel : IMapFrom<Movie>, IHaveCustomMappings
     {

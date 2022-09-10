@@ -38,6 +38,35 @@ p {
     color: midnightblue;
 }
 
+.review-single {
+    background: #e9ecec;
+    padding-block: 27px;
+    padding-left: 67px;
+    border-style: solid;
+}
+
+.review-box {
+    margin: 351px;
+    margin-top: 0px;
+    margin-bottom: 40px;
+}
+
+.single_column_wrapper {
+    box-sizing: border-box;
+    width: 100%;
+    border-bottom: 1pxsolidrgba(var(--lightGrey), 1);
+    display: flex;
+    background: radial-gradient(black, transparent);
+}
+
+.flex poster {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    float: right;
+    top: 40px;
+}
+
 h1,
 h2,
 h3,
@@ -1433,13 +1462,14 @@ ul.side-bar-agile {
 }
 
 .wom-right {
-    float: right;
-    width: 70%;
+    /*float: right;*/
+    width: 87%;
+    padding-left: 97px;
 }
 
 .wom {
     float: left;
-    width: 25%;
+    width: 16%;
     margin-top: 0.6em;
 }
 

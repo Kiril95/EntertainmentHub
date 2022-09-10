@@ -1,0 +1,69 @@
+﻿@using EntertainmentHub.Web.ViewModels.Reviews
+@model MovieReviewPageViewModel
+
+@{
+    this.ViewData["Title"] = "Details";
+}
+
+<link rel="stylesheet" type="text/css" href="~/css/style.css" />
+<link rel="stylesheet" type="text/css" href="~/css/Rev.css" />
+
+<div class="w3_breadcrumb">
+    <div class="breadcrumb-inner">
+        <ul>
+            <li><a asp-controller="Home" asp-action="Index">Home</a><i class="fa fa-forward"></i></li>
+            <li><a asp-controller="Movies" asp-action="Collection">Movies</a><i class="fa fa-forward"></i></li>
+            <li><a asp-action="All">Reviews</a><i class="fa fa-forward"></i></li>
+            <li><a>@this.ViewData["Title"]</a><i class="fa fa-forward"></i></li>
+            <li class="active">@Model.MovieModel.Title</li>
+        </ul>
+    </div>
+</div>
+<hr />
+
+<div class="single_column_wrapper">
+    <div class="single_column">
+        <section class="header small">
+            <div class="text-div">
+                <a> <img class="rev-img" src="@Model.MovieModel.Poster" alt=" "></a>
+                <div class="inner-div">
+                    <span class="text-st">
+                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.MovieModel.Id">@Model.MovieModel.Title</a>
+                    </span>
+                    <span>@Model.MovieModel.ReleaseDate.Year</span>
+                </div>
+                <span class="inner-div">@Model.MovieModel.Rating</span>
+
+                <h3 class="back-st"><a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.MovieModel.Id">←Back to movie</a></h3>
+            </div>         
+        </section>
+    </div>
+</div>
+<hr />
+<div class="review-box">
+    <div class="review-single">
+        <div class="w3l-recent-grid" style="background: #e9ecec">
+            <div class="wom">
+                @if (Model.ReviewModel.AvatarPath is not null && Model.ReviewModel.AvatarPath.Contains("gravatar"))
+                {
+                    <a><img src="@Model.ReviewModel.AvatarPath" alt=" " class="img-responsive"></a>
+                }
+                else
+                {
+                    <a><img style="height: 110px" src="/images/no-avatar.png" alt=" " class="img-responsive"></a>
+                }
+            </div>
+            <div class="wom-right">
+                <h5>
+                    <a>Review by @Model.ReviewModel.AuthorName</a>
+                </h5>
+                <ul class="w3l-sider-list">
+                    <li><i class="fa fa-user" aria-hidden="true"></i>Username: @Model.ReviewModel.AuthorUsername</li>
+                </ul>
+                <p>@Model.ReviewModel.Content</p>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <hr />
+    </div>
+</div>
