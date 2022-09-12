@@ -1,0 +1,152 @@
+﻿@using EntertainmentHub.Web.ViewModels.Actors
+@using System.Globalization
+@model ActorPaginatedListViewModel
+
+@{
+    this.ViewData["Title"] = "Actors";
+    int counter = 1;
+
+    // Fix the enumeration
+    if (Model.Actors.PageNumber > 1)
+    {
+        counter = Model.Actors.PageNumber * 25 - 24;
+    }
+}
+
+<link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" />
+<link rel="stylesheet" type="text/css" href="~/css/style.css" />
+
+<div class="w3_breadcrumb">
+    <div class="breadcrumb-inner">
+        <ul>
+            <li><a asp-controller="Home" asp-action="Index">Home</a> <i class="fa fa-forward"></i> </li>
+            <li class="active">@this.ViewData["Title"]</li>
+        </ul>
+    </div>
+</div>
+
+<div class="w3_content_agilleinfo_inner">
+    <div class="agile_featured_movies">
+
+        <div class="inner-agile-w3l-part-head">
+            <h3 class="w3l-inner-h-title">Movies List</h3>
+        </div>
+
+        <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+            <h4 class="side-t-w3l-agile">Search By <span>Name</span></h4>
+
+            <div class="side-bar-form">
+                <form asp-action="All" method="get">
+                    <input type="search" name="SearchWord" placeholder="Search..." value="@ViewData["CurrentSearchWord"]">
+                    <input type="submit" value=" " />
+                </form>
+            </div>
+            <hr />
+            <div class="w3ls-news-result">
+                <h4>Total Count: <span>@Model.TotalCount</span></h4>
+                <h4>Current Page: <span>@Model.Actors.Count()</span></h4>
+            </div>
+
+            <div id="myTabContent" class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
+                    <div class="agile-news-table">
+                        <table id="table-breakpoint" class="movie-tab">
+                            <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>Name</th>
+                                    <th>Birthplace</th>
+                                    <th>Gender</th>
+                                    <th>Age</th>
+                                    <th>DateOfBirth</th>
+                                    <th>DateOfDeath</th>
+                                    <th>Popularity</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myTable">
+                                @foreach (var actor in Model.Actors)
+                                {
+                                    var gender = actor.Gender.Contains("3") ? "Trans" : actor.Gender;
+
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td class="w3-list-img">
+                                            <a asp-action="Details" asp-route-id="@actor.Id">
+                                                <span>@actor.Name</span>
+                                                <img style="width: 20% !important" src="@actor.Photo" />
+                                            </a>
+                                        </td>
+                                        <td>@actor.Birthplace</td>
+                                        <td>@gender</td>
+                                        <td>@actor.Age</td>
+
+                                        <td>
+                                            @if (actor.DateOfBirth.HasValue)
+                                            {
+                                                @actor.DateOfBirth.Value.ToString("dd MMMM yyyy", new CultureInfo("en-US"))
+                                            }
+                                        </td>
+                                        <td>
+                                             @if (actor.DateOfDeath.HasValue)
+                                             {
+                                                @actor.DateOfDeath.Value.ToString("dd MMMM yyyy", new CultureInfo("en-US"))
+                                             }
+                                        </td>                                                                            
+                                        <td>@actor.Popularity.ToString("f2")</td>
+                                    </tr>
+                                    counter++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Actors.TotalPages > 1)
+{
+    <div class="blog-pagenat-wthree">
+        <ul class="pagination">
+            <li>
+                @if (Model.Actors.HasPreviousPage)
+                {
+                    <a class="page-link frist" asp-action="All" asp-route-page="@(Model.Actors.PageNumber - 1)">Previous</a>
+                }
+                else
+                {
+                    <a class="dis-field frist">Previous</a>
+                }
+            </li>
+            @for (int i = Model.Actors.PageNumber - 4; i < Model.Actors.PageNumber; i++)
+            {
+                if (i > 0)
+                {
+                    <li><a class="page-link" asp-action="All" asp-route-page="@i">@i</a></li>
+                }
+            }
+            <li class="active">
+                <span class="page-link">@Model.Actors.PageNumber</span>
+            </li>
+            @for (int i = Model.Actors.PageNumber + 1; i <= Model.Actors.PageNumber + 4; i++)
+            {
+                if (i <= Model.Actors.TotalPages)
+                {
+                    <li><a class="page-link" asp-action="All" asp-route-page="@i">@i</a></li>
+                }
+            }
+            <li>
+                @if (Model.Actors.HasNextPage)
+                {
+                    <a class="page-link frist" asp-action="All" asp-route-page="@(Model.Actors.PageNumber + 1)">Next</a>
+                }
+                else
+                {
+                    <a class="dis-field frist">Next</a>
+                }
+            </li>       
+        </ul>
+    </div>
+}
+    

@@ -34,7 +34,7 @@
 		</div>
 
 		<div class="baner-info">
-			<h3>@bannerMovie.Title</h3>
+			<h3><a asp-controller="Movies" asp-action="Details" asp-route-id="@bannerMovie.Id"><span style="color: honeydew">@bannerMovie.Title</span></a></h3>
 			<h4>@bannerMovie.Tagline</h4>
 			<a class="w3_play_icon1" href="#small-dialog">Watch Trailer</a>
 		</div>

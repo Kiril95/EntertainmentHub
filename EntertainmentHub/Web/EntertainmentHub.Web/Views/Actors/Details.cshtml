@@ -1,0 +1,111 @@
+﻿@using EntertainmentHub.Data.Models
+@using EntertainmentHub.Web.ViewModels.Actors
+@using System.Globalization
+@model ActorViewModel
+
+@{
+    this.ViewData["Title"] = "Details";
+}
+
+<link rel="stylesheet" type="text/css" href="~/css/style.css" />
+
+<div class="w3_breadcrumb">
+    <div class="breadcrumb-inner">
+        <ul>
+            <li><a asp-controller="Home" asp-action="Index">Home</a><i class="fa fa-forward"></i></li>
+            <li><a asp-controller="Actors" asp-action="All">Actors</a><i class="fa fa-forward"></i></li>
+            <li><a>@this.ViewData["Title"]</a><i class="fa fa-forward"></i></li>
+            <li class="active">@Model.Name</li>
+        </ul>
+    </div>
+</div>
+
+<div class="w3_content_agilleinfo_inner">
+    <div class="agile_featured_movies">
+        <div class="inner-agile-w3l-part-head">
+            <h3 class="w3l-inner-h-title">@Model.Name</h3>
+            <hr />         
+        </div>
+
+        <div class="latest-news-agile-info">
+            <div class="col-md-8 latest-news-agile-left-content">
+                <div class="single video_agile_player">
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <div> <img src="@Model.Photo" class="img-responsive" /></div>
+                        </div>
+                        <div class="active">
+                            @if (Model.Gender == "3")
+                            {
+                                <p class="text-left movie-tab"><strong class="str-col">Gender: </strong>Trans</p>
+                            }
+                            else
+                            {
+                                <p class="text-left movie-tab"><strong class="str-col">Gender: </strong>@Model.Gender</p>
+                            }
+                            @if (Model.DateOfBirth != null)
+                            {
+                                <p class="text-left movie-tab">
+                                    <strong class="str-col">Birthday: </strong>@Model.DateOfBirth.Value.ToString("dd MMMM yyyy", new CultureInfo("en-US"))
+                                    @if (Model.DateOfDeath == null)
+                                    {
+                                        <a>(@Model.Age years old)</a>
+                                    }
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="text-left movie-tab">
+                                    <strong class="str-col">Birthday: </strong>
+                                </p>
+                            }
+                            @if (Model.DateOfDeath != null)
+                            {
+                                <p class="text-left movie-tab">
+                                    <strong class="str-col">Deathday: </strong>@Model.DateOfDeath.Value.ToString("dd MMMM yyyy", new CultureInfo("en-US"))
+                                    @if (Model.DateOfBirth != null)
+                                    {
+                                        <a>(@Model.Age years old)</a>
+                                    }
+                                </p>
+                            }
+                            <p class="text-left movie-tab"><strong class="str-col">Birthplace: </strong>@Model.Birthplace</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Popularity: </strong>@Model.Popularity.ToString("f2")</p>                        
+                            <p 
+                                class="text-left movie-tab readMore">@Model.Biography
+                            </p>
+                        </div>
+                    </div>
+                    <br />
+                    <hr />
+                </div>
+
+                <h4 class="side-t-w3l-agile">Notable <span>Movies</span></h4>
+                <div class="w3_agile_latest_movies">
+                    <div id="owl-demo" class="owl-carousel owl-theme">
+                        @foreach (var movie in Model.Movies)
+                        {                      
+                            <di class="item">
+                                <div class="w3l-movie-gride-agile w3l-movie-gride-slider ">
+                                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.MovieId" class="hvr-sweep-to-bottom">
+                                        <img src="@movie.MoviePoster" title="@movie.MovieTitle" class="img-responsive" alt=" " />
+                                    </a>
+                                    <div class="mid-1 agileits_w3layouts_mid_1_home">
+                                        <div class="w3l-movie-text">
+                                            <h6><a style="font-weight:bold" asp-controller="Movies" asp-action="Details" asp-route-id="@movie.MovieId">@movie.MovieTitle</a></h6>
+                                            <br>
+                                            <h6><a>@movie.MovieReleaseDate.Year</a></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </di>                   
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/js/plain.js" asp-append-version="true"></script>
