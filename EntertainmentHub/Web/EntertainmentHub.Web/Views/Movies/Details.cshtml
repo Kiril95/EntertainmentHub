@@ -2,14 +2,14 @@
 @using Microsoft.AspNetCore.Identity
 @using EntertainmentHub.Web.ViewModels.Movies
 @inject UserManager<ApplicationUser> UserManager
-@model MovieViewModel
+@model MovieDetailsPaginatedViewModel
 
 @{
     this.ViewData["Title"] = "Details";
     var user = await this.UserManager.GetUserAsync(this.User);
 }
 
-<link rel="stylesheet" type="text/css" href="~/css/style.css" />
+<link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" />
 
 <div class="w3_breadcrumb">
     <div class="breadcrumb-inner">
@@ -17,7 +17,7 @@
             <li><a asp-controller="Home" asp-action="Index">Home</a><i class="fa fa-forward"></i></li>
             <li><a asp-action="Collection">Movies</a><i class="fa fa-forward"></i></li>
             <li><a>@this.ViewData["Title"]</a><i class="fa fa-forward"></i></li>
-            <li class="active">@Model.Title</li>
+            <li class="active">@Model.Movie.Title</li>
         </ul>
     </div>
 </div>
@@ -25,17 +25,17 @@
 <div class="w3_content_agilleinfo_inner">
     <div class="agile_featured_movies">
         <div class="inner-agile-w3l-part-head">
-            <h3 class="w3l-inner-h-title">@Model.Title</h3>
+            <h3 class="w3l-inner-h-title">@Model.Movie.Title</h3>
             <br />
-            <p class="w3ls_head_para"><strong>@Model.Tagline</strong></p>
+            <p class="w3ls_head_para"><strong>@Model.Movie.Tagline</strong></p>
             <hr />
             @if (this.User.Identity.IsAuthenticated)
             {
-                <div onclick="RateMovie" class="rating-enabled"></div><span id="averageRating">@Model.Rating.ToString("f2")</span><span> / 5.00</span>
+                <div onclick="RateMovie" class="rating-enabled"></div><span id="averageRating">@Model.Movie.Rating.ToString("f2")</span><span> / 5.00</span>
             }
             else
             {
-                <div class="rating-disabled"></div><span id="averageRating">@Model.Rating.ToString("f2")</span><span> / 5.00</span>
+                <div class="rating-disabled"></div><span id="averageRating">@Model.Movie.Rating.ToString("f2")</span><span> / 5.00</span>
             }
         </div>
 
@@ -44,21 +44,21 @@
                 <div class="single video_agile_player">
                     <div class="row text-center">
                         <div class="col-md-6">
-                            <div data-video="@Model.Trailer" id="video"> <img src="@Model.Poster" class="img-responsive" /></div>
+                            <div data-video="@Model.Movie.Trailer" id="video"> <img src="@Model.Movie.Poster" class="img-responsive" /></div>
                         </div>
                         <div class="active">
-                            <p class="text-left movie-tab"><strong class="str-col">Year: </strong>@Model.ReleaseDate.Year</p>
-                            <p class="text-left movie-tab"><strong class="str-col">Status: </strong>@Model.Status</p>
-                            <p class="text-left movie-tab"><strong class="str-col">Length: </strong> @Model.Runtime min </p>
-                            <p class="text-left movie-tab"><strong class="str-col">Director: </strong>@Model.Director</p>                  
-                            <p class="text-left movie-tab"><strong class="str-col">IMDB: </strong><a href="@Model.IMDBLink" target="_blank">Link to IMDB</a> </p>
-                            <p class="text-left movie-tab"><strong class="str-col">Genre: </strong>@Model.Genres</p>
-                            <p class="text-left movie-tab"><strong class="str-col">Language: </strong>@Model.Languages</p>
-                            <p class="text-left movie-tab"><strong class="str-col">Country: </strong>@Model.Countries</p>
-                            <p class="text-left movie-tab"><strong class="str-col">Budget: </strong>$@Model.Budget.ToString("N0")</p>
-                            <p class="text-left movie-tab"><strong class="str-col">Revenue: </strong>$@Model.Revenue.ToString("N0")</p>
-                            <p class="text-left movie-tab"><strong class="str-col">Popularity: </strong>@Model.Popularity.ToString("f2")</p>
-                            <p class="text-left movie-tab"><strong class="str-col">Description: </strong> @Model.Description</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Year: </strong>@Model.Movie.ReleaseDate.Year</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Status: </strong>@Model.Movie.Status</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Length: </strong> @Model.Movie.Runtime min </p>
+                            <p class="text-left movie-tab"><strong class="str-col">Director: </strong>@Model.Movie.Director</p>
+                            <p class="text-left movie-tab"><strong class="str-col">IMDB: </strong><a href="@Model.Movie.IMDBLink" target="_blank">Link to IMDB</a> </p>
+                            <p class="text-left movie-tab"><strong class="str-col">Genre: </strong>@Model.Movie.Genres</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Language: </strong>@Model.Movie.Languages</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Country: </strong>@Model.Movie.Countries</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Budget: </strong>$@Model.Movie.Budget.ToString("N0")</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Revenue: </strong>$@Model.Movie.Revenue.ToString("N0")</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Popularity: </strong>@Model.Movie.Popularity.ToString("f2")</p>
+                            <p class="text-left movie-tab"><strong class="str-col">Description: </strong> @Model.Movie.Description</p>
                         </div>
                     </div>
                     <br />
@@ -68,7 +68,7 @@
                 <h4 class="side-t-w3l-agile">Main <span>Actors</span></h4>
                 <div class="w3_agile_latest_movies">
                     <div id="owl-demo" class="owl-carousel owl-theme">
-                        @foreach (var actor in Model.MovieActors)
+                        @foreach (var actor in Model.Movie.MovieActors)
                         {
                             if (actor.ActorPhoto.Contains("png") || actor.ActorPhoto.Contains("jpg") || actor.ActorPhoto.Contains("jpeg"))
                             {
@@ -93,13 +93,17 @@
 
                 <div class="response">                 
                     <h4>Comments</h4>
-                    @if (!Model.MovieComments.Any())
+                    @if (!Model.Comments.Any())
                     {
                         <h5 style="font-weight: 600">No comments for this movie yet.</h5>
                     }
                     else
                     {
-                        @foreach (var comment in Model.MovieComments)
+                        <div class="w3ls-news-result">
+                            <h4>Comments Count: <span>@Model.TotalCount</span></h4>
+                        </div>
+
+                        @foreach (var comment in Model.Comments)
                         {
                             <div class="admin-text">
                                 <h5>COMMENT BY @comment.UserUsername</h5>
@@ -135,6 +139,51 @@
                     }
                     <br />
 
+                    @if (Model.Comments.TotalPages > 1)
+                    {
+                        <div class="blog-pagenat-wthree">
+                            <ul class="pagination">
+                                <li>
+                                    @if (Model.Comments.HasPreviousPage)
+                                    {
+                                        <a class="page-link frist" asp-action="Details" asp-route-id="@Model.Movie.Id" asp-route-page="@(Model.Comments.PageNumber - 1)">Previous</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dis-field frist">Previous</a>
+                                    }
+                                </li>
+                                @for (int i = Model.Comments.PageNumber - 4; i < Model.Comments.PageNumber; i++)
+                                {
+                                    if (i > 0)
+                                    {
+                                        <li><a class="page-link" asp-action="Details" asp-route-id="@Model.Movie.Id" asp-route-page="@i">@i</a></li>
+                                    }
+                                }
+                                <li class="active">
+                                    <span class="page-link">@Model.Comments.PageNumber</span>
+                                </li>
+                                @for (int i = Model.Comments.PageNumber + 1; i <= Model.Comments.PageNumber + 4; i++)
+                                {
+                                    if (i <= Model.Comments.TotalPages)
+                                    {
+                                        <li><a class="page-link" asp-action="Details" asp-route-id="@Model.Movie.Id" asp-route-page="@i">@i</a></li>
+                                    }
+                                }
+                                <li>
+                                    @if (Model.Comments.HasNextPage)
+                                    {
+                                        <a class="page-link frist" asp-action="Details" asp-route-id="@Model.Movie.Id" asp-route-page="@(Model.Comments.PageNumber + 1)">Next</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dis-field frist">Next</a>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    }                        
+
                     @if (this.User.Identity.IsAuthenticated)
                     {
                         <div class="all-comments-info">
@@ -147,7 +196,7 @@
                                         <input type="submit" value="SEND">
                                     </div>
                                     <div class="col-md-6 form-info">
-                                        <input type="hidden" name="MovieId" value="@Model.Id">                                   
+                                        <input type="hidden" name="MovieId" value="@Model.Movie.Id">                                   
                                         <input type="hidden" name="UserId" value="@await this.UserManager.GetUserIdAsync(user)">                                    
                                     </div>
                                     <div class="clearfix"> </div>
@@ -170,13 +219,13 @@
 
             <div class="col-md-4 latest-news-agile-right-content">
                 <h4 class="side-t-w3l-agile">Movie <span>Reviews</span></h4>
-                @if (!Model.MovieReviews.Any())
+                @if (!Model.Movie.MovieReviews.Any())
                 {
                     <h5 style="font-weight: 600">There aren't any reviews for this movie !</h5>
                 }
                 else
                 {
-                    @foreach (var review in Model.MovieReviews.Where(x => !string.IsNullOrWhiteSpace(x.Content)).Take(4))
+                    @foreach (var review in Model.Movie.MovieReviews.Where(x => !string.IsNullOrWhiteSpace(x.Content)).Take(4))
                     {
                         <div class="w3l-recent-grid" style="background: #e9ecec">
                             <div class="wom">
@@ -212,10 +261,10 @@
                         </div>  
                         <hr />
                     }
-                    @if (Model.MovieReviews.Where(x => !string.IsNullOrWhiteSpace(x.Content)).Count() > 4)
+                    @if (Model.Movie.MovieReviews.Where(x => !string.IsNullOrWhiteSpace(x.Content)).Count() > 4)
                     {
                         <div class="px-4 pt-3" style="text-align: center">
-                            <a class="login" asp-controller="Reviews" asp-action="All" asp-route-id="@Model.Id">View all reviews</a>
+                            <a class="login" asp-controller="Reviews" asp-action="All" asp-route-id="@Model.Movie.Id">View all reviews</a>
                         </div>
                     }
                 }         

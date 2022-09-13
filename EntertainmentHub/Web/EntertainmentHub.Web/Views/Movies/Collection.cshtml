@@ -1,9 +1,15 @@
 ﻿@using EntertainmentHub.Web.ViewModels.Movies
-@model IEnumerable<MovieListViewModel>
+@model MoviePaginatedListViewModel
 
 @{
     this.ViewData["Title"] = "Movies";
     int counter = 1;
+
+    // Fix the enumeration
+    if (Model.Movies.PageNumber > 1)
+    {
+        counter = Model.Movies.PageNumber * 20 - 19;
+    }
 }
 
 <link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" />
@@ -36,7 +42,8 @@
             </div>
             <hr />
             <div class="w3ls-news-result">
-                <h4>Movies Count: <span>@Model.Count()</span></h4>
+                <h4>Count: <span>@Model.PageResults() / @(Model.TotalCount)</span></h4>
+                <h4>Current Page: <span>@Model.Movies.Count()</span></h4>
             </div>
 
             <div id="myTabContent" class="tab-content">
@@ -59,7 +66,7 @@
                                 </tr>
                             </thead>
                             <tbody id="myTable">
-                                @foreach (var movie in Model)
+                                @foreach (var movie in Model.Movies)
                                 {
                                     <tr>
                                         <td>@counter</td>
@@ -90,3 +97,48 @@
         </div>
     </div>
 </div>
+
+@if (Model.Movies.TotalPages > 1)
+{
+    <div class="blog-pagenat-wthree">
+        <ul class="pagination">
+            <li>
+                @if (Model.Movies.HasPreviousPage)
+                {
+                    <a class="page-link frist" asp-action="Collection" asp-route-page="@(Model.Movies.PageNumber - 1)">Previous</a>
+                }
+                else
+                {
+                    <a class="dis-field frist">Previous</a>
+                }
+            </li>
+            @for (int i = Model.Movies.PageNumber - 4; i < Model.Movies.PageNumber; i++)
+            {
+                if (i > 0)
+                {
+                    <li><a class="page-link" asp-action="Collection" asp-route-page="@i">@i</a></li>
+                }
+            }
+            <li class="active">
+                <span class="page-link">@Model.Movies.PageNumber</span>
+            </li>
+            @for (int i = Model.Movies.PageNumber + 1; i <= Model.Movies.PageNumber + 4; i++)
+            {
+                if (i <= Model.Movies.TotalPages)
+                {
+                    <li><a class="page-link" asp-action="Collection" asp-route-page="@i">@i</a></li>
+                }
+            }
+            <li>
+                @if (Model.Movies.HasNextPage)
+                {
+                    <a class="page-link frist" asp-action="Collection" asp-route-page="@(Model.Movies.PageNumber + 1)">Next</a>
+                }
+                else
+                {
+                    <a class="dis-field frist">Next</a>
+                }
+            </li>
+        </ul>
+    </div>
+}

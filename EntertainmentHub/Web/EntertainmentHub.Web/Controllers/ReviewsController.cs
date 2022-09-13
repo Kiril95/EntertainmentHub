@@ -1,8 +1,10 @@
 ﻿namespace EntertainmentHub.Web.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using EntertainmentHub.Services.Data.Contracts;
+    using EntertainmentHub.Web.ViewModels;
     using EntertainmentHub.Web.ViewModels.Movies;
     using EntertainmentHub.Web.ViewModels.Reviews;
     using Microsoft.AspNetCore.Mvc;
@@ -34,11 +36,21 @@
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> All(int id)
+        public async Task<IActionResult> All(int id, int page = 1)
         {
-            var movie = await this.moviesService.GetMovieByIdAsync<MovieReviewsCollectionViewModel>(id);
+            var movie = await this.moviesService.GetMovieByIdAsync<MovieSimpleViewModel>(id);
+            var reviews = this.reviewsService.GetReviewsByIdAsQueryable<MovieReviewViewModel>(id);
 
-            return this.View(movie);
+            var paginated = await PaginatedList<MovieReviewViewModel>.CreateAsync(reviews, page, 10);
+
+            var viewModel = new ReviewPaginatedListViewModel
+            {
+                Movie = movie,
+                Reviews = paginated,
+                TotalCount = reviews.Count(),
+            };
+
+            return this.View(viewModel);
         }
     }
 }

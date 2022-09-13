@@ -29,7 +29,7 @@
     <div class="agile_featured_movies">
 
         <div class="inner-agile-w3l-part-head">
-            <h3 class="w3l-inner-h-title">Movies List</h3>
+            <h3 class="w3l-inner-h-title">Actors List</h3>
         </div>
 
         <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
@@ -43,7 +43,7 @@
             </div>
             <hr />
             <div class="w3ls-news-result">
-                <h4>Total Count: <span>@Model.TotalCount</span></h4>
+                <h4>Count: <span>@Model.PageResults() / @(Model.TotalCount)</span></h4>
                 <h4>Current Page: <span>@Model.Actors.Count()</span></h4>
             </div>
 
@@ -64,7 +64,7 @@
                                 </tr>
                             </thead>
                             <tbody id="myTable">
-                                @foreach (var actor in Model.Actors)
+                                @foreach (var actor in Model.Actors.Where(x => !string.IsNullOrWhiteSpace(x.Name)))
                                 {
                                     var gender = actor.Gender.Contains("3") ? "Trans" : actor.Gender;
 

@@ -1,5 +1,5 @@
 ﻿@using EntertainmentHub.Web.ViewModels.Reviews
-@model MovieReviewsCollectionViewModel
+@model ReviewPaginatedListViewModel
 
 @{
     this.ViewData["Title"] = "All";
@@ -7,6 +7,7 @@
 
 <link rel="stylesheet" type="text/css" href="~/css/style.css" />
 <link rel="stylesheet" type="text/css" href="~/css/Rev.css" />
+<link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" />
 
 <div class="w3_breadcrumb">
     <div class="breadcrumb-inner">
@@ -15,7 +16,7 @@
             <li><a asp-controller="Movies" asp-action="Collection">Movies</a><i class="fa fa-forward"></i></li>
             <li><a asp-action="All">Reviews</a><i class="fa fa-forward"></i></li>
             <li><a>@this.ViewData["Title"]</a><i class="fa fa-forward"></i></li>
-            <li class="active">@Model.Title</li>
+            <li class="active">@Model.Movie.Title</li>
         </ul>
     </div>
 </div>
@@ -25,23 +26,30 @@
     <div class="single_column">
         <section class="header small">
             <div class="text-div">
-                <a> <img class="rev-img" src="@Model.Poster" alt=" "></a>
+                <a> <img class="rev-img" src="@Model.Movie.Poster" alt=" "></a>
                 <div class="inner-div">
                     <span class="text-st">
-                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.Id">@Model.Title</a>
+                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.Movie.Id">@Model.Movie.Title</a>
                     </span>
-                    <span>@Model.ReleaseDate.Year</span>
+                    <span>@Model.Movie.ReleaseDate.Year</span>
                 </div>
-                <span class="inner-div">@Model.Rating</span>
+                <span class="inner-div">@Model.Movie.Rating</span>
 
-                <h3 class="back-st"><a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.Id">←Back to movie</a></h3>
+                <h3 class="back-st"><a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.Movie.Id">←Back to movie</a></h3>
             </div>
         </section>
     </div>
 </div>
 <hr />
+
+
 <div class="review-box">
-    @foreach (var review in Model.MovieReviews.Where(x => !string.IsNullOrWhiteSpace(x.Content)))
+    
+    <div class="w3ls-news-result">
+        <h4>Count: <span>@Model.PageResults() / @(Model.TotalCount)</span></h4>
+        <h4>Current Page: <span>@Model.Reviews.Count()</span></h4>
+    </div>
+    @foreach (var review in Model.Reviews.Where(x => !string.IsNullOrWhiteSpace(x.Content)))
     {
         <div class="review-single">
             <div class="w3l-recent-grid" style="background: #e9ecec">
@@ -70,3 +78,48 @@
         </div>
     }
 </div>
+
+@if (Model.Reviews.TotalPages > 1)
+{
+    <div class="blog-pagenat-wthree">
+        <ul class="pagination">
+            <li>
+                @if (Model.Reviews.HasPreviousPage)
+                {
+                    <a class="page-link frist" asp-action="All" asp-route-id="@Model.Movie.Id" asp-route-page="@(Model.Reviews.PageNumber - 1)">Previous</a>
+                }
+                else
+                {
+                    <a class="dis-field frist">Previous</a>
+                }
+            </li>
+            @for (int i = Model.Reviews.PageNumber - 4; i < Model.Reviews.PageNumber; i++)
+            {
+                if (i > 0)
+                {
+                    <li><a class="page-link" asp-action="All" asp-route-id="@Model.Movie.Id" asp-route-page="@i">@i</a></li>
+                }
+            }
+            <li class="active">
+                <span class="page-link">@Model.Reviews.PageNumber</span>
+            </li>
+            @for (int i = Model.Reviews.PageNumber + 1; i <= Model.Reviews.PageNumber + 4; i++)
+            {
+                if (i <= Model.Reviews.TotalPages)
+                {
+                    <li><a class="page-link" asp-action="All" asp-route-id="@Model.Movie.Id" asp-route-page="@i">@i</a></li>
+                }
+            }
+            <li>
+                @if (Model.Reviews.HasNextPage)
+                {
+                    <a class="page-link frist" asp-action="All" asp-route-id="@Model.Movie.Id" asp-route-page="@(Model.Reviews.PageNumber + 1)">Next</a>
+                }
+                else
+                {
+                    <a class="dis-field frist">Next</a>
+                }
+            </li>
+        </ul>
+    </div>
+}

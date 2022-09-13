@@ -26,5 +26,13 @@
                 .To<T>()
                 .FirstOrDefaultAsync();
         }
+
+        public IQueryable<T> GetReviewsByIdAsQueryable<T>(int id)
+        {
+            return this.movieReviewsRepository
+                .AllAsNoTracking()
+                .Where(x => x.MovieId == id)
+                .To<T>();
+        }
     }
 }
