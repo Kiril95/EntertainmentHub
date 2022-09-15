@@ -20,5 +20,13 @@
         IQueryable<T> GetMoviesByCountryAsQueryable<T>(string name);
 
         Task<T> GetMovieByIdAsync<T>(int id);
+
+        IQueryable<T> GetRecentMoviesAsQueryable<T>();
+
+        IQueryable<T> GetPopularMoviesAsQueryable<T>();
+
+        IQueryable<T> GetTopRatedMoviesAsQueryable<T>();
+
+        IQueryable<T> GetLatestMoviesAsQueryable<T>();
     }
 }

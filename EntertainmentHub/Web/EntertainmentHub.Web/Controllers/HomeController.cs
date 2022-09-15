@@ -2,15 +2,36 @@
 {
     using System.Diagnostics;
 
+    using EntertainmentHub.Services.Data.Contracts;
     using EntertainmentHub.Web.ViewModels;
-
+    using EntertainmentHub.Web.ViewModels.Movies;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
+        private readonly IMoviesService moviesService;
+
+        public HomeController(IMoviesService moviesService)
+        {
+            this.moviesService = moviesService;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var recentMovies = this.moviesService.GetRecentMoviesAsQueryable<MovieHomeViewModel>();
+            var popularMovies = this.moviesService.GetPopularMoviesAsQueryable<MovieHomeViewModel>();
+            var topMovies = this.moviesService.GetTopRatedMoviesAsQueryable<MovieHomeViewModel>();
+            var latestMovies = this.moviesService.GetLatestMoviesAsQueryable<MovieSimpleViewModel>();
+
+            var viewModel = new HomepageViewModel
+            {
+                RecentMovies = recentMovies,
+                PopularMovies = popularMovies,
+                TopRatedMovies = topMovies,
+                LatestMovies = latestMovies,
+            };
+
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

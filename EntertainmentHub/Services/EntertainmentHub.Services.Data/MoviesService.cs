@@ -111,5 +111,41 @@
                 .To<T>()
                 .FirstOrDefaultAsync();
         }
+
+        public IQueryable<T> GetRecentMoviesAsQueryable<T>()
+        {
+            return this.moviesRepository
+                .AllAsNoTracking()
+                .OrderBy(x => x.CreatedOn)
+                .Take(13)
+                .To<T>();
+        }
+
+        public IQueryable<T> GetPopularMoviesAsQueryable<T>()
+        {
+            return this.moviesRepository
+                .AllAsNoTracking()
+                .OrderByDescending(x => x.Popularity)
+                .Take(13)
+                .To<T>();
+        }
+
+        public IQueryable<T> GetTopRatedMoviesAsQueryable<T>()
+        {
+            return this.moviesRepository
+                .AllAsNoTracking()
+                .OrderByDescending(x => x.AverageVote)
+                .Take(13)
+                .To<T>();
+        }
+
+        public IQueryable<T> GetLatestMoviesAsQueryable<T>()
+        {
+            return this.moviesRepository
+                .AllAsNoTracking()
+                .OrderByDescending(x => x.ReleaseDate.Year)
+                .Take(10)
+                .To<T>();
+        }
     }
 }

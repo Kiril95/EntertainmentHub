@@ -1,397 +1,281 @@
 ﻿@using EntertainmentHub.Common
+@using EntertainmentHub.Web.ViewModels.Movies
+@using System.Globalization
+@model HomepageViewModel
 
 @{
     this.ViewData["Title"] = "Home";
+
+	var mostRecent = Model.RecentMovies.First();
+	var mostPopular = Model.PopularMovies.First();
+	var mostRated = Model.TopRatedMovies.First();
 }
 
-<!--/content-inner-section-->
 <div class="w3_content_agilleinfo_inner">
 	<div class="agile_featured_movies">
-		<!--/agileinfo_tabs-->
 	   <div class="agileinfo_tabs">
-		<!--/tab-section-->
-	    <div id="horizontalTab">
-			<ul class="resp-tabs-list">
-				<li>Recent</li>
-				<li>Popularity</li>
-				<li>Top Rating </li>									
-			</ul>
-			<div class="resp-tabs-container">
-				<div class="tab1">
-					<div class="tab_movies_agileinfo">
-						<div class="w3_agile_featured_movies">
-							<div class="col-md-5 video_agile_player">
-						        <div class="video-grid-single-page-agileits">
-									<div data-video="f2Z65fobH2I" id="video"> <img src="images/11.jpg" alt="" class="img-responsive" /> </div>
-								</div>
-					
-								<div class="player-text">
-									<p class="fexi_header">Force 2</p>
-									<p class="fexi_header_para"><span class="conjuring_w3">Story Line<label>:</label></span>Presenting the official trailer of Force 2 starring John Abraham, Sonakshi Sinha and Tahir Raj Bhasin
+			<div id="horizontalTab">
+				<ul class="resp-tabs-list">
+					<li>Popularity</li>
+					<li>Top Rating </li>	
+					<li>Recent</li>
+				</ul>
+				<div class="resp-tabs-container">					
+					<div class="tab2">
+						<div class="tab_movies_agileinfo">
+							<div class="w3_agile_featured_movies">
+								@*MostPopular*@
 
-									A film by Abhinay Deo, Produced by Vipul Amrutlal Shah, JA entertainment Pvt. Ltd....</p>
-									<p class="fexi_header_para"><span>Release On<label>:</label></span>Sep 29, 2016 </p>
-									<p class="fexi_header_para">
-										<span>Genres<label>:</label> </span>
-										<a href="genre.html">Drama</a> | 
-										<a href="genre.html">Adventure</a> | 
-										<a href="genre.html">Family</a>								
-									</p>
-									<p class="fexi_header_para fexi_header_para1"><span>Star Rating<label>:</label></span>
-										<a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-										<a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-										<a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
-										<a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
-										<a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
-									</p>
-								</div>
-						    </div>
-						    <div class="col-md-7 wthree_agile-movies_list">									
-								<div class="w3l-movie-gride-agile">
-									<a href="single.html" class="hvr-sweep-to-bottom"><img src="images/m2.jpg" title="Movies Pro" class="img-responsive" alt=" ">
-										<div class="w3l-action-icon"><i class="fa fa-play-circle-o" aria-hidden="true"></i></div>
-									</a>
+								<div class="col-md-5 video_agile_player">
+									<div class="video-grid-single-page-agileits">
+										<div data-video="@mostPopular.Trailer" id="video1"> <img src="@mostPopular.Poster" alt="" class="img-responsive" /> </div>
+									</div>
 
-									<div class="mid-1 agileits_w3layouts_mid_1_home">
-										<div class="w3l-movie-text">
-											<h6><a href="single.html">Me Before you</a></h6>							
-										</div>
-										<div class="mid-2 agile_mid_2_home">
-											<p>2016</p>
-											<div class="block-stars">
-												<ul class="w3l-ratings">
-													<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-													<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-													<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-													<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-													<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-												</ul>
+									<div class="player-text">
+										<p class="fexi_header"><a style="color: darkcyan" asp-controller="Movies" asp-action="Details" asp-route-id="@mostPopular.Id">@mostPopular.Title</a></p>
+										<p class="fexi_header_para">
+											<span class="conjuring_w3">Story Line<label>:</label></span>
+											@if (mostPopular.Description.Length > 300)
+											{
+												@string.Concat(mostPopular.Description.Substring(0, 300), "...")
+											}
+											else
+											{
+												@mostPopular.Description
+											}
+										</p>
+										<p class="fexi_header_para"><span>Release On<label>:</label></span>@mostPopular.ReleaseDate.ToString("dd MMMM yyyy", new CultureInfo("en-US"))</p>
+										<p class="fexi_header_para">
+											<span>Genres<label>:</label> </span>
+											@foreach (var genre in mostPopular.MovieGenres)
+											{
+												<text>|</text>
+												<a asp-controller="Genres" asp-action="Type" asp-route-name="@genre.GenreName">@genre.GenreName</a>
+											}
+										</p>
+										<p class="fexi_header_para fexi_header_para1">
+											<span>Star Rating<label>:</label></span>
+											<div class="rating-disabled" data-rating="@mostPopular.Rating"></div>
+										</p>
+									</div>
+								</div>
+
+								<div class="col-md-7 wthree_agile-movies_list">
+									@foreach (var movie in Model.PopularMovies.Skip(1))
+									{
+										<div class="w3l-movie-gride-agile">
+											<a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="hvr-sweep-to-bottom">
+												<img src="@movie.Poster" title="@movie.Title" class="img-responsive">
+												<div class="w3l-action-icon"></div>
+											</a>
+											<div class="mid-1 agileits_w3layouts_mid_1_home">
+												<div class="w3l-movie-text" style="height:45px">
+													<h6><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h6>
+												</div>
+												<div class="mid-2 agile_mid_2_home">
+													<p>@movie.ReleaseDate.Year</p>
+													<div class="block-stars">
+														<div class="rating-disabled" data-rating="@movie.Rating"></div>
+													</div>
+													<div class="clearfix"></div>
+												</div>
 											</div>
-											<div class="clearfix"></div>
+
+											@if (movie.ReleaseDate.Year == DateTime.UtcNow.Year)
+											{
+												<div class="ribben one"> <p>NEW</p> </div>
+											}
 										</div>
-									</div>
-									<div class="ribben">
-										<p>NEW</p>
-									</div>
+									}
 								</div>
-																
-							 </div>
-							<div class="clearfix"> </div>
-						</div>
-						<div class="cleafix"></div>
-					</div>	
-				</div>
-
-				<div class="tab2">
-					<div class="tab_movies_agileinfo">
-						<div class="w3_agile_featured_movies">
-							<div class="col-md-5 video_agile_player">
-							    <div class="video-grid-single-page-agileits">
-									<div data-video="fNKUgX8PhMA" id="video1"> <img src="images/22.jpg" alt="" class="img-responsive" /> </div>
-								</div>
-
-							    <div class="player-text">
-									<p class="fexi_header">Me Before You </p>
-									<p class="fexi_header_para"><span class="conjuring_w3">Story Line<label>:</label></span>Me Before You Official Trailer #2 (2016) - Emilia Clarke, Sam Claflin Movie HD
-
-									A girl in a small town forms an unlikely bond with a recently-paralyzed man she's taking care of....</p>
-									<p class="fexi_header_para"><span>Release On<label>:</label></span>Feb 3, 2016 </p>
-									<p class="fexi_header_para">
-										<span>Genres<label>:</label> </span>
-										<a href="genre.html">Drama</a> | 
-										<a href="genre.html">Adventure</a> | 
-										<a href="genre.html">Family</a>								
-									</p>
-									<p class="fexi_header_para fexi_header_para1"><span>Star Rating<label>:</label></span>
-										<a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-										<a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-										<a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
-										<a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
-										<a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
-									</p>
-								</div>
-
+								<div class="clearfix"> </div>
 							</div>
-							<div class="col-md-7 wthree_agile-movies_list">				
-								<div class="w3l-movie-gride-agile">
-									<a href="single.html" class="hvr-sweep-to-bottom"><img src="images/m16.jpg" title="Movies Pro" class="img-responsive" alt=" ">
-										<div class="w3l-action-icon"><i class="fa fa-play-circle-o" aria-hidden="true"></i></div>
-									</a>
-									<div class="mid-1 agileits_w3layouts_mid_1_home">
-										<div class="w3l-movie-text">
-											<h6><a href="single.html">X-Men</a></h6>					
-										</div>
-										<div class="mid-2 agile_mid_2_home">
-											<p>2016</p>
-											<div class="block-stars">
-												<ul class="w3l-ratings">
-													<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-													<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-													<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-													<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-													<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-												</ul>
+							<div class="cleafix"></div>
+						</div>	
+					</div>
+
+					<div class="tab3">
+						<div class="tab_movies_agileinfo">
+							<div class="w3_agile_featured_movies">
+								@*MostRated*@
+
+								<div class="col-md-5 video_agile_player">
+									<div class="video-grid-single-page-agileits">
+										<div data-video="@mostRated.Trailer" id="video2"> <img src="@mostRated.Poster" alt="" class="img-responsive" /> </div>
+									</div>
+
+									<div class="player-text">
+										<p class="fexi_header"><a style="color: darkcyan" asp-controller="Movies" asp-action="Details" asp-route-id="@mostRated.Id">@mostRated.Title</a></p>
+										<p class="fexi_header_para">
+											<span class="conjuring_w3">Story Line<label>:</label></span>
+											@if (mostRated.Description.Length > 300)
+											{
+												@string.Concat(mostRated.Description.Substring(0, 300), "...")
+											}
+											else
+											{
+												@mostRated.Description
+											}
+										</p>
+										<p class="fexi_header_para"><span>Release On<label>:</label></span>@mostRated.ReleaseDate.ToString("dd MMMM yyyy", new CultureInfo("en-US"))</p>
+										<p class="fexi_header_para">
+											<span>Genres<label>:</label> </span>
+											@foreach (var genre in mostRated.MovieGenres)
+											{
+												<text>|</text>
+												<a asp-controller="Genres" asp-action="Type" asp-route-name="@genre.GenreName">@genre.GenreName</a>
+											}
+										</p>
+										<p class="fexi_header_para fexi_header_para1">
+											<span>Star Rating<label>:</label></span>
+												<div class="rating-disabled" data-rating="@mostRated.Rating"></div>
+										</p>
+									</div>
+								</div>
+
+								<div class="col-md-7 wthree_agile-movies_list">
+									@foreach (var movie in Model.TopRatedMovies.Skip(1))
+									{
+										<div class="w3l-movie-gride-agile">
+											<a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="hvr-sweep-to-bottom">
+												<img src="@movie.Poster" title="@movie.Title" class="img-responsive">
+												<div class="w3l-action-icon"></div>
+											</a>
+											<div class="mid-1 agileits_w3layouts_mid_1_home">
+												<div class="w3l-movie-text" style="height:45px">
+													<h6><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h6>
+												</div>
+												<div class="mid-2 agile_mid_2_home">
+													<p>@movie.ReleaseDate.Year</p>
+													<div class="block-stars">
+														<div class="rating-disabled" data-rating="@movie.Rating"></div>
+													</div>
+													<div class="clearfix"></div>
+												</div>
 											</div>
-											<div class="clearfix"></div>
-										</div>
-									</div>
-									<div class="ribben">
-										<p>NEW</p>
-									</div>
-								</div>
-							</div>
-						<div class="clearfix"> </div>
-						</div>
-						<div class="cleafix"></div>
-					</div>	
-				</div>
 
-				<div class="tab3">
-					<div class="tab_movies_agileinfo">
-						<div class="w3_agile_featured_movies">
-							<div class="col-md-5 video_agile_player">
-								<div class="video-grid-single-page-agileits">
-									<div data-video="BXEZFd0RT5Y" id="video2"> <img src="images/44.jpg" alt="" class="img-responsive" /> </div>
-								</div>
-				
-								<div class="player-text">
-									<p class="fexi_header">Storks </p>
-									<p class="fexi_header_para"><span class="conjuring_w3">Story Line<label>:</label></span>Starring: Andy Samberg, Jennifer Aniston, Ty Burrell Storks Official Trailer 3 (2016) - Andy Samberg Movie the company's top delivery stork, lands in hot water when the Baby Factory produces an adorable....... </p>
-									<p class="fexi_header_para"><span>Release On<label>:</label></span>Aug 1, 2016 </p>
-									<p class="fexi_header_para">
-										<span>Genres<label>:</label> </span>
-										<a href="genre.html">Drama</a> | 
-										<a href="genre.html">Adventure</a> | 
-										<a href="genre.html">Family</a>								
-									</p>
-									<p class="fexi_header_para fexi_header_para1"><span>Star Rating<label>:</label></span>
-										<a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-										<a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-										<a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
-										<a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
-										<a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
-									</p>
-								</div>
-				
-							</div>
-
-								@*Movies list*@
-							<div class="col-md-7 wthree_agile-movies_list">													
-								<div class="w3l-movie-gride-agile">
-									<a href="single.html" class="hvr-sweep-to-bottom"><img src="images/m8.jpg" title="Movies Pro" class="img-responsive" alt=" ">
-										<div class="w3l-action-icon"><i class="fa fa-play-circle-o" aria-hidden="true"></i></div>
-									</a>
-									<div class="mid-1 agileits_w3layouts_mid_1_home">
-										<div class="w3l-movie-text">
-											<h6><a href="single.html">Timeless</a></h6>							
+											@if (movie.ReleaseDate.Year == DateTime.UtcNow.Year)
+											{
+												<div class="ribben one"> <p>NEW</p> </div>
+											}
 										</div>
-										<div class="mid-2 agile_mid_2_home">
-												<p>2016</p>
-											<div class="block-stars">
-												<ul class="w3l-ratings">
-													<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-													<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-													<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-													<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-													<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-												</ul>
+									}
+								</div>
+								<div class="clearfix"> </div>
+							</div>
+						</div>	
+					</div>
+
+					<div class="tab1">
+						<div class="tab_movies_agileinfo">
+							<div class="w3_agile_featured_movies">
+								@*MostRecent*@
+
+								<div class="col-md-5 video_agile_player">
+									<div class="video-grid-single-page-agileits">
+										<div data-video="@mostRecent.Trailer" id="video"> <img src="@mostRecent.Poster" alt="" class="img-responsive" /> </div>
+									</div>
+
+									<div class="player-text">
+										<p class="fexi_header"><a style="color: darkcyan" asp-controller="Movies" asp-action="Details" asp-route-id="@mostRecent.Id">@mostRecent.Title</a></p>
+										<p class="fexi_header_para">
+											<span class="conjuring_w3">Story Line<label>:</label></span>
+											@if (mostRecent.Description.Length > 300)
+											{
+												@string.Concat(mostRecent.Description.Substring(0, 300), "...")
+											}
+											else
+											{
+												@mostRecent.Description
+											}
+										</p>
+										<p class="fexi_header_para"><span>Release On<label>:</label></span>@mostRecent.ReleaseDate.ToString("dd MMMM yyyy", new CultureInfo("en-US"))</p>
+										<p class="fexi_header_para">
+											<span>Genres<label>:</label> </span>
+											@foreach (var genre in mostRecent.MovieGenres)
+											{
+												<text>|</text>
+												<a asp-controller="Genres" asp-action="Type" asp-route-name="@genre.GenreName">@genre.GenreName</a>
+											}
+										</p>
+										<p class="fexi_header_para fexi_header_para1">
+											<span>Star Rating<label>:</label></span>
+											<div class="rating-disabled" data-rating="@mostPopular.Rating"></div>
+										</p>
+									</div>
+								</div>
+
+								<div class="col-md-7 wthree_agile-movies_list">
+									@foreach (var movie in Model.RecentMovies.Skip(1))
+									{
+										<div class="w3l-movie-gride-agile">
+											<a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="hvr-sweep-to-bottom">
+												<img src="@movie.Poster" title="@movie.Title" class="img-responsive">
+												<div class="w3l-action-icon"></div>
+											</a>
+											<div class="mid-1 agileits_w3layouts_mid_1_home">
+												<div class="w3l-movie-text" style="height:45px">
+													<h6><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h6>
+												</div>
+												<div class="mid-2 agile_mid_2_home">
+													<p>@movie.ReleaseDate.Year</p>
+													<div class="block-stars">
+														<div class="rating-disabled" data-rating="@movie.Rating"></div>
+													</div>
+													<div class="clearfix"></div>
+												</div>
 											</div>
-											<div class="clearfix"></div>
+
+											@if (movie.ReleaseDate.Year == DateTime.UtcNow.Year)
+											{
+												<div class="ribben one"> <p>NEW</p> </div>
+											}
 										</div>
-									</div>
-									<div class="ribben">
-										<p>NEW</p>
-									</div>
+									}
 								</div>
+								<div class="clearfix"> </div>
 							</div>
-							<div class="clearfix"> </div>
+							<div class="cleafix"></div>
 						</div>
-					</div>	
-				</div>
-		</div>
-	</div>
-</div>
-
-<!--//LatestMovies-->	
-
-	<h3 class="agile_w3_title"> Latest <span>Movies</span></h3>
-	<!--/movies-->				
-	<div class="w3_agile_latest_movies">
-	
-		<div id="owl-demo" class="owl-carousel owl-theme">
-			<div class="item">
-				<div class="w3l-movie-gride-agile w3l-movie-gride-slider ">
-					<a href="single.html" class="hvr-sweep-to-bottom"><img src="images/m7.jpg" title="Movies Pro" class="img-responsive" alt=" " />
-						<div class="w3l-action-icon"><i class="fa fa-play-circle-o" aria-hidden="true"></i></div>
-					</a>
-					<div class="mid-1 agileits_w3layouts_mid_1_home">
-						<div class="w3l-movie-text">
-							<h6><a href="single.html">Mechanic</a></h6>							
-						</div>
-						<div class="mid-2 agile_mid_2_home">
-							<p>2016</p>
-							<div class="block-stars">
-								<ul class="w3l-ratings">
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-								</ul>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					</div>
-					<div class="ribben one">
-						<p>NEW</p>
-					</div>
-				</div>
-			</div>
-			
-			<div class="item">
-				<div class="w3l-movie-gride-agile w3l-movie-gride-slider ">
-					<a href="single.html" class="hvr-sweep-to-bottom"><img src="images/m3.jpg" title="Movies Pro" class="img-responsive" alt=" " />
-						<div class="w3l-action-icon"><i class="fa fa-play-circle-o" aria-hidden="true"></i></div>
-					</a>
-					<div class="mid-1 agileits_w3layouts_mid_1_home">
-						<div class="w3l-movie-text">
-							<h6><a href="single.html">Deadpool</a></h6>							
-						</div>
-						<div class="mid-2 agile_mid_2_home">
-							<p>2016</p>
-							<div class="block-stars">
-								<ul class="w3l-ratings">
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-								</ul>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					</div>
-					<div class="ribben one">
-						<p>NEW</p>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="w3l-movie-gride-agile w3l-movie-gride-slider ">
-					<a href="single.html" class="hvr-sweep-to-bottom"><img src="images/m11.jpg" title="Movies Pro" class="img-responsive" alt=" " />
-						<div class="w3l-action-icon"><i class="fa fa-play-circle-o" aria-hidden="true"></i></div>
-					</a>
-					<div class="mid-1 agileits_w3layouts_mid_1_home">
-						<div class="w3l-movie-text">
-							<h6><a href="single.html">Warcraft</a></h6>							
-						</div>
-						<div class="mid-2 agile_mid_2_home">
-							<p>2016</p>
-							<div class="block-stars">
-								<ul class="w3l-ratings">
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
-								</ul>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					</div>
-					<div class="ribben one">
-						<p>NEW</p>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="w3l-movie-gride-agile w3l-movie-gride-slider ">
-					<a href="single.html" class="hvr-sweep-to-bottom"><img src="images/m14.jpg" title="Movies Pro" class="img-responsive" alt=" " />
-						<div class="w3l-action-icon"><i class="fa fa-play-circle-o" aria-hidden="true"></i></div>
-					</a>
-					<div class="mid-1 agileits_w3layouts_mid_1_home">
-						<div class="w3l-movie-text">
-							<h6><a href="single.html">Rambo 4</a></h6>							
-						</div>
-						<div class="mid-2 agile_mid_2_home">
-							<p>2016</p>
-							<div class="block-stars">
-								<ul class="w3l-ratings">
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-								</ul>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					</div>
-					<div class="ribben one">
-						<p>NEW</p>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="w3l-movie-gride-agile w3l-movie-gride-slider ">
-					<a href="single.html" class="hvr-sweep-to-bottom"><img src="images/m13.jpg" title="Movies Pro" class="img-responsive" alt=" " />
-						<div class="w3l-action-icon"><i class="fa fa-play-circle-o" aria-hidden="true"></i></div>
-					</a>
-					<div class="mid-1 agileits_w3layouts_mid_1_home">
-						<div class="w3l-movie-text">
-							<h6><a href="single.html">Ghostbuster</a></h6>							
-						</div>
-						<div class="mid-2 agile_mid_2_home">
-							<p>2016</p>
-							<div class="block-stars">
-								<ul class="w3l-ratings">
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-								</ul>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					</div>
-					<div class="ribben one">
-						<p>NEW</p>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="w3l-movie-gride-agile w3l-movie-gride-slider ">
-					<a href="single.html" class="hvr-sweep-to-bottom"><img src="images/m15.jpg" title="Movies Pro" class="img-responsive" alt=" " />
-						<div class="w3l-action-icon"><i class="fa fa-play-circle-o" aria-hidden="true"></i></div>
-					</a>
-					<div class="mid-1 agileits_w3layouts_mid_1_home">
-						<div class="w3l-movie-text">
-							<h6><a href="single.html">RoboCop</a></h6>							
-						</div>
-						<div class="mid-2 agile_mid_2_home">
-							<p>2016</p>
-							<div class="block-stars">
-								<ul class="w3l-ratings">
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-									<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-								</ul>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					</div>
-					<div class="ribben one">
-						<p>NEW</p>
-					</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!--//movies-->
-		 
+
+		<!--//LatestMovies-->
+		<h3 class="agile_w3_title"> Latest <span>Movies</span></h3>
+		<!--/movies-->
+		<div class="w3_agile_latest_movies">
+			<div id="owl-demo" class="owl-carousel owl-theme">
+				@foreach (var movie in Model.LatestMovies)
+				{
+					<div class="item">
+						<div class="w3l-movie-gride-agile w3l-movie-gride-slider ">
+							<a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="hvr-sweep-to-bottom">
+								<img src="@movie.Poster" title="@movie.Title" class="img-responsive" />
+								<div class="w3l-action-icon"></div>
+							</a>
+							<div class="mid-1 agileits_w3layouts_mid_1_home">
+								<div class="w3l-movie-text">
+									<h6><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h6>
+								</div>
+								<div class="mid-2 agile_mid_2_home">
+									<p>@movie.ReleaseDate.Year</p>
+									<div class="block-stars">
+										<div class="rating-disabled" data-rating="@movie.Rating"></div>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+
+							@if (movie.ReleaseDate.Year == DateTime.UtcNow.Year)
+							{
+								<div class="ribben one"> <p>NEW</p> </div>
+							}
+						</div>
+					</div>
+				}
+			</div>
+		</div>
 	</div>		
-		<!--//top-movies-->
 </div>
