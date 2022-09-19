@@ -134,7 +134,7 @@
         {
             return this.moviesRepository
                 .AllAsNoTracking()
-                .OrderByDescending(x => x.AverageVote)
+                .OrderByDescending(x => x.Ratings.Average(x => x.Rate))
                 .Take(13)
                 .To<T>();
         }

@@ -16,84 +16,11 @@
 	   <div class="agileinfo_tabs">
 			<div id="horizontalTab">
 				<ul class="resp-tabs-list">
+					<li>Top Rating </li>
 					<li>Popularity</li>
-					<li>Top Rating </li>	
 					<li>Recent</li>
 				</ul>
-				<div class="resp-tabs-container">					
-					<div class="tab2">
-						<div class="tab_movies_agileinfo">
-							<div class="w3_agile_featured_movies">
-								@*MostPopular*@
-
-								<div class="col-md-5 video_agile_player">
-									<div class="video-grid-single-page-agileits">
-										<div data-video="@mostPopular.Trailer" id="video1"> <img src="@mostPopular.Poster" alt="" class="img-responsive" /> </div>
-									</div>
-
-									<div class="player-text">
-										<p class="fexi_header"><a style="color: darkcyan" asp-controller="Movies" asp-action="Details" asp-route-id="@mostPopular.Id">@mostPopular.Title</a></p>
-										<p class="fexi_header_para">
-											<span class="conjuring_w3">Story Line<label>:</label></span>
-											@if (mostPopular.Description.Length > 300)
-											{
-												@string.Concat(mostPopular.Description.Substring(0, 300), "...")
-											}
-											else
-											{
-												@mostPopular.Description
-											}
-										</p>
-										<p class="fexi_header_para"><span>Release On<label>:</label></span>@mostPopular.ReleaseDate.ToString("dd MMMM yyyy", new CultureInfo("en-US"))</p>
-										<p class="fexi_header_para">
-											<span>Genres<label>:</label> </span>
-											@foreach (var genre in mostPopular.MovieGenres)
-											{
-												<text>|</text>
-												<a asp-controller="Genres" asp-action="Type" asp-route-name="@genre.GenreName">@genre.GenreName</a>
-											}
-										</p>
-										<p class="fexi_header_para fexi_header_para1">
-											<span>Star Rating<label>:</label></span>
-											<div class="rating-disabled" data-rating="@mostPopular.Rating"></div>
-										</p>
-									</div>
-								</div>
-
-								<div class="col-md-7 wthree_agile-movies_list">
-									@foreach (var movie in Model.PopularMovies.Skip(1))
-									{
-										<div class="w3l-movie-gride-agile">
-											<a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="hvr-sweep-to-bottom">
-												<img src="@movie.Poster" title="@movie.Title" class="img-responsive">
-												<div class="w3l-action-icon"></div>
-											</a>
-											<div class="mid-1 agileits_w3layouts_mid_1_home">
-												<div class="w3l-movie-text" style="height:45px">
-													<h6><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h6>
-												</div>
-												<div class="mid-2 agile_mid_2_home">
-													<p>@movie.ReleaseDate.Year</p>
-													<div class="block-stars">
-														<div class="rating-disabled" data-rating="@movie.Rating"></div>
-													</div>
-													<div class="clearfix"></div>
-												</div>
-											</div>
-
-											@if (movie.ReleaseDate.Year == DateTime.UtcNow.Year)
-											{
-												<div class="ribben one"> <p>NEW</p> </div>
-											}
-										</div>
-									}
-								</div>
-								<div class="clearfix"> </div>
-							</div>
-							<div class="cleafix"></div>
-						</div>	
-					</div>
-
+				<div class="resp-tabs-container">	
 					<div class="tab3">
 						<div class="tab_movies_agileinfo">
 							<div class="w3_agile_featured_movies">
@@ -117,7 +44,10 @@
 												@mostRated.Description
 											}
 										</p>
-										<p class="fexi_header_para"><span>Release On<label>:</label></span>@mostRated.ReleaseDate.ToString("dd MMMM yyyy", new CultureInfo("en-US"))</p>
+										<p class="fexi_header_para">
+											<span>Release On<label>:</label></span>
+											@mostRated.ReleaseDate.ToString("dd MMMM yyyy", new CultureInfo("en-US"))
+										</p>
 										<p class="fexi_header_para">
 											<span>Genres<label>:</label> </span>
 											@foreach (var genre in mostRated.MovieGenres)
@@ -128,7 +58,7 @@
 										</p>
 										<p class="fexi_header_para fexi_header_para1">
 											<span>Star Rating<label>:</label></span>
-												<div class="rating-disabled" data-rating="@mostRated.Rating"></div>
+											<div class="my-rating-7" movie-rate="@mostRated.Rating"></div>
 										</p>
 									</div>
 								</div>
@@ -148,7 +78,7 @@
 												<div class="mid-2 agile_mid_2_home">
 													<p>@movie.ReleaseDate.Year</p>
 													<div class="block-stars">
-														<div class="rating-disabled" data-rating="@movie.Rating"></div>
+														<div class="my-rating-7" movie-rate="@movie.Rating"></div>
 													</div>
 													<div class="clearfix"></div>
 												</div>
@@ -166,6 +96,82 @@
 						</div>	
 					</div>
 
+					<div class="tab2">
+						<div class="tab_movies_agileinfo">
+							<div class="w3_agile_featured_movies">
+								@*MostPopular*@
+
+								<div class="col-md-5 video_agile_player">
+									<div class="video-grid-single-page-agileits">
+										<div data-video="@mostPopular.Trailer" id="video1"> <img src="@mostPopular.Poster" alt="" class="img-responsive" /> </div>
+									</div>
+
+									<div class="player-text">
+										<p class="fexi_header"><a style="color: darkcyan" asp-controller="Movies" asp-action="Details" asp-route-id="@mostPopular.Id">@mostPopular.Title</a></p>
+										<p class="fexi_header_para">
+											<span class="conjuring_w3">Story Line<label>:</label></span>
+											@if (mostPopular.Description.Length > 300)
+											{
+												@string.Concat(mostPopular.Description.Substring(0, 300), "...")
+											}
+											else
+											{
+												@mostPopular.Description
+											}
+										</p>
+										<p class="fexi_header_para">
+											<span>Release On<label>:</label></span>
+											@mostPopular.ReleaseDate.ToString("dd MMMM yyyy", new CultureInfo("en-US"))
+										</p>
+										<p class="fexi_header_para">
+											<span>Genres<label>:</label> </span>
+											@foreach (var genre in mostPopular.MovieGenres)
+											{
+												<text>|</text>
+												<a asp-controller="Genres" asp-action="Type" asp-route-name="@genre.GenreName">@genre.GenreName</a>
+											}
+										</p>
+										<p class="fexi_header_para fexi_header_para1">
+											<span>Star Rating<label>:</label></span>
+											<div class="my-rating-7" movie-rate="@mostPopular.Rating"></div>
+										</p>
+									</div>
+								</div>
+
+								<div class="col-md-7 wthree_agile-movies_list">
+									@foreach (var movie in Model.PopularMovies.Skip(1))
+									{
+										<div class="w3l-movie-gride-agile">
+											<a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="hvr-sweep-to-bottom">
+												<img src="@movie.Poster" title="@movie.Title" class="img-responsive">
+												<div class="w3l-action-icon"></div>
+											</a>
+											<div class="mid-1 agileits_w3layouts_mid_1_home">
+												<div class="w3l-movie-text" style="height:45px">
+													<h6><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h6>
+												</div>
+												<div class="mid-2 agile_mid_2_home">
+													<p>@movie.ReleaseDate.Year</p>
+													<div class="block-stars">
+														<div class="my-rating-7" movie-rate="@movie.Rating"></div>
+													</div>
+													<div class="clearfix"></div>
+												</div>
+											</div>
+
+											@if (movie.ReleaseDate.Year == DateTime.UtcNow.Year)
+											{
+												<div class="ribben one"> <p>NEW</p> </div>
+											}
+										</div>
+									}
+								</div>
+								<div class="clearfix"> </div>
+							</div>
+							<div class="cleafix"></div>
+						</div>	
+					</div>
+				
 					<div class="tab1">
 						<div class="tab_movies_agileinfo">
 							<div class="w3_agile_featured_movies">
@@ -189,7 +195,10 @@
 												@mostRecent.Description
 											}
 										</p>
-										<p class="fexi_header_para"><span>Release On<label>:</label></span>@mostRecent.ReleaseDate.ToString("dd MMMM yyyy", new CultureInfo("en-US"))</p>
+										<p class="fexi_header_para">
+											<span>Release On<label>:</label></span>
+											@mostRecent.ReleaseDate.ToString("dd MMMM yyyy", new CultureInfo("en-US"))
+										</p>
 										<p class="fexi_header_para">
 											<span>Genres<label>:</label> </span>
 											@foreach (var genre in mostRecent.MovieGenres)
@@ -200,7 +209,7 @@
 										</p>
 										<p class="fexi_header_para fexi_header_para1">
 											<span>Star Rating<label>:</label></span>
-											<div class="rating-disabled" data-rating="@mostPopular.Rating"></div>
+											<div class="my-rating-7" movie-rate="@mostRecent.Rating"></div>
 										</p>
 									</div>
 								</div>
@@ -220,7 +229,7 @@
 												<div class="mid-2 agile_mid_2_home">
 													<p>@movie.ReleaseDate.Year</p>
 													<div class="block-stars">
-														<div class="rating-disabled" data-rating="@movie.Rating"></div>
+														<div class="my-rating-7" movie-rate="@movie.Rating"></div>
 													</div>
 													<div class="clearfix"></div>
 												</div>
@@ -262,7 +271,7 @@
 								<div class="mid-2 agile_mid_2_home">
 									<p>@movie.ReleaseDate.Year</p>
 									<div class="block-stars">
-										<div class="rating-disabled" data-rating="@movie.Rating"></div>
+										<div class="my-rating-7" movie-rate="@movie.Rating"></div>
 									</div>
 									<div class="clearfix"></div>
 								</div>
@@ -279,3 +288,22 @@
 		</div>
 	</div>		
 </div>
+
+<script>
+	// Set an attribute, so that the value can change, because there is a different rating for the movies
+	$(".my-rating-7").each(function () {
+		var rating = $(this).attr("movie-rate");
+
+		$(this).starRating(
+			{
+				totalStars: 6,
+				starSize: 25,
+				strokeColor: 'black',
+				emptyColor: 'lightgray',
+				starShape: 'rounded',
+				initialRating: rating,		
+				readOnly: true,
+			}
+		);
+	});
+</script>

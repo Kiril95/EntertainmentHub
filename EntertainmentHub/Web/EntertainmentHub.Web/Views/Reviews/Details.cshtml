@@ -32,7 +32,7 @@
                     </span>
                     <span>@Model.MovieModel.ReleaseDate.Year</span>
                 </div>
-                <span class="inner-div">@Model.MovieModel.Rating</span>
+                <div class="my-rating-7" style="display: flex" movie-rate="@Model.MovieModel.Rating"></div>
 
                 <h3 class="back-st"><a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.MovieModel.Id">←Back to movie</a></h3>
             </div>         
@@ -67,3 +67,15 @@
         <hr />
     </div>
 </div>
+
+<script>
+   $(".my-rating-7").starRating({
+       totalStars: 6,
+       starSize: 35,
+       strokeColor: 'black',
+       emptyColor: 'lightgray',
+       starShape: 'rounded',
+       initialRating: @Model.MovieModel.Rating,
+       readOnly: true,
+   });
+</script>

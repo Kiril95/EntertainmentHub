@@ -7,6 +7,7 @@
 @{
     this.ViewData["Title"] = "Details";
     var user = await this.UserManager.GetUserAsync(this.User);
+    var userId = user is not null ? await this.UserManager.GetUserIdAsync(user) : "";
 }
 
 <link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" />
@@ -31,11 +32,17 @@
             <hr />
             @if (this.User.Identity.IsAuthenticated)
             {
-                <div onclick="RateMovie" class="rating-enabled"></div><span id="averageRating">@Model.Movie.Rating.ToString("f2")</span><span> / 5.00</span>
+                <div class="my-rating-5"></div>
+                <span class="live-rating"></span>
+                <br />
+                <span id="averageRate">@Model.Movie.Rating.ToString("f2")</span><span> / 6.00</span>
+                <br />
+                <input id="Btn" type="button" class="btn btn-danger" value="Remove Rate"/>
             }
             else
             {
-                <div class="rating-disabled"></div><span id="averageRating">@Model.Movie.Rating.ToString("f2")</span><span> / 5.00</span>
+                <div class="my-rating-7"></div>
+                <span id="averageRate">@Model.Movie.Rating.ToString("f2")</span><span> / 6.00</span>
             }
         </div>
 
@@ -197,7 +204,7 @@
                                     </div>
                                     <div class="col-md-6 form-info">
                                         <input type="hidden" name="MovieId" value="@Model.Movie.Id">                                   
-                                        <input type="hidden" name="UserId" value="@await this.UserManager.GetUserIdAsync(user)">                                    
+                                        <input type="hidden" name="UserId" value="@userId">                                    
                                     </div>
                                     <div class="clearfix"> </div>
                                 </form>
@@ -276,15 +283,106 @@
 
 @section Scripts{
     <script>
-        function RateMovie() {
-            const stars = document.getElementsByClassName('jq-star');
+        function returnRate () {
+            let result = 0;
+            let id = @Model.Movie.Id;
 
-            for (const star of stars) {
-                star.setAttribute('data-toggle', 'modal');
-                star.setAttribute('data-target', '#myModal4');
+            $.ajax({
+                url: "/api/Ratings",
+                async: false,
+                data: { id : id },
+                dataType: 'json',
+                success: function (data) {
+                    result = data;    
+                },
+            });
+
+            return result;
+        };
+    </script>
+
+    <script>               
+        var averageRate = returnRate();
+
+        $(".my-rating-5").starRating({
+              totalStars: 6,
+              useFullStars: true,
+              starSize: 35,
+              strokeWidth: 16,
+              initialRating: averageRate,
+              strokeColor: 'black',
+              emptyColor: 'lightgray',
+              starShape: 'rounded',
+              starGradient: {
+                  start: '#93BFE2',
+                  end: '#105694'
+              },
+            onHover: function (currentIndex, currentRating, $el) {
+                $('.live-rating').text(currentIndex);
+            },
+            onLeave: function (currentIndex, currentRating, $el) {
+                $('.live-rating').text(currentRating);
+            },
+            callback: function(currentRating, $el){
+                $(this).click(function () {
+                    let rate = currentRating;
+                    let movieId = @Model.Movie.Id;
+                    let userId = '@userId';
+                    let data = { 
+                        rate: currentRating,
+                        movieId: movieId,
+                        userId: userId,
+                    };
+
+                    $.ajax({
+                        type: "Post",
+                        url: "/api/Ratings",
+                        data: JSON.stringify(data),
+                        success: function () {
+                            console.log(returnRate());
+                            $('#averageRate').html(returnRate().toFixed(2));
+                        },
+                        contentType: 'application/json',
+                    })
+                })
             }
-        }
+        });
+    </script>
 
-        RateMovie();
+    <script>     
+            $('#Btn').click(function () {
+                let movieId = @Model.Movie.Id;
+                let userId = '@userId';
+              
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/api/Ratings',
+                    data: JSON.stringify({ movieId: movieId, userId: userId }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (success) {
+                        if (success === true) {
+                            alert("You successfully revoked your rating.");
+
+                            var averageRate = returnRate();
+                            $('#averageRate').html(averageRate.toFixed(2));
+                        } else {
+                            alert("You haven't rated this movie.");
+                        }                    
+                    },
+                });
+            });
+    </script>
+
+    <script>
+        $(".my-rating-7").starRating({
+            totalStars: 6,
+            starSize: 35,
+            strokeColor: 'black',
+            emptyColor: 'lightgray',
+            starShape: 'rounded',
+            initialRating: @Model.Movie.Rating,
+            readOnly: true,
+        });
     </script>
 }

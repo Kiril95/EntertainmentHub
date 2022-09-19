@@ -66,6 +66,7 @@ namespace EntertainmentHub.Web
                 })
                 .AddRazorRuntimeCompilation();
             services.AddRazorPages();
+            services.AddControllers();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSingleton(configuration);
@@ -87,6 +88,7 @@ namespace EntertainmentHub.Web
             services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<IReviewsService, ReviewsService>();
             services.AddTransient<IActorsService, ActorsService>();
+            services.AddTransient<IRatingsService, RatingsService>();
         }
 
         private static void Configure(WebApplication app)
