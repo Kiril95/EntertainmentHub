@@ -1,0 +1,139 @@
+﻿@using EntertainmentHub.Web.ViewModels.Movies
+@model MovieSearchPaginatedViewModel
+
+@{
+    this.ViewData["Title"] = "Movie Results";
+}
+
+<link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" />
+
+<div class="w3_breadcrumb">
+    <div class="breadcrumb-inner">
+        <ul>
+            <li><a asp-controller="Home" asp-action="Index">Home</a><i class="fa fa-forward"></i></li>
+            <li><a asp-area="" asp-controller="Movies" asp-action="Collection">Movies</a><i class="fa fa-forward"></i></li>
+            <li class="active">@this.ViewData["Title"]</li>
+        </ul>
+    </div>
+</div>
+<br />
+
+<div class="inner-agile-w3l-part-head">
+    <h4 class="side-t-w3l-agile" style="text-transform: initial">Search results for: <span>"@this.ViewData["CurrentSearchWord"]"</span></h4>
+</div>
+
+<div class="container">
+    <ul class="nav">
+        <li class="list-group-item active btn btn-primary btn-lg">
+            <a style="display: inline-block">Movies</a>
+            <span style="font-size: 16px !important" class="badge badge-primary badge-pill">@this.ViewData["MoviesCount"]</span>
+        </li>
+
+        <li class="list-group-item btn btn-primary btn-lg" style="cursor: inherit">
+            <a asp-area="" asp-action="ActorsByName" asp-route-name="@this.ViewData["CurrentSearchWord"]" style="display: inline-block">Actors</a>
+            <span style="font-size: 16px !important" class="badge badge-primary badge-pill">@this.ViewData["ActorsCount"]</span>
+        </li>  
+    </ul>
+</div>
+<hr />
+
+<div class="wthree_agile-requested-movies tv-movies">
+    <div class="w3ls-news-result">
+        <h4>Count: <span>@Model.PageResults() / @(Model.TotalCount)</span></h4>
+        <h4>Current Page: <span>@Model.Movies.Count()</span></h4>
+    </div>
+
+    <div class="wthree_agile-requested-movies">
+        @foreach (var movie in Model.Movies)
+        {
+            <div class="col-md-2 w3l-movie-gride-agile requested-movies" style="width: 15% !important">
+                <a asp-area="" asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="hvr-sweep-to-bottom">
+                    <img src="@movie.Poster" title="@movie.Title" class="img-responsive" alt=" ">
+                </a>
+                <div class="mid-1 agileits_w3layouts_mid_1_home">
+                    <div class="w3l-movie-text" style="height:45px">
+                        <h6><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h6>
+                    </div>
+                    <div class="mid-2 agile_mid_2_home">
+                        <p>@movie.ReleaseDate.Year</p>
+                        <div class="block-stars">
+                            <div class="my-rating-7" movie-rate="@movie.Rating"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                @if (movie.ReleaseDate.Year == DateTime.UtcNow.Year)
+                {
+                    <div class="ribben one">
+                        <p>NEW</p>
+                    </div>
+                }
+            </div>
+        }
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+@if (Model.Movies.TotalPages > 1)
+{
+    <div class="blog-pagenat-wthree">
+        <ul class="pagination">
+            <li>
+                @if (Model.Movies.HasPreviousPage)
+                {
+                    <a class="page-link frist" asp-action="MoviesByTitle" asp-route-title="@this.ViewData["CurrentSearchWord"]" asp-route-page="@(Model.Movies.PageNumber - 1)">Previous</a>
+                }
+                else
+                {
+                    <a class="dis-field frist">Previous</a>
+                }
+            </li>
+            @for (int i = Model.Movies.PageNumber - 4; i < Model.Movies.PageNumber; i++)
+            {
+                if (i > 0)
+                {
+                    <li><a class="page-link" asp-action="MoviesByTitle" asp-route-title="@this.ViewData["CurrentSearchWord"]" asp-route-page="@i">@i</a></li>
+                }
+            }
+            <li class="active">
+                <span class="page-link">@Model.Movies.PageNumber</span>
+            </li>
+            @for (int i = Model.Movies.PageNumber + 1; i <= Model.Movies.PageNumber + 4; i++)
+            {
+                if (i <= Model.Movies.TotalPages)
+                {
+                    <li><a class="page-link" asp-action="MoviesByTitle" asp-route-title="@this.ViewData["CurrentSearchWord"]" asp-route-page="@i">@i</a></li>
+                }
+            }
+            <li>
+                @if (Model.Movies.HasNextPage)
+                {
+                    <a class="page-link frist" asp-action="MoviesByTitle" asp-route-title="@this.ViewData["CurrentSearchWord"]" asp-route-page="@(Model.Movies.PageNumber + 1)">Next</a>
+                }
+                else
+                {
+                    <a class="dis-field frist">Next</a>
+                }
+            </li>
+        </ul>
+    </div>
+}
+
+<script>
+    // Set an attribute, so that the value can change, because there is a different rating for the movies
+    $(".my-rating-7").each(function () {
+        var rating = $(this).attr("movie-rate");
+
+        $(this).starRating(
+            {
+                totalStars: 6,
+                starSize: 25,
+                strokeColor: 'black',
+                emptyColor: 'lightgray',
+                starShape: 'rounded',
+                initialRating: rating,
+                readOnly: true,
+            }
+        );
+    });
+</script>

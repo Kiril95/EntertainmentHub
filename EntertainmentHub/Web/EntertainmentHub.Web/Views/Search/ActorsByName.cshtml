@@ -1,0 +1,105 @@
+﻿@using EntertainmentHub.Web.ViewModels.Actors
+@model ActorSearchPaginatedViewModel
+
+@{
+    this.ViewData["Title"] = "Actor Results";
+}
+
+<link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" />
+
+<div class="w3_breadcrumb">
+    <div class="breadcrumb-inner">
+        <ul>
+            <li><a asp-controller="Home" asp-action="Index">Home</a><i class="fa fa-forward"></i></li>
+            <li><a asp-area="" asp-controller="Actors" asp-action="All">Actors</a><i class="fa fa-forward"></i></li>
+            <li class="active">@this.ViewData["Title"]</li>
+        </ul>
+    </div>
+</div>
+<br />
+
+<div class="inner-agile-w3l-part-head">
+    <h4 class="side-t-w3l-agile" style="text-transform: initial">Search results for: <span>"@this.ViewData["CurrentSearchWord"]"</span></h4>
+</div>
+
+<div class="container">
+    <ul class="nav">
+        <li class="list-group-item btn btn-primary btn-lg" style="cursor: inherit">
+            <a asp-area="" asp-action="MoviesByTitle" asp-route-title="@this.ViewData["CurrentSearchWord"]" style="display: inline-block">Movies</a>
+            <span style="font-size: 16px !important" class="badge badge-primary badge-pill">@this.ViewData["MoviesCount"]</span>
+        </li>
+
+        <li class="list-group-item active btn btn-primary btn-lg">
+            <a style="display: inline-block">Actors</a>
+            <span style="font-size: 16px !important" class="badge badge-primary badge-pill">@this.ViewData["ActorsCount"]</span>
+        </li>
+    </ul>
+</div>
+<hr />
+
+<div class="wthree_agile-requested-movies tv-movies">
+    <div class="w3ls-news-result">
+        <h4>Count: <span>@Model.PageResults() / @(Model.TotalCount)</span></h4>
+        <h4>Current Page: <span>@Model.Actors.Count()</span></h4>
+    </div>
+
+    <div class="wthree_agile-requested-movies">
+        @foreach (var actor in Model.Actors)
+        {
+            <div class="col-md-2 w3l-movie-gride-agile requested-movies" style="width: 15% !important">
+                <a asp-controller="Actors" asp-action="Details" asp-route-id="@actor.Id" class="hvr-sweep-to-bottom">
+                    <img src="@actor.Photo" class="img-responsive"> @actor.Name
+                </a>
+                <div class="mid-1 agileits_w3layouts_mid_1_home">
+                    
+                </div>
+            </div>
+        }
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+@if (Model.Actors.TotalPages > 1)
+{
+    <div class="blog-pagenat-wthree">
+        <ul class="pagination">
+            <li>
+                @if (Model.Actors.HasPreviousPage)
+                {
+                    <a class="page-link frist" asp-action="ActorsByName" asp-route-name="@this.ViewData["CurrentSearchWord"]" asp-route-page="@(Model.Actors.PageNumber - 1)">Previous</a>
+                }
+                else
+                {
+                    <a class="dis-field frist">Previous</a>
+                }
+            </li>
+            @for (int i = Model.Actors.PageNumber - 4; i < Model.Actors.PageNumber; i++)
+            {
+                if (i > 0)
+                {
+                    <li><a class="page-link" asp-action="ActorsByName" asp-route-name="@this.ViewData["CurrentSearchWord"]" asp-route-page="@i">@i</a></li>
+                }
+            }
+            <li class="active">
+                <span class="page-link">@Model.Actors.PageNumber</span>
+            </li>
+            @for (int i = Model.Actors.PageNumber + 1; i <= Model.Actors.PageNumber + 4; i++)
+            {
+                if (i <= Model.Actors.TotalPages)
+                {
+                    <li><a class="page-link" asp-action="ActorsByName" asp-route-name="@this.ViewData["CurrentSearchWord"]" asp-route-page="@i">@i</a></li>
+                }
+            }
+            <li>
+                @if (Model.Actors.HasNextPage)
+                {
+                    <a class="page-link frist" asp-action="ActorsByName" asp-route-name="@this.ViewData["CurrentSearchWord"]" asp-route-page="@(Model.Actors.PageNumber + 1)">Next</a>
+                }
+                else
+                {
+                    <a class="dis-field frist">Next</a>
+                }
+            </li>
+        </ul>
+    </div>
+}

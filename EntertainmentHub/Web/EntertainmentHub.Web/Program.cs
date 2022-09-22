@@ -89,6 +89,7 @@ namespace EntertainmentHub.Web
             services.AddTransient<IReviewsService, ReviewsService>();
             services.AddTransient<IActorsService, ActorsService>();
             services.AddTransient<IRatingsService, RatingsService>();
+            services.AddTransient<ISearchService, SearchService>();
         }
 
         private static void Configure(WebApplication app)

@@ -1,0 +1,26 @@
+﻿@{
+	this.ViewData["Title"] = "No Results";
+}
+
+<link rel="stylesheet" type="text/css" href="~/css/no-results.css" />
+<link rel="stylesheet" type="text/css" href="~/css/search.css" />
+
+<div id="notfound">
+	<div class="notfound">
+		<div class="notfound-404">
+			<h1>Oops!</h1>
+		</div>
+		<h2 style="text-transform: initial">No results for "@ViewData["CurrentSearchWord"]"</h2>
+		<p>Try again.</p>
+		<br />
+		<div class="search">
+			<i class="fa fa-search"></i>
+			<form asp-area="" asp-controller="Search" asp-action="MoviesByTitle" method="get">
+				<input name="Title" type="text" class="form-control" placeholder="Search..." required>
+				<button class="btn btn-lg btn-primary">Search</button>
+			</form>			
+		</div>
+		<hr>
+		<a class="btn btn-lg btn-primary" asp-controller="Home" asp-action="Index" role="button">Continue to homepage</a>
+	</div>
+</div>
