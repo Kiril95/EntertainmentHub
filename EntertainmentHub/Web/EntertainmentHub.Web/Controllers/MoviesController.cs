@@ -51,6 +51,11 @@
             var movie = await this.moviesService.GetMovieByIdAsync<MovieViewModel>(id);
             var comments = this.commentsService.GetCommentsByIdAsQueryable<MovieCommentViewModel>(id);
 
+            if (movie is null)
+            {
+                return this.NotFound();
+            }
+
             var paginated = await PaginatedList<MovieCommentViewModel>.CreateAsync(comments, page, 5);
 
             var viewModel = new MovieDetailsPaginatedViewModel

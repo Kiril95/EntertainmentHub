@@ -21,6 +21,11 @@
         {
             var actor = await this.actorsService.GetActorByIdAsync<ActorViewModel>(id);
 
+            if (actor is null)
+            {
+                return this.NotFound();
+            }
+
             return this.View(actor);
         }
 

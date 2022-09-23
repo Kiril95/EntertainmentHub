@@ -29,7 +29,7 @@
 				<li>
 					@foreach (var genre in genres)
 					{
-						<div class="col-sm-6">
+						<div class="col-sm-4">
 							<ul class="multi-column-dropdown">
 								<li>
 									<a asp-area="" asp-controller="Genres" asp-action="Type" asp-route-name="@genre.Name">@genre.Name</a>
@@ -48,7 +48,7 @@
 				<li>
 					@foreach (var country in countries)
 					{
-						<div class="col-sm-6">
+						<div class="col-sm-4">
 							<ul class="multi-column-dropdown">
 								<li>
 									<a asp-area="" asp-controller="Countries" asp-action="Type" asp-route-name="@country.Name">@country.Name</a>
