@@ -1,5 +1,6 @@
 ﻿namespace EntertainmentHub.Web.Controllers
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using EntertainmentHub.Services.Data.Contracts;
@@ -19,11 +20,12 @@
         }
 
         [Authorize]
-        [IgnoreAntiforgeryToken]
         public async Task Post(RatingInputModel input)
         {
             // Pass the data with a model because the api call needs one with the same names
-            await this.ratingsService.RateAsync(input.Rate, input.MovieId, input.UserId);
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            await this.ratingsService.RateAsync(input.Rate, input.MovieId, userId);
         }
 
         [Authorize]
@@ -35,14 +37,14 @@
 
         [Authorize]
         [HttpDelete]
-        [IgnoreAntiforgeryToken]
         public async Task<bool> Delete(DeleteRatingInputModel input)
         {
-            var rating = await this.ratingsService.GetRatingAsync(input.MovieId, input.UserId);
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var rating = await this.ratingsService.GetRatingAsync(input.MovieId, userId);
 
             if (rating is not null)
             {
-                await this.ratingsService.RemoveRateAsync(input.MovieId, input.UserId);
+                await this.ratingsService.RemoveRateAsync(input.MovieId, userId);
 
                 return true;
             }

@@ -52,22 +52,25 @@ namespace EntertainmentHub.Web
                 .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.Configure<CookiePolicyOptions>(
-                options =>
-                {
-                    options.CheckConsentNeeded = context => true;
-                    options.MinimumSameSitePolicy = SameSiteMode.None;
-                });
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
-            services.AddControllersWithViews(
-                options =>
-                {
-                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                })
-                .AddRazorRuntimeCompilation();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            })
+            .AddRazorRuntimeCompilation();
+
             services.AddRazorPages();
             services.AddControllers();
             services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
 
             services.AddSingleton(configuration);
             services.AddHttpClient();

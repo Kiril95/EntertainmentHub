@@ -280,6 +280,7 @@
         </div>
     </div>
 </div>
+<form method="post" id="antiForgeryForm"></form>
 
 @section Scripts{
     <script>
@@ -327,17 +328,20 @@
                 $(this).click(function () {
                     let rate = currentRating;
                     let movieId = @Model.Movie.Id;
-                    let userId = '@userId';
+                    var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+
                     let data = { 
                         rate: currentRating,
                         movieId: movieId,
-                        userId: userId,
                     };
 
                     $.ajax({
                         type: "Post",
                         url: "/api/Ratings",
                         data: JSON.stringify(data),
+                        headers: {
+                            'X-CSRF-TOKEN': antiForgeryToken
+                        },
                         success: function () {
                             console.log(returnRate());
                             $('#averageRate').html(returnRate().toFixed(2));
@@ -352,12 +356,15 @@
     <script>     
             $('#Btn').click(function () {
                 let movieId = @Model.Movie.Id;
-                let userId = '@userId';
-              
+                var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+
                 $.ajax({
                     type: 'DELETE',
                     url: '/api/Ratings',
-                    data: JSON.stringify({ movieId: movieId, userId: userId }),
+                    data: JSON.stringify({ movieId: movieId }),
+                    headers: {
+                            'X-CSRF-TOKEN': antiForgeryToken
+                    },
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (success) {
