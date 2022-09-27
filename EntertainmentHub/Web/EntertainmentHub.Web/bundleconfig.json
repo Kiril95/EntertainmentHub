@@ -9,6 +9,18 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/css/easy-responsive-tabs.min.css",
+    "inputFiles": [
+      "wwwroot/css/easy-responsive-tabs.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/table-style.min.css",
+    "inputFiles": [
+      "wwwroot/css/table-style.css"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
       "wwwroot/js/site.js"
@@ -20,5 +32,17 @@
     },
     // Optionally generate .map file
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/jquery.magnific-popup.min.js",
+    "inputFiles": [
+      "wwwroot/js/jquery.magnific-popup.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/owl.carousel.min.js",
+    "inputFiles": [
+      "wwwroot/js/owl.carousel.js"
+    ]
   }
 ]

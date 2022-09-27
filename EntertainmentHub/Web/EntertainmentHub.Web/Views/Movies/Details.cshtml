@@ -38,6 +38,8 @@
                 <span id="averageRate">@Model.Movie.Rating.ToString("f2")</span><span> / 6.00</span>
                 <br />
                 <input id="Btn" type="button" class="btn btn-danger" value="Remove Rate"/>
+                <div style="display: none" id="success-msg" class="alert alert-success">You successfully revoked your rating.</div>
+                <div style="display: none" id="danger-msg" class="alert alert-danger">You haven't rated this movie.</div>
             }
             else
             {
@@ -363,18 +365,20 @@
                     url: '/api/Ratings',
                     data: JSON.stringify({ movieId: movieId }),
                     headers: {
-                            'X-CSRF-TOKEN': antiForgeryToken
+                        'X-CSRF-TOKEN': antiForgeryToken
                     },
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (success) {
                         if (success === true) {
-                            alert("You successfully revoked your rating.");
+                            $('#danger-msg').hide();
+                            $('#success-msg').show().delay(4000).fadeOut();;
 
                             var averageRate = returnRate();
                             $('#averageRate').html(averageRate.toFixed(2));
                         } else {
-                            alert("You haven't rated this movie.");
+                            $('#success-msg').hide();
+                            $('#danger-msg').show().delay(4000).fadeOut();;
                         }                    
                     },
                 });
