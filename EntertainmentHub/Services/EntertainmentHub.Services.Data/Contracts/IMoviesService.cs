@@ -1,5 +1,7 @@
 ﻿namespace EntertainmentHub.Services.Data.Contracts
 {
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -21,12 +23,12 @@
 
         Task<T> GetMovieByIdAsync<T>(int id);
 
-        IQueryable<T> GetRecentMoviesAsQueryable<T>();
+        Task<IEnumerable<T>> GetRecentMoviesAsync<T>();
 
-        IQueryable<T> GetPopularMoviesAsQueryable<T>();
+        Task<IEnumerable<T>> GetPopularMoviesAsync<T>();
 
         IQueryable<T> GetTopRatedMoviesAsQueryable<T>();
 
-        IQueryable<T> GetLatestMoviesAsQueryable<T>();
+        Task<IEnumerable<T>> GetLatestMoviesAsync<T>();
     }
 }

@@ -52,6 +52,13 @@ namespace EntertainmentHub.Web
                 .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddDistributedSqlServerCache(options =>
+            {
+                options.ConnectionString = configuration.GetConnectionString("DefaultConnection");
+                options.SchemaName = "dbo";
+                options.TableName = "CacheRecords";
+            });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;

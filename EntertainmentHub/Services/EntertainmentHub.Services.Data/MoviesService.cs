@@ -1,6 +1,8 @@
 ﻿namespace EntertainmentHub.Services.Data
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -112,22 +114,24 @@
                 .FirstOrDefaultAsync();
         }
 
-        public IQueryable<T> GetRecentMoviesAsQueryable<T>()
+        public async Task<IEnumerable<T>> GetRecentMoviesAsync<T>()
         {
-            return this.moviesRepository
+            return await this.moviesRepository
                 .AllAsNoTracking()
                 .OrderBy(x => x.CreatedOn)
                 .Take(13)
-                .To<T>();
+                .To<T>()
+                .ToListAsync();
         }
 
-        public IQueryable<T> GetPopularMoviesAsQueryable<T>()
+        public async Task<IEnumerable<T>> GetPopularMoviesAsync<T>()
         {
-            return this.moviesRepository
+            return await this.moviesRepository
                 .AllAsNoTracking()
                 .OrderByDescending(x => x.Popularity)
                 .Take(13)
-                .To<T>();
+                .To<T>()
+                .ToListAsync();
         }
 
         public IQueryable<T> GetTopRatedMoviesAsQueryable<T>()
@@ -139,13 +143,14 @@
                 .To<T>();
         }
 
-        public IQueryable<T> GetLatestMoviesAsQueryable<T>()
+        public async Task<IEnumerable<T>> GetLatestMoviesAsync<T>()
         {
-            return this.moviesRepository
+            return await this.moviesRepository
                 .AllAsNoTracking()
                 .OrderByDescending(x => x.ReleaseDate.Year)
                 .Take(10)
-                .To<T>();
+                .To<T>()
+                .ToListAsync();
         }
     }
 }
