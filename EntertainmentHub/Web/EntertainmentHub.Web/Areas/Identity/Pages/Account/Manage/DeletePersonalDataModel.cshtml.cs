@@ -2,8 +2,9 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using System.Threading.Tasks;
-
+    using EntertainmentHub.Data.Common.Repositories;
     using EntertainmentHub.Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -16,14 +17,21 @@
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<DeletePersonalDataModel> logger;
 
+        private readonly IRepository<Rating> ratingsRepository;
+        private readonly IDeletableEntityRepository<MovieComment> movieCommentsRepository;
+
         public DeletePersonalDataModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
+            ILogger<DeletePersonalDataModel> logger,
+            IDeletableEntityRepository<MovieComment> movieCommentsRepository,
+            IRepository<Rating> ratingsRepository)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
+            this.movieCommentsRepository = movieCommentsRepository;
+            this.ratingsRepository = ratingsRepository;
         }
 
         [BindProperty]
@@ -56,6 +64,33 @@
             if (user == null)
             {
                 return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            }
+
+            // Remove all references b4 deleting the user
+            var roles = await this.userManager.GetRolesAsync(user);
+            var role = roles.FirstOrDefault();
+            await this.userManager.RemoveFromRoleAsync(user, role);
+
+            var ratings = this.ratingsRepository.All().Where(x => x.UserId == user.Id);
+            if (ratings is not null)
+            {
+                foreach (var item in ratings)
+                {
+                    this.ratingsRepository.Delete(item);
+                }
+
+                await this.ratingsRepository.SaveChangesAsync();
+            }
+
+            var comments = this.movieCommentsRepository.All().Where(x => x.UserId == user.Id);
+            if (comments is not null)
+            {
+                foreach (var item in comments)
+                {
+                    this.movieCommentsRepository.HardDelete(item);
+                }
+
+                await this.movieCommentsRepository.SaveChangesAsync();
             }
 
             this.RequirePassword = await this.userManager.HasPasswordAsync(user);

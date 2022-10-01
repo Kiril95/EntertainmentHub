@@ -1,6 +1,7 @@
 namespace EntertainmentHub.Web
 {
     using System;
+    using System.Configuration;
     using System.Reflection;
 
     using EntertainmentHub.Data;
@@ -18,6 +19,7 @@ namespace EntertainmentHub.Web
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.CodeAnalysis.Emit;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +39,9 @@ namespace EntertainmentHub.Web
             // builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             // .AddEntityFrameworkStores<ApplicationDbContext>();
             ConfigureServices(builder.Services, builder.Configuration);
+
+            builder.Services.Configure<TMDBKeyModel>(builder.Configuration.GetSection("TMDB:ApiKey"));
+
             var app = builder.Build();
             Configure(app);
             app.UseAuthentication();
@@ -88,7 +93,7 @@ namespace EntertainmentHub.Web
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IEmailSender>(x => new SendGridEmailSender(configuration["SendGrid:ApiKey"]));
             services.AddTransient<IDataService, DataService>();
             services.AddTransient<ICollectService, CollectService>();
             services.AddTransient<IContactService, ContactService>();
