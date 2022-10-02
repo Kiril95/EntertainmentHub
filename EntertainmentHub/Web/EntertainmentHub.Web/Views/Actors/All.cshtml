@@ -112,7 +112,7 @@
             <li>
                 @if (Model.Actors.HasPreviousPage)
                 {
-                    <a class="page-link frist" asp-action="All" asp-route-page="@(Model.Actors.PageNumber - 1)">Previous</a>
+                    <a class="page-link frist" asp-action="All" asp-route-page="@(Model.Actors.PageNumber - 1)" asp-route-SearchWord="@this.ViewData["CurrentSearchWord"]">Previous</a>
                 }
                 else
                 {
@@ -123,7 +123,7 @@
             {
                 if (i > 0)
                 {
-                    <li><a class="page-link" asp-action="All" asp-route-page="@i">@i</a></li>
+                    <li><a class="page-link" asp-action="All" asp-route-page="@i" asp-route-SearchWord="@this.ViewData["CurrentSearchWord"]">@i</a></li>
                 }
             }
             <li class="active">
@@ -133,13 +133,13 @@
             {
                 if (i <= Model.Actors.TotalPages)
                 {
-                    <li><a class="page-link" asp-action="All" asp-route-page="@i">@i</a></li>
+                    <li><a class="page-link" asp-action="All" asp-route-page="@i" asp-route-SearchWord="@this.ViewData["CurrentSearchWord"]">@i</a></li>
                 }
             }
             <li>
                 @if (Model.Actors.HasNextPage)
                 {
-                    <a class="page-link frist" asp-action="All" asp-route-page="@(Model.Actors.PageNumber + 1)">Next</a>
+                    <a class="page-link frist" asp-action="All" asp-route-page="@(Model.Actors.PageNumber + 1)" asp-route-SearchWord="@this.ViewData["CurrentSearchWord"]">Next</a>
                 }
                 else
                 {

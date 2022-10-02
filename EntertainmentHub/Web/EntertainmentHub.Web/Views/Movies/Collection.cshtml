@@ -105,7 +105,7 @@
             <li>
                 @if (Model.Movies.HasPreviousPage)
                 {
-                    <a class="page-link frist" asp-action="Collection" asp-route-page="@(Model.Movies.PageNumber - 1)">Previous</a>
+                    <a class="page-link frist" asp-action="Collection" asp-route-page="@(Model.Movies.PageNumber - 1)" asp-route-SearchWord="@this.ViewData["CurrentSearchWord"]">Previous</a>
                 }
                 else
                 {
@@ -116,7 +116,7 @@
             {
                 if (i > 0)
                 {
-                    <li><a class="page-link" asp-action="Collection" asp-route-page="@i">@i</a></li>
+                    <li><a class="page-link" asp-action="Collection" asp-route-page="@i" asp-route-SearchWord="@this.ViewData["CurrentSearchWord"]">@i</a></li>
                 }
             }
             <li class="active">
@@ -126,13 +126,13 @@
             {
                 if (i <= Model.Movies.TotalPages)
                 {
-                    <li><a class="page-link" asp-action="Collection" asp-route-page="@i">@i</a></li>
+                    <li><a class="page-link" asp-action="Collection" asp-route-page="@i" asp-route-SearchWord="@this.ViewData["CurrentSearchWord"]">@i</a></li>
                 }
             }
             <li>
                 @if (Model.Movies.HasNextPage)
                 {
-                    <a class="page-link frist" asp-action="Collection" asp-route-page="@(Model.Movies.PageNumber + 1)">Next</a>
+                    <a class="page-link frist" asp-action="Collection" asp-route-page="@(Model.Movies.PageNumber + 1)" asp-route-SearchWord="@this.ViewData["CurrentSearchWord"]">Next</a>
                 }
                 else
                 {
