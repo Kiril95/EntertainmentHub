@@ -40,6 +40,7 @@
                 actors = actors.Where(x => x.Name.ToLower().Contains(searchWord.ToLower()));
             }
 
+            actors = actors.Where(x => !string.IsNullOrWhiteSpace(x.Name));
             var paginated = await PaginatedList<ActorListViewModel>.CreateAsync(actors, page, 25);
 
             var paginatedView = new ActorPaginatedListViewModel

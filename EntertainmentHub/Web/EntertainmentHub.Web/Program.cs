@@ -2,6 +2,7 @@ namespace EntertainmentHub.Web
 {
     using System;
     using System.Configuration;
+    using System.Globalization;
     using System.Reflection;
 
     using EntertainmentHub.Data;
@@ -19,7 +20,6 @@ namespace EntertainmentHub.Web
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.CodeAnalysis.Emit;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -133,8 +133,16 @@ namespace EntertainmentHub.Web
             app.UseStatusCodePagesWithRedirects("/Home/ErrorView/{0}"); // Attaches the status code after the error
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=604800"); // 7days
+                    ctx.Context.Response.Headers.Append("Expires", DateTime.UtcNow.AddDays(7).ToString("R", CultureInfo.InvariantCulture));
+                },
+            });
 
             app.UseRouting();
 

@@ -10,7 +10,7 @@
     var userId = user is not null ? await this.UserManager.GetUserIdAsync(user) : "";
 }
 
-<link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" />
+<link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" asp-append-version="true"/>
 
 <div class="w3_breadcrumb">
     <div class="breadcrumb-inner">
@@ -43,8 +43,13 @@
             }
             else
             {
-                <div class="my-rating-7"></div>
+                <div class="my-rating-7 rate-log-msg"></div>              
                 <span id="averageRate">@Model.Movie.Rating.ToString("f2")</span><span> / 6.00</span>
+
+                <div style="display: none" id="log-msg" class="alert alert-warning">
+                    You have to login in order to rate this movie.  
+                    <a asp-area="Identity" asp-page="/Account/Login" asp-for"" class="submit-link submit">Login</a>
+                </div>
             }
         </div>
 
@@ -356,33 +361,33 @@
     </script>
 
     <script>     
-            $('#Btn').click(function () {
-                let movieId = @Model.Movie.Id;
-                var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
-
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/api/Ratings',
-                    data: JSON.stringify({ movieId: movieId }),
-                    headers: {
-                        'X-CSRF-TOKEN': antiForgeryToken
-                    },
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (success) {
-                        if (success === true) {
-                            $('#danger-msg').hide();
-                            $('#success-msg').show().delay(4000).fadeOut();;
-
-                            var averageRate = returnRate();
-                            $('#averageRate').html(averageRate.toFixed(2));
-                        } else {
-                            $('#success-msg').hide();
-                            $('#danger-msg').show().delay(4000).fadeOut();;
-                        }                    
-                    },
-                });
+        $('#Btn').click(function () {
+            let movieId = @Model.Movie.Id;
+            var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+        
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/Ratings',
+                data: JSON.stringify({ movieId: movieId }),
+                headers: {
+                    'X-CSRF-TOKEN': antiForgeryToken
+                },
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (success) {
+                    if (success === true) {
+                        $('#danger-msg').hide();
+                        $('#success-msg').show().delay(4000).fadeOut();
+        
+                        var averageRate = returnRate();
+                        $('#averageRate').html(averageRate.toFixed(2));
+                    } else {
+                        $('#success-msg').hide();
+                        $('#danger-msg').show().delay(4000).fadeOut();
+                    }                    
+                },
             });
+        });
     </script>
 
     <script>
@@ -394,6 +399,15 @@
             starShape: 'rounded',
             initialRating: @Model.Movie.Rating,
             readOnly: true,
+        });
+    </script>
+
+    <script>
+        $(document).ready(
+            function () {
+            $('.rate-log-msg').click(function () {
+                $('#log-msg').show().delay(10000).fadeOut();
+            });
         });
     </script>
 }

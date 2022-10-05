@@ -77,6 +77,7 @@
         {
             var movies = this.GetAllMoviesAsQueryable<MovieViewModel>();
 
+            // A clever way to generate a random entity: something.OrderBy(r => Guid.NewGuid())
             Random random = new Random();
             int id = random.Next(1, movies.Count() + 1);
 
