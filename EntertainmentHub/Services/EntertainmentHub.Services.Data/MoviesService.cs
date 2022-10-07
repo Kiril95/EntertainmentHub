@@ -153,5 +153,13 @@
                 .To<T>()
                 .ToListAsync();
         }
+
+        public IQueryable<T> GetMoviesByYearAsQueryable<T>(int year)
+        {
+            return this.moviesRepository
+                .AllAsNoTracking()
+                .Where(x => x.ReleaseDate.Year == year)
+                .To<T>();
+        }
     }
 }

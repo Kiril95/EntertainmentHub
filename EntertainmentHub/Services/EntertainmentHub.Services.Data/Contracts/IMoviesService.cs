@@ -1,6 +1,5 @@
 ﻿namespace EntertainmentHub.Services.Data.Contracts
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -30,5 +29,7 @@
         IQueryable<T> GetTopRatedMoviesAsQueryable<T>();
 
         Task<IEnumerable<T>> GetLatestMoviesAsync<T>();
+
+        IQueryable<T> GetMoviesByYearAsQueryable<T>(int year);
     }
 }

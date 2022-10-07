@@ -1,99 +1,99 @@
 ﻿@using EntertainmentHub.Common
+@using EntertainmentHub.Web.ViewModels.Genres
+@using EntertainmentHub.Web.ViewModels.Movies
+@inject EntertainmentHub.Services.Data.Contracts.IGenresService GenresService
+@inject EntertainmentHub.Services.Data.Contracts.IMoviesService MoviesService
 
-<!--/footer-bottom-->
+@{
+    var genres = await GenresService.GetMainGenresAsync<GenreViewModel>();
+    var latestMovies = await MoviesService.GetLatestMoviesAsync<MovieFooterViewModel>();
+    var popularMovies = await MoviesService.GetPopularMoviesAsync<MovieFooterViewModel>();
+}
+
 <div class="contact-w3ls" id="contact">
-	<div class="footer-w3lagile-inner">
-		<h2>Sign up for our <span>Newsletter</span></h2>
-		<p class="para">
-			Subscribe to us.
-		</p>
-		<div class="footer-contact">
-			<form action="#" method="post">
-				<input type="email" name="Email" placeholder="Enter your email...." required="">
-				<input type="submit" value="Subscribe">
-			</form>
-		</div>
-		<br />
+    <div class="footer-w3lagile-inner">
+        <br />
+        <div class="footer-grids w3-agileits">
+            <div class="col-md-2 footer-grid">
+                <h4>Terms</h4>
+                <ul>
+                    <li class="active">
+                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                    </li>
+                    <li class="active">
+                        <a class="nav-link text-dark" asp-controller="Home" asp-action="CookiePolicy">Cookie Policy</a>
+                    </li>
+                    <li class="active">
+                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Credits">Credits</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-2 footer-grid">
+                <h4>Release</h4>
+                <ul>
+                    @for (int i = DateTime.UtcNow.Year; i > DateTime.UtcNow.Year - 6; i--)
+                    {
+                        <li>
+                            <a asp-area="" asp-controller="Movies" asp-action="Year" asp-route-year="@i">@i</a>
+                        </li>
+                    }
+                </ul>
+            </div>
 
-		<div class="footer-grids w3-agileits">
-			<div class="col-md-2 footer-grid">
-				<h4>Terms</h4>
-				<ul>
-					<li class="active">
-						<a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
-					</li>
-					<li class="active">
-						<a class="nav-link text-dark" asp-controller="Home" asp-action="CookiePolicy">Cookie Policy</a>
-					</li>
-					<li class="active">
-						<a class="nav-link text-dark" asp-controller="Home" asp-action="Credits">Credits</a>
-					</li>
-				</ul>
-			</div>
-			<div class="col-md-2 footer-grid">
-				<h4>Release</h4>
-				<ul>
-					<li><a href="genre.html">2022</a></li>
-					<li><a href="comedy.html">2021</a></li>
-				</ul>
-			</div>
+            <div class="col-md-2 footer-grid">
+                <h4>Review Movies</h4>
+                <ul class="w3-tag2">
+                    @foreach (var genre in genres)
+                    {
+                        <li><a asp-area="" asp-controller="Genres" asp-action="Type" asp-route-name="@genre.Name">@genre.Name</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-2 footer-grid">
+                <h4>Latest Movies</h4>
+                @foreach (var movie in latestMovies.Take(3))
+                {
+                    <div class="footer-grid1">
+                        <div class="footer-grid1-left">
+                            <a asp-area="" asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id"><img src="@movie.SlideshowPath" class="img-responsive"></a>
+                        </div>
+                        <div class="footer-grid1-right">
+                            <a class="word-wrap" asp-area="" asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                }
+                <div class="clearfix"> </div>
+            </div>
 
-			<div class="col-md-2 footer-grid">
-				<h4>Review Movies</h4>
-				<ul class="w3-tag2">
-					<li><a href="comedy.html">Comedy</a></li>
-					<li><a href="horror.html">Horror</a></li>
-					<li><a href="series.html">Historical</a></li>
-					<li><a href="series.html">Romantic</a></li>
-					<li><a href="series.html">Love</a></li>
-				</ul>
-			</div>
-			<div class="col-md-2 footer-grid">
-				<h4>Latest Movies</h4>
-				<div class="footer-grid1">
-					<div class="footer-grid1-left">
-						<a href="single.html"><img src="~/images/1.jpg" alt=" " class="img-responsive"></a>
-					</div>
-					<div class="footer-grid1-right">
-						<a href="single.html">eveniet ut molesti</a>
+            @*RandomMovies*@
+            <div class="col-md-2 footer-grid">
+                <h4 class="b-log"><a asp-controller="Home" asp-action="Index"><span>Enter</span>tainment <span>H</span>ub</a></h4>
+                @foreach (var movie in popularMovies.Take(6))
+                {
+                    <div class="footer-grid-instagram">
+                        <a asp-area="" asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id"><img src="@movie.SlideshowPath" class="img-responsive"></a>
+                    </div>
+                }
+                <div class="clearfix"> </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <hr />
 
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				
-				<div class="clearfix"> </div>
-			</div>
-
-			@*RandomMovies*@
-			<div class="col-md-2 footer-grid">
-				<h4 class="b-log"><a asp-controller="Home" asp-action="Index"><span>Enter</span>tainment <span>H</span>ub</a></h4>
-				<div class="footer-grid-instagram">
-					<a href="single.html"><img src="~/images/m1.jpg" alt=" " class="img-responsive"></a>
-				</div>
-				<div class="footer-grid-instagram">
-					<a href="single.html"><img src="~/images/m2.jpg" alt=" " class="img-responsive"></a>
-				</div>
-								
-				<div class="clearfix"> </div>
-			</div>
-			<div class="clearfix"> </div>
-			
-		</div>
-		<hr />
-
-		<h3 class="text-center follow">Connect <span>With Us</span></h3>
-		<ul class="social-icons1 agileinfo">
-			<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-			<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-			<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-			<li><a href="#"><i class="fa fa-youtube"></i></a></li>
-			<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-		</ul>
-	</div>
+        <h3 class="text-center follow">Connect <span>With Us</span></h3>
+        <ul class="social-icons1 agileinfo">
+            <li><a href="https://www.facebook.com/kiril.tolev" target="_blank"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/kiril-tolev/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/Kiril95" target="_blank"><i class="fa fa-github"></i></a></li>
+            <li><a href="mailto:info@tolevkiril@gmail.com"><i class="fa fa-google-plus"></i></a></li>
+        </ul>
+    </div>
 </div>
 
 <div class="w3agile_footer_copy">
-	<p>&copy; @DateTime.Now.Year - @GlobalConstants.SystemName. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+    <p>&copy; @DateTime.Now.Year - @GlobalConstants.SystemName. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
 </div>
 <a href="#home" id="toTop" class="scroll" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 

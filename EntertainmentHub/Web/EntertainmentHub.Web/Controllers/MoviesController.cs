@@ -7,9 +7,7 @@
     using EntertainmentHub.Web.ViewModels;
     using EntertainmentHub.Web.ViewModels.Comments;
     using EntertainmentHub.Web.ViewModels.Movies;
-    using EntertainmentHub.Web.ViewModels.Reviews;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
 
     public class MoviesController : Controller
     {
@@ -66,6 +64,15 @@
             };
 
             return this.View(viewModel);
+        }
+
+        public IActionResult Year(int year)
+        {
+            var movies = this.moviesService.GetMoviesByYearAsQueryable<MovieSimpleViewModel>(year);
+
+            this.ViewData["ReleaseYear"] = year;
+
+            return this.View(movies);
         }
     }
 }
