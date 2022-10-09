@@ -5,9 +5,9 @@
 }
 
 <div class="admin-forms container">
+    <br />
     <h2 class="admin-forms">Submission From - <b>@Model.Name</b></h2>
     <hr />
-
     <div class="col-md-6">
         <form>
             <div class="form-group">
@@ -24,20 +24,19 @@
             </div>
             <div class="form-group">
                 <label asp-for="Message"></label>
-                <input asp-for="Message" class="form-control" />
+                <textarea asp-for="Message" class="form-control"></textarea>
             </div>
-            <button asp-action="" asp-route-id="@Model.Id" class="btn btn-success">Reply</button>
-            <button asp-action="AllSubmissions" class="btn btn-primary">Back</button>
+            <a asp-action="Reply" asp-route-id="@Model.Id" class="btn btn-success">Reply</a>
+            <a asp-action="AllSubmissions" class="btn btn-primary">Back</a>
         </form>
         <br />
-        <form 
-            asp-action="Delete" asp-route-id="@Model.Id" method="post" id="deleteForm">
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" id="deleteForm">
         </form>
 
         <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">Delete</button>
+        <br />
     </div>
 </div>
-
 
 <div class="modal" tabindex="-1" role="dialog" id="modalDelete">
     <div class="modal-dialog" role="document">

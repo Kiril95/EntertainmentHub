@@ -19,8 +19,14 @@ p {
 }
 
 .admin-forms {
-    font-family: Algerian;
+    font-family: cursive;
     font-weight: 900;
+}
+
+.res-pass {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
 }
 
 .image-center {

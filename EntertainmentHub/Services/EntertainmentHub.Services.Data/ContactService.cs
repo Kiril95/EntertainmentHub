@@ -1,7 +1,5 @@
 ﻿namespace EntertainmentHub.Services.Data
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -16,11 +14,14 @@
     public class ContactService : IContactService
     {
         private readonly IRepository<ContactForm> contactsRepository;
+        private readonly IEmailSender emailSender;
 
         public ContactService(
-            IRepository<ContactForm> userContactsRepository)
+            IRepository<ContactForm> userContactsRepository,
+            IEmailSender emailSender)
         {
             this.contactsRepository = userContactsRepository;
+            this.emailSender = emailSender;
         }
 
         public async Task GetUserSubmissionAsync(ContactFormInputModel inputModel)
@@ -59,6 +60,16 @@
             this.contactsRepository.Delete(submission);
 
             await this.contactsRepository.SaveChangesAsync();
+        }
+
+        public async Task ReplyToUserAsync(ReplyModel inputModel)
+        {
+            await this.emailSender.SendEmailAsync(
+                inputModel.Email,
+                inputModel.Name,
+                inputModel.To,
+                inputModel.Subject,
+                inputModel.Message);
         }
     }
 }

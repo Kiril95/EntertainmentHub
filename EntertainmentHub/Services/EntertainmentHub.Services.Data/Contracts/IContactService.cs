@@ -3,7 +3,6 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using EntertainmentHub.Data.Models;
     using EntertainmentHub.Web.ViewModels.Contact;
 
     public interface IContactService
@@ -15,5 +14,7 @@
         IQueryable<T> GetSubmissionsAsQueryable<T>();
 
         Task<T> GetSubmissionByIdAsync<T>(int id);
+
+        Task ReplyToUserAsync(ReplyModel model);
     }
 }

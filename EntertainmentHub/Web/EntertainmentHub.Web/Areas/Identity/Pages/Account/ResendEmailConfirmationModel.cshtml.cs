@@ -5,10 +5,11 @@
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
 
+    using EntertainmentHub.Common;
     using EntertainmentHub.Data.Models;
+    using EntertainmentHub.Services.Messaging;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
@@ -58,6 +59,8 @@
                 values: new { userId = userId, code = code },
                 protocol: this.Request.Scheme);
             await this.emailSender.SendEmailAsync(
+                GlobalConstants.AppEmail,
+                GlobalConstants.SystemName,
                 this.Input.Email,
                 "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");

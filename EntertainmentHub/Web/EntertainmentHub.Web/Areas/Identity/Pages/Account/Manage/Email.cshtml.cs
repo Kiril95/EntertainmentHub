@@ -5,9 +5,10 @@
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
 
+    using EntertainmentHub.Common;
     using EntertainmentHub.Data.Models;
+    using EntertainmentHub.Services.Messaging;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
@@ -92,12 +93,17 @@
             {
                 var userId = await this.userManager.GetUserIdAsync(user);
                 var code = await this.userManager.GenerateChangeEmailTokenAsync(user, this.Input.NewEmail);
+
+                // This encoding was missing(don't know why) and that is why the email changing didn't work
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = this.Url.Page(
                     "/Account/ConfirmEmailChange",
                     pageHandler: null,
                     values: new { userId = userId, email = this.Input.NewEmail, code = code },
                     protocol: this.Request.Scheme);
                 await this.emailSender.SendEmailAsync(
+                    GlobalConstants.AppEmail,
+                    GlobalConstants.SystemName,
                     this.Input.NewEmail,
                     "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
@@ -134,6 +140,8 @@
                 values: new { area = "Identity", userId = userId, code = code },
                 protocol: this.Request.Scheme);
             await this.emailSender.SendEmailAsync(
+                GlobalConstants.AppEmail,
+                GlobalConstants.SystemName,
                 email,
                 "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");

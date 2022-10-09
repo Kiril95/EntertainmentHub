@@ -31,6 +31,10 @@
 
         public class InputModel
         {
+            [Required]
+            [Display(Name = "Username")]
+            public string UserName { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
@@ -48,8 +52,9 @@
 
             this.Input = new InputModel
             {
+                UserName = userName,
                 PhoneNumber = phoneNumber,
-                City = city
+                City = city,
             };
         }
 
@@ -79,6 +84,17 @@
                 return this.Page();
             }
 
+            var userName = await this.userManager.GetUserNameAsync(user);
+            if (this.Input.UserName != userName)
+            {
+                var setUsername = await this.userManager.SetUserNameAsync(user, this.Input.UserName);
+                if (!setUsername.Succeeded)
+                {
+                    this.StatusMessage = "Unexpected error when trying to set username.";
+                    return this.RedirectToPage();
+                }
+            }
+
             var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
             if (this.Input.PhoneNumber != phoneNumber)
             {
@@ -93,7 +109,7 @@
             var city = user.City;
             if (this.Input.City != city)
             {
-                user.City = city;
+                user.City = this.Input.City;
                 await this.userManager.UpdateAsync(user);
             }
 
