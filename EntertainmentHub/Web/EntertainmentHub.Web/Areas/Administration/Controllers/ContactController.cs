@@ -31,9 +31,14 @@
 
         public async Task<IActionResult> Details(int id)
         {
-            var viewModel = await this.contactService.GetSubmissionByIdAsync<ContactViewModel>(id);
+            var submission = await this.contactService.GetSubmissionByIdAsync<ContactViewModel>(id);
 
-            return this.View(viewModel);
+            if (submission is null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(submission);
         }
 
         [HttpPost]
@@ -48,6 +53,11 @@
         {
             var submission = await this.contactService.GetSubmissionByIdAsync<ContactViewModel>(id);
             var user = await this.userManager.GetUserAsync(this.User);
+
+            if (submission is null)
+            {
+                return this.NotFound();
+            }
 
             var viewModel = new ReplyModel
             {

@@ -1,10 +1,15 @@
 ﻿namespace EntertainmentHub.Web.Tests.IntegrationTests
 {
     using System.Collections.Generic;
+    using System.Net;
     using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Mvc.Testing;
+    using Microsoft.AspNetCore.TestHost;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Net.Http.Headers;
     using Xunit;
 
@@ -155,6 +160,89 @@
             var responseString = await response.Content.ReadAsStringAsync();
 
             Assert.Contains("Name should be between 2 and 50 characters!", responseString);
+        }
+
+        // Admin Area
+        [Fact]
+        public async Task AllSubmissionsPageRequiresAuthorization()
+        {
+            var client = this.server.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
+            var response = await client.GetAsync("Administration/Contact/AllSubmissions");
+
+            Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task AllSubmissionsPageShouldReturnStatusCode200()
+        {
+            var client = this.GetAuthorizedClient();
+
+            var response = await client.GetAsync("/Administration/Contact/AllSubmissions");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Assert.Contains("All Submissions", responseContent);
+            Assert.Contains("<td>1</td>", responseContent);
+        }
+
+        [Fact]
+        public async Task SubmissionDetailsRequiresAuthorization()
+        {
+            var client = this.server.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
+            var response = await client.GetAsync("/Administration/Contact/Details/1?");
+
+            Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task SubmissionDetailsByIdShouldReturnStatusCode200()
+        {
+            var client = this.GetAuthorizedClient();
+
+            var response = await client.GetAsync("/Administration/Contact/Details/1?");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Assert.Contains("Submission From", responseContent);
+            Assert.Contains("Reply", responseContent);
+        }
+
+        [Fact]
+        public async Task SubmissionDetailsByIdReturns404IfTheRouteIsWrong()
+        {
+            var client = this.server.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddAuthentication("Administrator").AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Administrator", options => { });
+                });
+            })
+            .CreateClient();
+
+            var response = await client.GetAsync("/Administration/Contact/Details/100000?");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Assert.Contains("<title>Page not found", responseContent);
+        }
+
+        private HttpClient GetAuthorizedClient()
+        {
+            var client = this.server.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddAuthentication("Administrator").AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Administrator", options => { });
+                });
+            })
+            .CreateClient(new WebApplicationFactoryClientOptions
+            {
+                AllowAutoRedirect = false,
+            });
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Administrator");
+
+            return client;
         }
     }
 }
