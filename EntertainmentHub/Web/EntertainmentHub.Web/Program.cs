@@ -3,7 +3,7 @@ namespace EntertainmentHub.Web
     using System;
     using System.Globalization;
     using System.Reflection;
-
+    using System.Threading.Tasks;
     using EntertainmentHub.Data;
     using EntertainmentHub.Data.Common;
     using EntertainmentHub.Data.Common.Repositories;
@@ -42,8 +42,19 @@ namespace EntertainmentHub.Web
             builder.Services.Configure<TMDBKeyModel>(builder.Configuration.GetSection("TMDB:ApiKey"));
 
             var app = builder.Build();
+
             Configure(app);
             app.UseAuthentication();
+            app.UseStatusCodePages(ctx =>
+            {
+                if (ctx.HttpContext.Response.StatusCode == 405)
+                {
+                    ctx.HttpContext.Response.StatusCode = 404;
+                }
+
+                return Task.CompletedTask;
+            });
+
             app.Run();
         }
 

@@ -10,5 +10,9 @@
         Task CreateCommentAsync(MovieCommentInputModel inputModel);
 
         IQueryable<T> GetCommentsByIdAsQueryable<T>(int id);
+
+        Task DeleteCommentAsync(int id);
+
+        Task<T> GetCommentByIdAsync<T>(int id);
     }
 }

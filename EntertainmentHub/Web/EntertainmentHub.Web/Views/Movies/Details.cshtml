@@ -10,7 +10,7 @@
     var userId = user is not null ? await this.UserManager.GetUserIdAsync(user) : "";
 }
 
-<link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" asp-append-version="true"/>
+<link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" asp-append-version="true" />
 
 <div class="w3_breadcrumb">
     <div class="breadcrumb-inner">
@@ -35,19 +35,23 @@
                 <div class="my-rating-5"></div>
                 <span class="live-rating"></span>
                 <br />
-                <span id="averageRate">@Model.Movie.Rating.ToString("f2")</span><span> / 6.00</span>
+                <span id="averageRate">@Model.Movie.Rating.ToString("f2")</span>
+
+                <span> / 6.00</span>
                 <br />
-                <input id="Btn" type="button" class="btn btn-danger" value="Remove Rate"/>
+                <input id="Btn" type="button" class="btn btn-danger" value="Remove Rate" />
                 <div style="display: none" id="success-msg" class="alert alert-success">You successfully revoked your rating.</div>
                 <div style="display: none" id="danger-msg" class="alert alert-danger">You haven't rated this movie.</div>
             }
             else
             {
-                <div class="my-rating-7 rate-log-msg"></div>              
-                <span id="averageRate">@Model.Movie.Rating.ToString("f2")</span><span> / 6.00</span>
+                <div class="my-rating-7 rate-log-msg"></div>
+                <span id="averageRate">@Model.Movie.Rating.ToString("f2")</span>
+
+                <span> / 6.00</span>
 
                 <div style="display: none" id="log-msg" class="alert alert-warning">
-                    You have to login in order to rate this movie.  
+                    You have to login in order to rate this movie.
                     <a asp-area="Identity" asp-page="/Account/Login" asp-for"" class="submit-link submit">Login</a>
                 </div>
             }
@@ -105,7 +109,7 @@
                     </div>
                 </div>
 
-                <div class="response">                 
+                <div class="response">
                     <h4>Comments</h4>
                     @if (!Model.Comments.Any())
                     {
@@ -142,11 +146,35 @@
                                         @if (this.User.Identity.IsAuthenticated)
                                         {
                                             <li>
-                                                <a style="cursor: not-allowed"><i class="fa fa-reply" aria-hidden="true"></i> Reply</a>
+                                                <a class="btn btn-primary" style="cursor: not-allowed"><i class="fa fa-reply" aria-hidden="true"></i> Reply</a>
                                             </li>
+                                            <br />
+                                            @if (comment.UserId == userId)
+                                            {
+                                                <li>
+                                                    <form asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.CommentId" method="post" id="deleteForm">
+                                                    </form>
+
+                                                    <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">Delete</button>
+                                                </li>
+                                            }
                                         }
                                     </ul>
                                 </div>
+                                <div class="modal" tabindex="-1" role="dialog" id="modalDelete">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <b class="text-danger">Are you sure you want to delete your comment?</b>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                                                <button type="button" class="btn btn-danger" id="submitDel">Yes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="clearfix"> </div>
                             </div>
                         }
@@ -196,7 +224,7 @@
                                 </li>
                             </ul>
                         </div>
-                    }                        
+                    }
 
                     @if (this.User.Identity.IsAuthenticated)
                     {
@@ -210,8 +238,8 @@
                                         <input type="submit" value="Comment">
                                     </div>
                                     <div class="col-md-6 form-info">
-                                        <input type="hidden" name="MovieId" value="@Model.Movie.Id">                                   
-                                        <input type="hidden" name="UserId" value="@userId">                                    
+                                        <input type="hidden" name="MovieId" value="@Model.Movie.Id">
+                                        <input type="hidden" name="UserId" value="@userId">
                                     </div>
                                     <div class="clearfix"> </div>
                                 </form>
@@ -261,18 +289,18 @@
                                 </ul>
                                 <p>
                                     @if (review.Content.Length > 250)
-                                    {                               
+                                    {
                                         @string.Concat(review.Content.Substring(0, 250), "...")
                                         <a asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" asp-route-movieId="@review.MovieId" style="text-decoration: underline">Read the rest</a>
                                     }
                                     else
                                     {
-                                        @review.Content        
+                                        @review.Content
                                     }
-                                </p>                               
+                                </p>
                             </div>
                             <div class="clearfix"> </div>
-                        </div>  
+                        </div>
                         <hr />
                     }
                     @if (Model.Movie.MovieReviews.Where(x => !string.IsNullOrWhiteSpace(x.Content)).Count() > 4)
@@ -281,7 +309,7 @@
                             <a class="login" asp-controller="Reviews" asp-action="All" asp-route-id="@Model.Movie.Id">View all reviews</a>
                         </div>
                     }
-                }         
+                }
             </div>
             <div class="clearfix"></div>
         </div>
@@ -291,17 +319,17 @@
 
 @section Scripts{
     <script>
-        function returnRate () {
+        function returnRate() {
             let result = 0;
             let id = @Model.Movie.Id;
 
             $.ajax({
                 url: "/api/Ratings",
                 async: false,
-                data: { id : id },
+                data: { id: id },
                 dataType: 'json',
                 success: function (data) {
-                    result = data;    
+                    result = data;
                 },
             });
 
@@ -309,35 +337,35 @@
         };
     </script>
 
-    <script>               
+    <script>
         var averageRate = returnRate();
 
         $(".my-rating-5").starRating({
-              totalStars: 6,
-              useFullStars: true,
-              starSize: 35,
-              strokeWidth: 16,
-              initialRating: averageRate,
-              strokeColor: 'black',
-              emptyColor: 'lightgray',
-              starShape: 'rounded',
-              starGradient: {
-                  start: '#93BFE2',
-                  end: '#105694'
-              },
+            totalStars: 6,
+            useFullStars: true,
+            starSize: 35,
+            strokeWidth: 16,
+            initialRating: averageRate,
+            strokeColor: 'black',
+            emptyColor: 'lightgray',
+            starShape: 'rounded',
+            starGradient: {
+                start: '#93BFE2',
+                end: '#105694'
+            },
             onHover: function (currentIndex, currentRating, $el) {
                 $('.live-rating').text(currentIndex);
             },
             onLeave: function (currentIndex, currentRating, $el) {
                 $('.live-rating').text(currentRating);
             },
-            callback: function(currentRating, $el){
+            callback: function (currentRating, $el) {
                 $(this).click(function () {
                     let rate = currentRating;
                     let movieId = @Model.Movie.Id;
                     var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
 
-                    let data = { 
+                    let data = {
                         rate: currentRating,
                         movieId: movieId,
                     };
@@ -360,11 +388,11 @@
         });
     </script>
 
-    <script>     
+    <script>
         $('#Btn').click(function () {
             let movieId = @Model.Movie.Id;
             var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
-        
+
             $.ajax({
                 type: 'DELETE',
                 url: '/api/Ratings',
@@ -378,13 +406,13 @@
                     if (success === true) {
                         $('#danger-msg').hide();
                         $('#success-msg').show().delay(4000).fadeOut();
-        
+
                         var averageRate = returnRate();
                         $('#averageRate').html(averageRate.toFixed(2));
                     } else {
                         $('#success-msg').hide();
                         $('#danger-msg').show().delay(4000).fadeOut();
-                    }                    
+                    }
                 },
             });
         });
@@ -405,9 +433,15 @@
     <script>
         $(document).ready(
             function () {
-            $('.rate-log-msg').click(function () {
-                $('#log-msg').show().delay(10000).fadeOut();
+                $('.rate-log-msg').click(function () {
+                    $('#log-msg').show().delay(10000).fadeOut();
+                });
             });
+    </script>
+
+    <script>
+        $("#submitDel").click(function () {
+            $("#deleteForm").submit();
         });
     </script>
 }

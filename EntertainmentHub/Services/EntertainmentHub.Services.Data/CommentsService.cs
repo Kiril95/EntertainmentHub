@@ -1,5 +1,6 @@
 ﻿namespace EntertainmentHub.Services.Data
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -8,14 +9,15 @@
     using EntertainmentHub.Services.Data.Contracts;
     using EntertainmentHub.Services.Mapping;
     using EntertainmentHub.Web.ViewModels.Comments;
+    using Microsoft.EntityFrameworkCore;
 
     public class CommentsService : ICommentsService
     {
         private readonly IDeletableEntityRepository<Comment> commentsRepository;
-        private readonly IDeletableEntityRepository<MovieComment> movieCommentsRepository;
+        private readonly IRepository<MovieComment> movieCommentsRepository;
 
         public CommentsService(
-            IDeletableEntityRepository<MovieComment> movieCommentsRepository,
+            IRepository<MovieComment> movieCommentsRepository,
             IDeletableEntityRepository<Comment> commentsRepository)
         {
             this.movieCommentsRepository = movieCommentsRepository;
@@ -43,11 +45,34 @@
             await this.movieCommentsRepository.SaveChangesAsync();
         }
 
+        public async Task DeleteCommentAsync(int id)
+        {
+            var comment = await this.movieCommentsRepository.AllAsNoTracking().FirstOrDefaultAsync(x => x.CommentId == id);
+
+            if (comment == null)
+            {
+                throw new NullReferenceException(string.Format($"There isn't a comment with this Id - {id}"));
+            }
+
+            this.movieCommentsRepository.Delete(comment);
+            await this.movieCommentsRepository.SaveChangesAsync();
+        }
+
+        public async Task<T> GetCommentByIdAsync<T>(int id)
+        {
+            return await this.movieCommentsRepository
+                .AllAsNoTracking()
+                .Where(x => x.CommentId == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
+        }
+
         public IQueryable<T> GetCommentsByIdAsQueryable<T>(int id)
         {
             return this.movieCommentsRepository
                 .AllAsNoTracking()
                 .Where(x => x.MovieId == id)
+                .OrderBy(x => x.CommentId)
                 .To<T>();
         }
     }

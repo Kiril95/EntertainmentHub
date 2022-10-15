@@ -7,6 +7,8 @@
 
     public class MovieCommentViewModel : IMapFrom<MovieComment>
     {
+        public int Id { get; set; }
+
         public int MovieId { get; set; }
 
         public string MovieTitle { get; set; }

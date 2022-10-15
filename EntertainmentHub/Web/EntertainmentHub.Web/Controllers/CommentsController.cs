@@ -30,5 +30,21 @@
             // Redirect to current movie page
             return this.RedirectToAction("Details", "Movies", new { id = inputModel.MovieId });
         }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var comment = await this.commentsService.GetCommentByIdAsync<MovieCommentViewModel>(id);
+
+            if (comment is null)
+            {
+                return this.NotFound();
+            }
+
+            await this.commentsService.DeleteCommentAsync(id);
+
+            return this.RedirectToAction("Details", "Movies", new { id = comment.MovieId });
+        }
     }
 }

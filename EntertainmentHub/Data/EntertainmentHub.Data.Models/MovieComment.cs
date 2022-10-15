@@ -5,7 +5,7 @@
 
     using EntertainmentHub.Data.Common.Models;
 
-    public class MovieComment : IDeletableEntity
+    public class MovieComment : BaseModel<int>
     {
         public int MovieId { get; set; }
 

@@ -18,13 +18,13 @@
         private readonly ILogger<DeletePersonalDataModel> logger;
 
         private readonly IRepository<Rating> ratingsRepository;
-        private readonly IDeletableEntityRepository<MovieComment> movieCommentsRepository;
+        private readonly IRepository<MovieComment> movieCommentsRepository;
 
         public DeletePersonalDataModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<DeletePersonalDataModel> logger,
-            IDeletableEntityRepository<MovieComment> movieCommentsRepository,
+            IRepository<MovieComment> movieCommentsRepository,
             IRepository<Rating> ratingsRepository)
         {
             this.userManager = userManager;
@@ -87,7 +87,7 @@
             {
                 foreach (var item in comments)
                 {
-                    this.movieCommentsRepository.HardDelete(item);
+                    this.movieCommentsRepository.Delete(item);
                 }
 
                 await this.movieCommentsRepository.SaveChangesAsync();
