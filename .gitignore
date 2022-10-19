@@ -349,8 +349,11 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-**/wwwroot/lib/
 appsettings.Production.json
 EntertainmentHub/Web/EntertainmentHub.Web/appsettings.Production.json
+EntertainmentHub/Web/EntertainmentHub.Web/Properties/ServiceDependencies
+EntertainmentHub/Web/EntertainmentHub.Web/Properties/serviceDependencies.json
+EntertainmentHub/Web/EntertainmentHub.Web/Properties/serviceDependencies.entertainment-hub - Web Deploy.json
+**/wwwroot/lib/
 *.min.css
 *.min.js
