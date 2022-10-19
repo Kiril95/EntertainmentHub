@@ -119,7 +119,7 @@
         {
             return await this.moviesRepository
                 .AllAsNoTracking()
-                .OrderBy(x => x.CreatedOn)
+                .OrderByDescending(x => x.CreatedOn)
                 .Take(13)
                 .To<T>()
                 .ToListAsync();
