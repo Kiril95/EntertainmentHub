@@ -15,8 +15,7 @@
 		<meta name="google-site-verification" content="x6KAz-QBWupI76XUnT42FfrCsbmSMA49kER1mzVpltM" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="keywords" content="Movies, Film, Comments, Genres, Countries, TV Shows, Reviews, Actors, Actresses, Photos, Ratings, Trailers, Cast">
-		<meta name="description" content="Entertainment Hub is a fast-growing, user friendly database for movies and soon to have TV 
-			shows. Check ratings, reviews and the actors for some of the best movies that were created.">
+		<meta name="description" content="Entertainment Hub is a fast-growing, user friendly database for movies and soon to have TV shows. Check ratings, reviews and the actors for some of the best movies that were created.">
 		
 		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 				function hideURLbar(){ window.scrollTo(0,1); } 
@@ -38,6 +37,7 @@
 		<script type="text/javascript" src="~/js/jquery-1.11.1.min.js" asp-append-version="true"></script>
 		<script type="text/javascript" src="~/js/modernizr-2.6.2.min.js" asp-append-version="true"></script>
 		<script type="text/javascript" src="~/js/jquery.star-rating-svg.js" asp-append-version="true"></script>
+		<script type="text/javascript" src="~/js/qrcode.js" asp-append-version="true"></script>
 
 		<!--/web-fonts-->
 		<link href='//fonts.googleapis.com/css?family=Tangerine:400,700' rel='stylesheet' type='text/css' asp-append-version="true">
@@ -46,7 +46,7 @@
 		<!--//web-fonts-->
 	</head>
 
-		@if (paths.Any(x => CurrentURL.EndsWith(x)) || CurrentURL.Contains("Manage"))
+		@if (paths.Any(x => CurrentURL.EndsWith(x)) || CurrentURL.Contains("Manage") || CurrentURL.Contains("LoginWith2fa"))
 		{
 			<main role="main" class="pb-3">
 				@this.RenderBody()

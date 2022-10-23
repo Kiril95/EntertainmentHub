@@ -4,6 +4,7 @@ namespace EntertainmentHub.Web
     using System.Globalization;
     using System.Reflection;
     using System.Threading.Tasks;
+
     using EntertainmentHub.Data;
     using EntertainmentHub.Data.Common;
     using EntertainmentHub.Data.Common.Repositories;

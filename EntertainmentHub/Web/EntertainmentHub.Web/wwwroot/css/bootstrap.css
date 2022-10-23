@@ -4918,7 +4918,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     }
 
 .nav-stacked > li {
-    float: none;
+    float: inline-start;
 }
 
     .nav-stacked > li + li {
