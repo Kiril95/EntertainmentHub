@@ -1,4 +1,5 @@
 ﻿@using EntertainmentHub.Web.ViewModels.Contact
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @model ContactFormInputModel
 
 @{
@@ -22,7 +23,7 @@
             <p class="w3ls_head_para">For all enquiries, please email us using the form below.</p>
         </div>
         <div class="w3_mail_grids">
-            <form asp-action="Index" method="post">
+            <form asp-action="Index" method="post" id="contactForm">
                 <div class="col-md-6 w3_agile_mail_grid">
                      <span class="input input--ichiro">
                         <input asp-for="@Model.Name" class="input__field input__field--ichiro" id="input-25">
@@ -61,6 +62,8 @@
                     <span asp-validation-for="@Model.Message" class="text-danger"></span>
                     <input type="submit" value="Submit">
                 </div>
+
+                <input type="hidden" id="ReCaptchaValue" name="ReCaptchaValue" />
                 <div class="clearfix"> </div>
             </form>
             <div class="agileits-get-us">
@@ -79,5 +82,20 @@
 </div>
 
 @section Scripts{
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=@this.Configuration["GoogleReCaptcha:Key"]"></script>
+
+    <script>
+        grecaptcha.ready(function () {
+            document.getElementById('contactForm').addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                grecaptcha.execute('@this.Configuration["GoogleReCaptcha:Key"]', { action: 'contact_form' })
+                .then(function (token) {
+                    document.getElementById('ReCaptchaValue').value = token;
+                    document.getElementById('contactForm').submit();
+                });
+
+            }, false);
+        });
+    </script>
 }

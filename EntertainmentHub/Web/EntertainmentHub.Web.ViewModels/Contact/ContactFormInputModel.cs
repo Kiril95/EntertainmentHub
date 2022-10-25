@@ -2,6 +2,8 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using PressCenters.Web.Infrastructure;
+
     public class ContactFormInputModel
     {
         [Required]
@@ -19,5 +21,8 @@
         [Required]
         [StringLength(500, MinimumLength = 4, ErrorMessage = "{0} should be between {2} and {1} characters!")]
         public string Message { get; set; }
+
+        [ReCaptchaValidationAttribute]
+        public string ReCaptchaValue { get; set; }
     }
 }

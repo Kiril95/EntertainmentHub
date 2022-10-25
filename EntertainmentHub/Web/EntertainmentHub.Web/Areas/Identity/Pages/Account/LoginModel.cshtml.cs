@@ -10,8 +10,10 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
+    using PressCenters.Web.Infrastructure;
 
     [AllowAnonymous]
     public class LoginModel : PageModel
@@ -51,6 +53,11 @@
 
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
+
+            // Properties are not bound for GET requests so we need to bind this one in order for the ReCaptcha to work
+            [ReCaptchaValidationAttribute]
+            [BindProperty]
+            public string ReCaptchaValue { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)

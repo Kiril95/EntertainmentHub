@@ -22,6 +22,7 @@
 		<ProjectReference Include="..\..\Data\EntertainmentHub.Data.Models\EntertainmentHub.Data.Models.csproj" />
 		<ProjectReference Include="..\..\EntertainmentHub.Common\EntertainmentHub.Common.csproj" />
 		<ProjectReference Include="..\..\Services\EntertainmentHub.Services.Mapping\EntertainmentHub.Services.Mapping.csproj" />
+		<ProjectReference Include="..\EntertainmentHub.Web.Infrastructure\EntertainmentHub.Web.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

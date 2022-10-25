@@ -1,5 +1,6 @@
 ﻿@page
 @model LoginModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 
 @{
     ViewData["Title"] = "Log in";
@@ -21,7 +22,6 @@
             <p class="desc"><span>Sign in, dear friend :]</span></p>
 
             <div asp-validation-summary="All" class="text-danger"></div>
-
             <div class="form-group">
                 <input asp-for="Input.Username" type="text" class="form-input" placeholder="Username..." />
                 <span asp-validation-for="Input.Username" class="text-danger"></span>
@@ -41,6 +41,7 @@
                     </span>
                 </label>
             </div>
+            <input type="hidden" asp-for="Input.ReCaptchaValue" id="ReCaptchaValue" />
 
             <div class="form-group">
                 <input type="submit" name="submit" id="submit" class="form-submit submit" value="Login" />
@@ -97,3 +98,27 @@
 
 <script type="text/javascript" src="~/js/jquery.min.js"></script>
 <script type="text/javascript" src="~/js/main.js"></script>
+
+@section Scripts{
+    <script src="https://www.google.com/recaptcha/api.js?render=@this.Configuration["GoogleReCaptcha:Key"]"></script>
+
+    <script>
+        // Onload
+        grecaptcha.ready(function () {
+            grecaptcha.execute('@this.Configuration["GoogleReCaptcha:Key"]', { action: 'homepage' })
+            .then(function (token) {
+                document.getElementById('ReCaptchaValue').value = token;
+            });
+        });
+
+        //Every 90 Seconds(this js method works in milliseconds)
+        setInterval(function () {
+            grecaptcha.ready(function () {
+                grecaptcha.execute('@this.Configuration["GoogleReCaptcha:Key"]', { action: 'homepage' })
+                .then(function (token) {
+                    document.getElementById('ReCaptchaValue').value = token;
+                });
+            });
+        }, 90000);
+    </script>
+}
