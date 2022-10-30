@@ -34,5 +34,13 @@
                 .OrderBy(x => x.Name)
                 .To<T>();
         }
+
+        public IQueryable<T> GetMostPopularActorsAsQueryable<T>()
+        {
+            return this.actorRepository
+                .AllAsNoTracking()
+                .OrderByDescending(x => x.Popularity)
+                .To<T>();
+        }
     }
 }

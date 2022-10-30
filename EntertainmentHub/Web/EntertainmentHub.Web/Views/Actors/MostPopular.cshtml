@@ -1,0 +1,150 @@
+﻿@using EntertainmentHub.Web.ViewModels.Actors
+@model PopularActorsPaginatedViewModel
+
+@{
+    this.ViewData["Title"] = "Most Popular";
+}
+
+<link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" asp-append-version="true" />
+
+<div class="w3_breadcrumb">
+    <div class="breadcrumb-inner">
+        <ul>
+            <li><a asp-controller="Home" asp-action="Index">Home</a><i class="fa fa-forward"></i></li>
+            <li><a asp-area="" asp-controller="Actors" asp-action="All">Actors</a><i class="fa fa-forward"></i></li>
+            <li class="active">@this.ViewData["Title"]</li>
+        </ul>
+    </div>
+</div>
+<br />
+
+<form asp-action="MostPopular" method="get">
+    <div class="container">
+        <div class="checkbox-inline">
+            <input name="Male" type="checkbox" class="form-check-input" id="Male" value="@this.ViewData["IsMaleChecked"]">
+            <label for="Male" class="form-check-label">Male</label>
+        </div>
+        <div class="checkbox-inline">
+            <input name="Female" type="checkbox" class="form-check-input" id="Female" value="@this.ViewData["IsFemaleChecked"]">
+            <label for="Female" class="form-check-label">Female</label>
+        </div>
+        <div class="checkbox-inline">
+            <input name="AgeAsc" type="checkbox" class="form-check-input" id="AgeAsc" value="@this.ViewData["IsAgeAscChecked"]">
+            <label for="AgeAsc" class="form-check-label">Age/Asc</label>
+            <i class="fa fa-long-arrow-up" aria-hidden="true"></i>
+        </div>
+        <div class="checkbox-inline">
+            <input name="AgeDesc" type="checkbox" class="form-check-input" id="AgeDesc" value="@this.ViewData["IsAgeDescChecked"]">
+            <label for="AgeDesc" class="form-check-label">Age/Desc</label>
+            <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+        </div>
+        <input type="submit" class="btn-primary" value="Filter" />
+    </div>
+</form>  
+<hr />
+
+<div class="wthree_agile-requested-movies tv-movies">
+    <div class="w3ls-news-result">
+        <h4>Count: <span>@Model.PageResults() / @(Model.TotalCount)</span></h4>
+        <h4>Current Page: <span>@Model.Actors.Count()</span></h4>
+    </div>
+
+    <div class="wthree_agile-requested-movies">
+        @foreach (var actor in Model.Actors)
+        {
+            <div class="col-md-2 w3l-movie-gride-agile requested-movies" style="width: 15% !important">
+                <a asp-controller="Actors" asp-action="Details" asp-route-id="@actor.Id" class="hvr-sweep-to-bottom">
+                    <img src="@actor.Photo" class="img-responsive"> @actor.Name
+                </a>
+                <div class="mid-1 agileits_w3layouts_mid_1_home">
+                    <bold>@actor.Popularity <i class="fa fa-star" aria-hidden="true"></i></bold>
+                </div>
+            </div>
+        }
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+@if (Model.Actors.TotalPages > 1)
+{
+    <div class="blog-pagenat-wthree">
+        <ul class="pagination">
+            <li>
+                @if (Model.Actors.HasPreviousPage)
+                {
+                    <a class="page-link frist" asp-action="MostPopular" asp-route-page="@(Model.Actors.PageNumber - 1)"
+                        asp-route-male="@this.ViewData["IsMaleChecked"]" asp-route-female="@this.ViewData["IsFemaleChecked"]"
+                        asp-route-ageAsc="@this.ViewData["IsAgeAscChecked"]" asp-route-ageDesc="@this.ViewData["IsAgeDescChecked"]">
+                        Previous
+                    </a>
+                }
+                else
+                {
+                    <a class="dis-field frist">Previous</a>
+                }
+            </li>
+            @for (int i = Model.Actors.PageNumber - 4; i < Model.Actors.PageNumber; i++)
+            {
+                if (i > 0)
+                {
+                    <li>
+                        <a class="page-link" asp-action="MostPopular" asp-route-page="@i" asp-route-male="@this.ViewData["IsMaleChecked"]"
+                            asp-route-female="@this.ViewData["IsFemaleChecked"]" asp-route-ageAsc="@this.ViewData["IsAgeAscChecked"]"
+                            asp-route-ageDesc="@this.ViewData["IsAgeDescChecked"]">
+                            @i
+                        </a>
+                    </li>
+                }
+            }
+            <li class="active">
+                <span class="page-link">@Model.Actors.PageNumber</span>
+            </li>
+            @for (int i = Model.Actors.PageNumber + 1; i <= Model.Actors.PageNumber + 4; i++)
+            {
+                if (i <= Model.Actors.TotalPages)
+                {
+                    <li>
+                        <a class="page-link" asp-action="MostPopular" asp-route-page="@i" asp-route-male="@this.ViewData["IsMaleChecked"]"
+                            asp-route-female="@this.ViewData["IsFemaleChecked"]" asp-route-ageAsc="@this.ViewData["IsAgeAscChecked"]"
+                            asp-route-ageDesc="@this.ViewData["IsAgeDescChecked"]">
+                            @i
+                        </a>
+                    </li>
+                }
+            }
+            <li>
+                @if (Model.Actors.HasNextPage)
+                {
+                    <a class="page-link frist" asp-action="MostPopular" asp-route-page="@(Model.Actors.PageNumber + 1)"
+                        asp-route-male="@this.ViewData["IsMaleChecked"]" asp-route-female="@this.ViewData["IsFemaleChecked"]"
+                        asp-route-ageAsc="@this.ViewData["IsAgeAscChecked"]" asp-route-ageDesc="@this.ViewData["IsAgeDescChecked"]">                     
+                        Next
+                    </a>
+                }
+                else
+                {
+                    <a class="dis-field frist">Next</a>
+                }
+            </li>
+        </ul>
+    </div>
+}
+
+<script type="text/javascript">
+    //$.each($("input[type='checkbox']"), function (e) {
+    //    console.log($(this).val());
+    //    console.log($(this));
+
+    //    if ($(this).val() === 'on') {
+    //        $(this).prop('checked', true);
+    //    }
+    //});
+
+    //window.addEventListener("pageshow", () => {
+    //    $("#Male").prop("checked", false);
+    //    $("#Female").prop("checked", false);
+    //    $("#Age").prop("checked", false);
+    //    $("#Ascending").prop("checked", false);
+    //    $("#Descending").prop("checked", false);
+    //});
+</script>

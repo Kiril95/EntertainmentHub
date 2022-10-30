@@ -8,5 +8,7 @@
         Task<T> GetActorByIdAsync<T>(int id);
 
         IQueryable<T> GetAllActorsAsQueryable<T>();
+
+        IQueryable<T> GetMostPopularActorsAsQueryable<T>();
     }
 }

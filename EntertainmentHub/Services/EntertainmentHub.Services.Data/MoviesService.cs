@@ -70,7 +70,11 @@
 
         public IQueryable<T> GetAllMoviesAsQueryable<T>()
         {
-            return this.moviesRepository.AllAsNoTracking().To<T>();
+            return this.moviesRepository
+                .AllAsNoTracking()
+                .OrderByDescending(x => x.ReleaseDate.Year)
+                .ThenByDescending(x => x.CreatedOn)
+                .To<T>();
         }
 
         public async Task<T> GetRandomMovieForBannerAsync<T>()
@@ -149,6 +153,7 @@
             return await this.moviesRepository
                 .AllAsNoTracking()
                 .OrderByDescending(x => x.ReleaseDate.Year)
+                .ThenByDescending(x => x.CreatedOn)
                 .Take(10)
                 .To<T>()
                 .ToListAsync();
