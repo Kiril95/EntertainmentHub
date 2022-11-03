@@ -2,12 +2,16 @@
 @using Microsoft.AspNetCore.Identity
 @using EntertainmentHub.Web.ViewModels.Movies
 @inject UserManager<ApplicationUser> UserManager
+@inject EntertainmentHub.Services.Data.Contracts.IRatingsService RatingsService
 @model MovieDetailsPaginatedViewModel
 
 @{
     this.ViewData["Title"] = "Details";
     var user = await this.UserManager.GetUserAsync(this.User);
     var userId = user is not null ? await this.UserManager.GetUserIdAsync(user) : "";
+    var movieId = this.Context.Request.RouteValues["id"].ToString();
+    var parsedId = int.Parse(movieId);
+    var userRating = await this.RatingsService.GetRatingAsync(parsedId, userId);
 }
 
 <link rel="stylesheet" href="~/css/list.css" type="text/css" media="all" asp-append-version="true" />
@@ -39,7 +43,15 @@
 
                 <span> / 6.00</span>
                 <br />
-                <input id="Btn" type="button" class="btn btn-danger" value="Remove Rate" />
+                @if (userRating is not null)
+                {
+                    <input id="Btn" type="button" class="btn btn-danger" value="Remove Rate" />
+                }
+                else
+                {
+                    <input style="display: none" id="Btn" type="button" class="btn btn-danger" value="Remove Rate" />
+                }
+
                 <div style="display: none" id="success-msg" class="alert alert-success">You successfully revoked your rating.</div>
                 <div style="display: none" id="danger-msg" class="alert alert-danger">You haven't rated this movie.</div>
             }
@@ -339,6 +351,7 @@
 
     <script>
         var averageRate = returnRate();
+        let count = 0;
 
         $(".my-rating-5").starRating({
             totalStars: 6,
@@ -378,8 +391,15 @@
                             'X-CSRF-TOKEN': antiForgeryToken
                         },
                         success: function () {
-                            console.log(returnRate());
-                            $('#averageRate').html(returnRate().toFixed(2));
+                            let clickedEl = $el.context.classList[0];
+
+                            //Annoying check because somehow whenever I click to Rate and continue to stay on the current page
+                            //if I click anywhere else, the callback triggers again :/ Downside of the plugin I guess.
+                            if (clickedEl == 'my-rating-5' && count == 0) {
+                                count++;
+                                $('#Btn').show();
+                                $('#averageRate').html(returnRate().toFixed(2));
+                            }                         
                         },
                         contentType: 'application/json',
                     })
@@ -409,6 +429,7 @@
 
                         var averageRate = returnRate();
                         $('#averageRate').html(averageRate.toFixed(2));
+                        $('#Btn').hide();
                     } else {
                         $('#success-msg').hide();
                         $('#danger-msg').show().delay(4000).fadeOut();
