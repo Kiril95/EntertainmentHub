@@ -105,11 +105,11 @@
 			    						<span class="conjuring_w3">Story Line<label>:</label></span>
 			    						@if (mostPopular.Description.Length > 300)
 			    						{
-			    							@string.Concat(mostPopular.Description.Substring(0, 300), "...")
+			    						    @string.Concat(mostPopular.Description.Substring(0, 300), "...")
 			    						}
 			    						else
 			    						{
-			    							@mostPopular.Description
+			    						    @mostPopular.Description
 			    						}
 			    					</p>
 			    					<p class="fexi_header_para">
@@ -135,19 +135,19 @@
 			    			    {
 			    			    	<div class="w3l-movie-gride-agile">
 			    			    		<a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="hvr-sweep-to-bottom">
-			    			    			<img src="@movie.Poster" title="@movie.Title" class="img-responsive">
-			    			    			<div class="w3l-action-icon"></div>
+			    			    		    <img src="@movie.Poster" title="@movie.Title" class="img-responsive">
+			    			    		    <div class="w3l-action-icon"></div>
 			    			    		</a>
 			    			    		<div class="mid-1 agileits_w3layouts_mid_1_home">
 			    			    			<div class="w3l-movie-text" style="height:45px">
 			    			    			    <h6><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h6>
 			    			    			</div>
 			    			    			<div class="mid-2 agile_mid_2_home">
-			    			    				<p>@movie.ReleaseDate.Year</p>
-			    			    				<div class="block-stars">
-			    			    					<div class="my-rating-7" movie-rate="@movie.Rating"></div>
-			    			    				</div>
-			    			    				<div class="clearfix"></div>
+			    			    			    <p>@movie.ReleaseDate.Year</p>
+			    			    			    <div class="block-stars">
+			    			    			    	<div class="my-rating-7" movie-rate="@movie.Rating"></div>
+			    			    			    </div>
+			    			    			    <div class="clearfix"></div>
 			    			    			</div>
 			    			    		</div>
 			    			    		@if (movie.ReleaseDate.Year == DateTime.UtcNow.Year)
@@ -169,7 +169,7 @@
 			    			@*MostRecent*@
 			    			<div class="col-md-5 video_agile_player">
 			    				<div class="video-grid-single-page-agileits">
-			    					<div data-video="@mostRecent.Trailer" id="video"> <img src="@mostRecent.Poster" alt="" class="img-responsive" /> </div>
+			    				    <div data-video="@mostRecent.Trailer" id="video"> <img src="@mostRecent.Poster" alt="" class="img-responsive" /> </div>
 			    				</div>
 			    				<div class="player-text">
 			    					<p class="fexi_header"><a style="color: darkcyan" asp-controller="Movies" asp-action="Details" asp-route-id="@mostRecent.Id">@mostRecent.Title</a></p>
@@ -177,28 +177,28 @@
 			    						<span class="conjuring_w3">Story Line<label>:</label></span>
 			    						@if (mostRecent.Description.Length > 300)
 			    						{
-			    							@string.Concat(mostRecent.Description.Substring(0, 300), "...")
+			    						    @string.Concat(mostRecent.Description.Substring(0, 300), "...")
 			    						}
 			    						else
 			    						{
-			    							@mostRecent.Description
+			    						    @mostRecent.Description
 			    						}
 			    					</p>
 			    					<p class="fexi_header_para">
-			    						<span>Release On<label>:</label></span>
-			    						@mostRecent.ReleaseDate.ToString("dd MMMM yyyy", new CultureInfo("en-US"))
+			    					    <span>Release On<label>:</label></span>
+			    					    @mostRecent.ReleaseDate.ToString("dd MMMM yyyy", new CultureInfo("en-US"))
 			    					</p>
 			    					<p class="fexi_header_para">
-			    						<span>Genres<label>:</label> </span>
-			    						@foreach (var genre in mostRecent.MovieGenres)
-			    						{
-			    						    <text>|</text>
-			    						    <a asp-controller="Genres" asp-action="Type" asp-route-name="@genre.GenreName">@genre.GenreName</a>
-			    						}
+			    					    <span>Genres<label>:</label> </span>
+			    					    @foreach (var genre in mostRecent.MovieGenres)
+			    					    {
+			    					        <text>|</text>
+			    					        <a asp-controller="Genres" asp-action="Type" asp-route-name="@genre.GenreName">@genre.GenreName</a>
+			    					    }
 			    					</p>
 			    					<p class="fexi_header_para fexi_header_para1">
-			    						<span>Star Rating<label>:</label></span>
-			    						<div class="my-rating-7" movie-rate="@mostRecent.Rating"></div>
+			    					    <span>Star Rating<label>:</label></span>
+			    					    <div class="my-rating-7" movie-rate="@mostRecent.Rating"></div>
 			    					</p>
 			    				</div>
 			    			</div>
@@ -207,24 +207,24 @@
 			    			    {
 			    			    	<div class="w3l-movie-gride-agile">
 			    			    		<a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="hvr-sweep-to-bottom">
-			    			    			<img src="@movie.Poster" title="@movie.Title" class="img-responsive">
-			    			    			<div class="w3l-action-icon"></div>
+			    			    		    <img src="@movie.Poster" title="@movie.Title" class="img-responsive">
+			    			    		    <div class="w3l-action-icon"></div>
 			    			    		</a>
 			    			    		<div class="mid-1 agileits_w3layouts_mid_1_home">
 			    			    			<div class="w3l-movie-text" style="height:45px">
 			    			    			    <h6><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h6>
 			    			    			</div>
 			    			    			<div class="mid-2 agile_mid_2_home">
-			    			    				<p>@movie.ReleaseDate.Year</p>
-			    			    				<div class="block-stars">
-			    			    					<div class="my-rating-7" movie-rate="@movie.Rating"></div>
-			    			    				</div>
-			    			    				<div class="clearfix"></div>
+			    			    			    <p>@movie.ReleaseDate.Year</p>
+			    			    			    <div class="block-stars">
+			    			    			    	<div class="my-rating-7" movie-rate="@movie.Rating"></div>
+			    			    			    </div>
+			    			    			    <div class="clearfix"></div>
 			    			    			</div>
 			    			    		</div>
 			    			    		@if (movie.ReleaseDate.Year == DateTime.UtcNow.Year)
 			    			    		{
-			    			    			<div class="ribben one"> <p>NEW</p> </div>
+			    			    		    <div class="ribben one"> <p>NEW</p> </div>
 			    			    		}
 			    			    	</div>
 			    			    }
@@ -248,19 +248,19 @@
 			     	<div class="item">
 			     		<div class="w3l-movie-gride-agile w3l-movie-gride-slider ">
 			     			<a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="hvr-sweep-to-bottom">
-			     				<img src="@movie.Poster" title="@movie.Title" class="img-responsive" />
-			     				<div class="w3l-action-icon"></div>
+			     			    <img src="@movie.Poster" title="@movie.Title" class="img-responsive" />
+			     			    <div class="w3l-action-icon"></div>
 			     			</a>
 			     			<div class="mid-1 agileits_w3layouts_mid_1_home">
 			     				<div class="w3l-movie-text">
-			     					<h6><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h6>
+			     				    <h6><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h6>
 			     				</div>
 			     				<div class="mid-2 agile_mid_2_home">
-			     					<p>@movie.ReleaseDate.Year</p>
-			     					<div class="block-stars">
-			     						<div class="my-rating-7" movie-rate="@movie.Rating"></div>
-			     					</div>
-			     					<div class="clearfix"></div>
+			     				    <p>@movie.ReleaseDate.Year</p>
+			     				    <div class="block-stars">
+			     				    	<div class="my-rating-7" movie-rate="@movie.Rating"></div>
+			     				    </div>
+			     				    <div class="clearfix"></div>
 			     				</div>
 			     			</div>     
 			     			@if (movie.ReleaseDate.Year == DateTime.UtcNow.Year)
